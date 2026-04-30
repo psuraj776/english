@@ -1,0 +1,2813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>English Grammar Transcript Marathon 600+</title>
+  <style>
+    :root {
+      --bg: #f2eadf;
+      --panel: rgba(255, 250, 242, 0.96);
+      --panel-strong: #fffaf2;
+      --ink: #17324a;
+      --muted: #6f7f8f;
+      --accent: #b44b31;
+      --accent-soft: #f3d8c9;
+      --border: #d8c8b6;
+      --good: #1f7a52;
+      --good-soft: #def5e8;
+      --bad: #b33b3b;
+      --bad-soft: #fde1e1;
+      --shadow: 0 16px 36px rgba(23, 50, 74, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Segoe UI", "Trebuchet MS", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(255, 255, 255, 0.85), transparent 38%),
+        linear-gradient(135deg, #efe4d3 0%, #f5efe7 45%, #efe8dd 100%);
+    }
+
+    .app-shell {
+      width: min(1080px, calc(100% - 24px));
+      margin: 22px auto 40px;
+    }
+
+    .hero,
+    .panel,
+    .question-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero {
+      padding: 24px;
+      background:
+        linear-gradient(145deg, rgba(255, 248, 238, 0.98), rgba(255, 244, 231, 0.92)),
+        var(--panel);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: #fff1e8;
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 14px 0 10px;
+      font-size: clamp(28px, 4vw, 46px);
+      line-height: 1.08;
+    }
+
+    .hero p {
+      margin: 0;
+      max-width: 780px;
+      font-size: 16px;
+      line-height: 1.65;
+      color: #38526a;
+    }
+
+    .hero-grid,
+    .stats-grid,
+    .control-grid {
+      display: grid;
+      gap: 14px;
+      margin-top: 20px;
+    }
+
+    .hero-grid {
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    }
+
+    .hero-chip,
+    .stat,
+    .control-card {
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(216, 200, 182, 0.92);
+      border-radius: 18px;
+      padding: 14px 16px;
+    }
+
+    .hero-chip strong,
+    .stat strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .hero-chip span,
+    .stat span {
+      font-size: 22px;
+      font-weight: 800;
+    }
+
+    .panel {
+      margin-top: 18px;
+      padding: 18px;
+    }
+
+    .control-grid {
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      margin-top: 0;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    select,
+    button {
+      width: 100%;
+      border-radius: 14px;
+      border: 1px solid #cfae93;
+      padding: 12px 14px;
+      font: inherit;
+      font-size: 15px;
+      background: #fffdf9;
+      color: var(--ink);
+    }
+
+    select:focus,
+    button:focus {
+      outline: 3px solid rgba(180, 75, 49, 0.18);
+      outline-offset: 2px;
+    }
+
+    .button-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 12px;
+    }
+
+    button {
+      cursor: pointer;
+      font-weight: 700;
+      transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+    }
+
+    .primary {
+      background: var(--accent);
+      color: #fff8f5;
+      border-color: var(--accent);
+    }
+
+    .secondary {
+      background: #fff1e8;
+      color: var(--accent);
+    }
+
+    .ghost {
+      background: #ffffff;
+    }
+
+    .question-card {
+      margin-top: 18px;
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .question-card::after {
+      content: "";
+      position: absolute;
+      inset: auto -60px -80px auto;
+      width: 190px;
+      height: 190px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(243, 216, 201, 0.65), transparent 70%);
+      pointer-events: none;
+    }
+
+    .topline,
+    .badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .topline {
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 11px;
+      border-radius: 999px;
+      background: #fff4ec;
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .question-label {
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .prompt {
+      font-size: 19px;
+      font-weight: 700;
+      line-height: 1.5;
+      margin: 16px 0 10px;
+    }
+
+    .stem {
+      font-size: 23px;
+      line-height: 1.55;
+      margin: 8px 0 18px;
+    }
+
+    .segments {
+      display: grid;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .segment {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      padding: 12px 14px;
+      border-radius: 16px;
+      border: 1px solid #d8d7d3;
+      background: #fffefb;
+    }
+
+    .segment-tag {
+      flex: 0 0 auto;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: #f3ece4;
+      font-weight: 800;
+    }
+
+    .segment.correct {
+      border-color: var(--good);
+      background: var(--good-soft);
+    }
+
+    .segment.wrong {
+      border-color: var(--bad);
+      background: var(--bad-soft);
+    }
+
+    .options {
+      display: grid;
+      gap: 10px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .option {
+      text-align: left;
+      padding: 14px 16px;
+      border-radius: 16px;
+      border: 1px solid #d7c3b2;
+      background: #fffdf9;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .option strong {
+      min-width: 26px;
+      color: var(--accent);
+    }
+
+    .option.selected {
+      border-color: var(--accent);
+      background: #fff1e8;
+    }
+
+    .option.correct {
+      border-color: var(--good);
+      background: var(--good-soft);
+      color: #144b33;
+    }
+
+    .option.wrong {
+      border-color: var(--bad);
+      background: var(--bad-soft);
+      color: #752424;
+    }
+
+    .action-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .feedback {
+      margin-top: 16px;
+      padding: 16px;
+      border-radius: 18px;
+      border: 1px solid rgba(111, 127, 143, 0.2);
+      background: rgba(255, 255, 255, 0.88);
+      min-height: 72px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .feedback.good {
+      border-color: rgba(31, 122, 82, 0.35);
+      background: rgba(222, 245, 232, 0.85);
+    }
+
+    .feedback.bad {
+      border-color: rgba(179, 59, 59, 0.28);
+      background: rgba(253, 225, 225, 0.88);
+    }
+
+    .feedback-title {
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .feedback-answer {
+      font-weight: 700;
+      color: #28445b;
+    }
+
+    .feedback-copy {
+      margin-top: 10px;
+      line-height: 1.75;
+      color: #243f56;
+    }
+
+    .feedback-copy p {
+      margin: 0 0 12px;
+    }
+
+    .feedback-copy ul {
+      margin: 0 0 12px 20px;
+      padding: 0;
+    }
+
+    .feedback-copy li {
+      margin-bottom: 8px;
+    }
+
+    .feedback-copy li:last-child,
+    .feedback-copy p:last-child,
+    .feedback-copy ul:last-child {
+      margin-bottom: 0;
+    }
+
+    .meta-note {
+      margin-top: 18px;
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--muted);
+    }
+
+    .empty {
+      padding: 18px;
+      border-radius: 18px;
+      background: #fff6ef;
+      border: 1px dashed #d5b79f;
+      color: #7a563b;
+      font-weight: 700;
+    }
+
+    @media (max-width: 720px) {
+      .app-shell {
+        width: min(100%, calc(100% - 16px));
+        margin-top: 10px;
+      }
+
+      .hero,
+      .panel,
+      .question-card {
+        border-radius: 20px;
+      }
+
+      .hero,
+      .panel,
+      .question-card {
+        padding: 16px;
+      }
+
+      .stem {
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="app-shell">
+    <section class="hero">
+      <div class="eyebrow">Source-based English Practice</div>
+      <h1>English Grammar Transcript Marathon 600+</h1>
+      <p>
+        A standalone practice app built from the grammar-rule transcript plus the error-spotting and vocab/cloze
+        patterns in <code>eng.pdf</code> and <code>eng1.pdf</code>. The bank now runs at 600+ questions, and the
+        explanation layer is the main feature: every answer expands into rule logic, transcript-style reasoning,
+        contrast with tempting wrong choices, and worked examples instead of a one-line note.
+      </p>
+      <div class="hero-grid">
+        <div class="hero-chip">
+          <strong>Total Bank</strong>
+          <span id="heroCount">0</span>
+        </div>
+        <div class="hero-chip">
+          <strong>Current Filter</strong>
+          <span id="heroFilterCount">0</span>
+        </div>
+        <div class="hero-chip">
+          <strong>Review Queue</strong>
+          <span id="heroWrongCount">0</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="control-grid">
+        <div class="control-card">
+          <label for="categorySelect">Category</label>
+          <select id="categorySelect"></select>
+        </div>
+        <div class="control-card">
+          <label for="styleSelect">Question Style</label>
+          <select id="styleSelect">
+            <option value="all">All Styles</option>
+            <option value="mcq">Grammar / MCQ</option>
+            <option value="error">Error Spotting</option>
+          </select>
+        </div>
+        <div class="control-card">
+          <label for="timerSelect">Timer</label>
+          <select id="timerSelect">
+            <option value="0">No Timer</option>
+            <option value="15">15 Seconds</option>
+            <option value="25">25 Seconds</option>
+            <option value="40">40 Seconds</option>
+          </select>
+        </div>
+        <div class="control-card">
+          <label>Actions</label>
+          <div class="button-row">
+            <button class="secondary" id="reviewWrongBtn" type="button">Review Wrong</button>
+            <button class="ghost" id="resetSessionBtn" type="button">Reset Stats</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="stats-grid" style="grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));">
+        <div class="stat">
+          <strong>Seen</strong>
+          <span id="seenCount">0</span>
+        </div>
+        <div class="stat">
+          <strong>Correct</strong>
+          <span id="correctCount">0</span>
+        </div>
+        <div class="stat">
+          <strong>Accuracy</strong>
+          <span id="accuracyCount">0%</span>
+        </div>
+        <div class="stat">
+          <strong>Streak</strong>
+          <span id="streakCount">0</span>
+        </div>
+        <div class="stat">
+          <strong>Timer</strong>
+          <span id="timerDisplay">Off</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="question-card">
+      <div class="topline">
+        <div>
+          <div class="question-label" id="questionNumber">Question 0 / 0</div>
+        </div>
+        <div class="badges">
+          <span class="badge" id="categoryBadge">Category</span>
+          <span class="badge" id="sourceBadge">Source</span>
+        </div>
+      </div>
+
+      <div class="prompt" id="questionPrompt"></div>
+      <div class="stem" id="questionStem"></div>
+      <div class="segments" id="segmentArea" hidden></div>
+      <div class="options" id="optionsArea"></div>
+
+      <div class="action-row">
+        <button class="primary" id="checkBtn" type="button">Check Answer</button>
+        <button class="secondary" id="showBtn" type="button">Show Answer</button>
+        <button class="ghost" id="nextBtn" type="button">Next Question</button>
+      </div>
+
+      <div class="feedback" id="feedbackBox">
+        <div class="feedback-title">Ready</div>
+        <div>Select an option and press <strong>Check Answer</strong> to unlock the full explanation.</div>
+      </div>
+
+      <div class="meta-note">
+        The bank mixes article rules, subject-verb agreement, pronouns, prepositions, tenses, modifiers,
+        error spotting, and vocabulary/cloze practice inspired by your source files.
+      </div>
+    </section>
+  </main>
+
+  <script>
+    function shuffle(list) {
+      const copy = list.slice();
+      for (let i = copy.length - 1; i > 0; i -= 1) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    function buildQuestionBank() {
+      const bank = [];
+      let idCounter = 1;
+      const ARTICLE_OPTIONS = ["a", "an", "the", "No article"];
+      const LETTERS = ["A", "B", "C", "D"];
+
+      function nextId(prefix) {
+        const value = prefix + "-" + String(idCounter).padStart(3, "0");
+        idCounter += 1;
+        return value;
+      }
+
+      function addMcq(category, source, stem, options, correctAnswer, explanation, prompt, extra = {}) {
+        bank.push({
+          ...extra,
+          id: nextId(category.slice(0, 3).toUpperCase()),
+          type: "mcq",
+          category,
+          source,
+          prompt: prompt || "Choose the best option to complete the sentence.",
+          stem,
+          options,
+          correctAnswer,
+          briefExplanation: explanation,
+          explanation
+        });
+      }
+
+      function addError(category, source, parts, correctAnswer, explanation, extra = {}) {
+        bank.push({
+          ...extra,
+          id: nextId("ERR"),
+          type: "error",
+          category,
+          source,
+          prompt: "Find the part that contains the error. Choose E if the sentence is correct.",
+          stem: parts.join(" / "),
+          parts,
+          options: ["A", "B", "C", "D", "E"],
+          correctAnswer,
+          briefExplanation: explanation,
+          explanation
+        });
+      }
+
+      function rotatedOptions(correct, distractors) {
+        const options = distractors.slice(0, 3);
+        const slot = bank.length % 4;
+        options.splice(slot, 0, correct);
+        return options;
+      }
+
+      const transcriptNotes = {
+        logicFirst: "The transcript repeatedly argues that grammar questions should be solved by logic first, not by blind memorisation. Before choosing any option, you are supposed to ask what the noun, verb, pronoun, or preposition is actually doing in the sentence.",
+        oneAmongMany: "For articles, the teacher's favourite test is simple: is the sentence talking about one item chosen from many possible items, or about the only identifiable item in that situation? If it is one among many, English usually moves toward a or an.",
+        onlyOne: "If the listener can point to one fixed item, or if the sentence itself makes the noun unique, the transcript treats it as the only one case. That is the zone where the article usually becomes the.",
+        soundRule: "After the meaning is clear, the final choice between a and an is made by sound, not by spelling. A vowel sound or silent h invites an, while a consonant sound, including /yu/ and /w/ openings such as university or one, invites a.",
+        mediumBy: "Another strong transcript idea is the difference between medium and position. When a sentence tells us the means or mode of travel, English prefers by plus zero article: by bus, by train, by air.",
+        positionVsMeans: "But if the sentence is about where someone is sitting or standing, the logic changes. Then we stop talking about medium and start talking about position, so in or on becomes natural and the article may return.",
+        zeroArticle: "The lecture also emphasises the zero-article idea. English sometimes deliberately uses no article at all in general institutional or habitual expressions such as at home, go to school, go to bed, have lunch, or play chess.",
+        relationUniqueness: "A noun can become definite even on first mention when another phrase fixes it tightly. In expressions such as the colour of the laptop or the battery compartment of the car, the first noun is no longer vague because the second noun identifies it completely.",
+        superlative: "The transcript links superlatives with uniqueness. When something is the smartest, the tallest, the best, or the first, it already stands alone inside the group, so the usually appears before it.",
+        ofStructures: "For each of, one of, either of, neither of, most of, and both of, the transcript teaches a two-step method: keep the noun after of plural because it names a set, then choose the verb according to the real head word before of.",
+      objectiveAfterOf: "When a pronoun follows of in expressions such as the smartest of them or the most patient of us, the pronoun stays in the objective form: them, us, him, her, not they, we, he, or she.",
+        examLogic: "The exam advice in the transcript is to avoid mechanical translation. Read the situation, identify the set, decide whether the word is unique or not, and then choose the form that matches that exact meaning."
+      };
+
+      function fillTemplate(template, replacements) {
+        let output = template;
+        Object.keys(replacements).forEach((key) => {
+          output = output.split(`{${key}}`).join(replacements[key]);
+        });
+        return output;
+      }
+
+      function htmlList(title, items) {
+        return `<p><strong>${title}</strong></p><ul>${items.map((item) => `<li>${item}</li>`).join("")}</ul>`;
+      }
+
+      function explanationShell({ summary, rule, transcript, contrast, examples, examTip }) {
+        const blocks = [];
+        if (summary) blocks.push(`<p>${summary}</p>`);
+        if (rule) blocks.push(`<p>${rule}</p>`);
+        if (transcript) blocks.push(`<p>${transcript}</p>`);
+        if (contrast) blocks.push(`<p>${contrast}</p>`);
+        if (examples && examples.length) blocks.push(htmlList("Examples to remember", examples));
+        if (examTip) blocks.push(`<p><strong>Exam tip:</strong> ${examTip}</p>`);
+        return blocks.join("");
+      }
+
+      function compactStem(stem) {
+        return stem.replace(/\s+/g, " ").trim();
+      }
+
+      function inferArticlePhrase(stem) {
+        const cleaned = compactStem(stem);
+        const afterBlank = cleaned.includes("___") ? cleaned.split("___")[1] : cleaned;
+        const stopWords = new Set(["after", "before", "during", "for", "to", "from", "with", "at", "in", "on", "of", "by", "near", "under", "over", "through", "into", "within"]);
+        const tokens = afterBlank
+          .replace(/^[^A-Za-z0-9]+/, "")
+          .split(/\s+/)
+          .map((token) => token.replace(/[.,;:!?]+$/g, ""))
+          .filter(Boolean);
+        const phrase = [];
+        for (const token of tokens) {
+          if (stopWords.has(token.toLowerCase())) break;
+          phrase.push(token);
+          if (phrase.length === 2) break;
+        }
+        return phrase.join(" ") || cleaned;
+      }
+
+      function explainArticle(detailMode, meta, question) {
+        if (detailMode === "articleSound") {
+          return explanationShell({
+            summary: `The correct article is <strong>${meta.answer}</strong>. In this sentence, <strong>${meta.phrase || inferArticlePhrase(question.stem)}</strong> is being introduced as one non-specific member of a larger class, so the sentence needs an indefinite article rather than <strong>the</strong>.`,
+            rule: `${transcriptNotes.oneAmongMany} After that meaning decision, the final step is pronunciation. ${meta.soundNote || "Here the opening sound is treated as a vowel sound, so the indefinite article becomes <strong>an</strong>."}`,
+            transcript: `${transcriptNotes.soundRule} This is why English gives us <strong>an engineer</strong> and <strong>an hour</strong>, but <strong>a university lecturer</strong> and <strong>a one-time pass</strong>.`,
+            contrast: `Do not let spelling trick you. The article system listens to sound. A vowel letter does not always need <strong>an</strong>, and a consonant letter does not always need <strong>a</strong>.`,
+            examples: [
+              `Say <strong>${meta.answer} ${meta.phrase || inferArticlePhrase(question.stem)}</strong> aloud and listen to the opening sound.`,
+              `Compare the transcript-style contrast: <strong>a bottle</strong> means one possible bottle; <strong>the bottle</strong> means the identifiable bottle.`,
+              `Always decide the meaning first, then decide the sound.`
+            ],
+            examTip: "In article questions, first decide whether the noun is specific or non-specific. Only after that should you choose between a and an."
+          });
+        }
+
+        if (detailMode === "articleOneMany") {
+          return explanationShell({
+            summary: `The correct choice is <strong>${meta.answer}</strong> because the sentence is talking about one item drawn from a larger possible set, not about a fixed item already known to the listener.`,
+            rule: `${transcriptNotes.oneAmongMany} That is exactly the logic behind examples from the lecture such as <strong>a finger</strong>, <strong>a bottle</strong>, <strong>a sample</strong>, or <strong>a player</strong>.`,
+            transcript: `${transcriptNotes.examLogic} If several candidates, samples, bottles, flights, or players are possible and the sentence picks only one of them, the article stays indefinite.`,
+            contrast: `The meaning would change if we used <strong>the</strong>. Then the sentence would point to one known object, not just any one member of the group.`,
+            examples: [
+              `Give me <strong>a bottle</strong> means any one bottle will do.`,
+              `The researcher selected <strong>a sample</strong> means one sample out of many available samples.`,
+              `I booked <strong>a flight</strong> means one flight, not a previously identified flight.`
+            ],
+            examTip: "When you see a singular countable noun, ask: one among many, or the only one? That question often solves the item immediately."
+          });
+        }
+
+        if (detailMode === "articleUnique") {
+          return explanationShell({
+            summary: `The correct article is <strong>the</strong> because the noun is unique or fully identifiable inside the sentence context.`,
+            rule: `${transcriptNotes.onlyOne} The lecture explains this through roles such as the captain of the team, the principal of the school, or the prime minister of a country. Even on first mention, the context already tells us exactly which person or thing is meant.`,
+            transcript: `${transcriptNotes.relationUniqueness} Once the noun stops being one among many and becomes the fixed one for that context, <strong>the</strong> becomes the natural choice.`,
+            contrast: meta.contextNote || `Compare <strong>a prime minister</strong> at an international summit, where many prime ministers may be present, with <strong>the prime minister</strong> of a particular country, where the role is fixed.`,
+            examples: [
+              `the captain of the team`,
+              `the principal of the school`,
+              `the roof of the house`
+            ],
+            examTip: "Do not assume that first mention automatically means a or an. If the sentence itself makes the noun identifiable, the can appear immediately."
+          });
+        }
+
+        if (detailMode === "articleZeroTransport") {
+          return explanationShell({
+            summary: `The correct answer is <strong>No article</strong> because the phrase is naming the mode or means in a general way.`,
+            rule: `${transcriptNotes.mediumBy} In this structure, the transport word does not act like a specific bus, car, or train. It behaves like a medium label.`,
+            transcript: `${transcriptNotes.zeroArticle} The lecture is very clear on this point: <strong>by bus</strong>, <strong>by train</strong>, and <strong>by air</strong> are about means, so the article drops out.`,
+            contrast: `${transcriptNotes.positionVsMeans} Compare <strong>by bus</strong> with <strong>on the bus</strong>. The first names the medium; the second describes physical location.`,
+            examples: [
+              `We travelled by train.`,
+              `She came by car.`,
+              `They prefer to go by metro during office hours.`
+            ],
+            examTip: "If the sentence is really answering 'by what means?', start testing by + zero article before trying any position preposition."
+          });
+        }
+
+        if (detailMode === "articleZeroInstitution") {
+          return explanationShell({
+            summary: `The correct answer is <strong>No article</strong> because the noun is being used in an institutional or habitual sense rather than as a physical building or object.`,
+            rule: `${transcriptNotes.zeroArticle} In such expressions, English focuses on the function of the place: go to school, go to bed, be at home, be sent to prison.`,
+            transcript: `${transcriptNotes.logicFirst} The important question is not what the building looks like, but what role it is serving in the sentence.`,
+            contrast: `Compare <strong>go to school</strong> with <strong>go to the school</strong>. The first means attend school as an institution; the second means visit the building for a particular reason.`,
+            examples: [
+              `The child went to school at 8.`,
+              `After dinner, she went to bed.`,
+              `He stayed at home during the storm.`
+            ],
+            examTip: "When a place word is functioning like an institution, test the zero-article reading before adding the."
+          });
+        }
+
+        if (detailMode === "articleZeroGeneral") {
+          return explanationShell({
+            summary: `The correct answer is <strong>No article</strong> because English often drops the article in general references to meals, games, and a few fixed time expressions.`,
+            rule: `${transcriptNotes.zeroArticle} In this use, the word is not behaving like one separate countable object. It is naming an activity or a routine category.`,
+            transcript: `${transcriptNotes.logicFirst} That is why we normally say <strong>have breakfast</strong>, <strong>play chess</strong>, or <strong>after sunset</strong> without inserting an article.`,
+            contrast: `An article can return if the noun becomes specific. For example, <strong>The dinner we had yesterday</strong> is specific, but <strong>We had dinner</strong> is general.`,
+            examples: [
+              `have lunch`,
+              `play cricket`,
+              `after sunset`
+            ],
+            examTip: "If the word names a routine activity rather than an individually counted object, zero article is often the safest test."
+          });
+        }
+
+        if (detailMode === "articleSuperlative") {
+          return explanationShell({
+            summary: `The correct article is <strong>the</strong> because a superlative singles out one item at the top of the group.`,
+            rule: `${transcriptNotes.superlative} Once the adjective itself says 'best', 'smartest', 'first', or 'most useful', the noun becomes definite by meaning.`,
+            transcript: `${transcriptNotes.onlyOne} A superlative does not describe just any member of the set; it identifies the one member standing highest or lowest in that set.`,
+            contrast: `Compare <strong>a better explanation</strong>, which is comparative and still leaves more than one possible explanation in the picture, with <strong>the best explanation</strong>, which points to the top one.`,
+            examples: [
+              `the smartest of them`,
+              `the first candidate`,
+              `the best explanation`
+            ],
+            examTip: "When you see a superlative or an ordinal, test the immediately. In most exam sentences, that will be the right direction."
+          });
+        }
+
+        return explanationShell({
+          summary: `The correct article here is <strong>${question.correctAnswer}</strong>.`,
+          rule: `${transcriptNotes.oneAmongMany} ${transcriptNotes.onlyOne}`,
+          transcript: `${transcriptNotes.examLogic} ${question.briefExplanation || ""}`,
+          contrast: `Read the sentence again and ask whether the noun is being introduced generally, identified specifically, or used in a fixed zero-article expression.`,
+          examples: [
+            `a bottle from many bottles`,
+            `the bottle that both people can identify`,
+            `by bus with zero article`
+          ],
+          examTip: "Articles become easier when you solve the meaning first and the form second."
+        });
+      }
+
+      function explainPreposition(detailMode, meta, question) {
+        if (detailMode === "prepMeans") {
+          return explanationShell({
+            summary: `The correct choice is <strong>${meta.answer}</strong> because the sentence is naming the means or mode by which the action happens.`,
+            rule: `${transcriptNotes.mediumBy} When the question is about medium, English prefers <strong>by</strong> instead of a position preposition.`,
+            transcript: `${transcriptNotes.positionVsMeans} The transcript warns students not to confuse medium with position. If the sentence means the manner of travel, <strong>by</strong> wins.`,
+            contrast: `If the sentence had described location inside or on the vehicle, then in or on could have been correct. But that is not the meaning here.`,
+            examples: [
+              `by bus`,
+              `by train`,
+              `by air`
+            ],
+            examTip: "Ask a quick question: is the sentence telling me how the person travelled, or where the person was sitting? That distinction often solves the item."
+          });
+        }
+
+        if (detailMode === "prepPosition") {
+          return explanationShell({
+            summary: `The correct phrase is <strong>${meta.answer}</strong> because the sentence describes physical position, not general medium.`,
+            rule: `${transcriptNotes.positionVsMeans} Once the idea becomes spatial rather than instrumental, English usually shifts away from <strong>by</strong> and toward a position preposition such as <strong>in</strong> or <strong>on</strong>.`,
+            transcript: `${transcriptNotes.mediumBy} This is the exact contrast the lecture keeps drawing: <strong>by bike</strong> for means, but <strong>on a bike</strong> for position.`,
+            contrast: `Using by here would flatten the meaning into medium only, which is not what the sentence is trying to express.`,
+            examples: [
+              `on a bike`,
+              `in the car`,
+              `on the bus`
+            ],
+            examTip: "If a person can be imagined sitting, standing, or riding in a visible place, position logic is probably more important than medium logic."
+          });
+        }
+
+        if (detailMode === "prepSinceFor") {
+          return explanationShell({
+            summary: `The correct preposition is <strong>${meta.answer}</strong> because the sentence distinguishes between a starting point and a duration.`,
+            rule: `<strong>Since</strong> is used with a point in time such as 2019, Monday, or morning. <strong>For</strong> is used with a duration such as two hours, three years, or six months.`,
+            transcript: `${transcriptNotes.logicFirst} The safest method is to ask whether the time expression names the beginning of the action or the length of the action.`,
+            contrast: `If you say <strong>since two hours</strong>, you mix up a duration with a starting point. If you say <strong>for 2019</strong>, you mix up a year-point with a duration.`,
+            examples: [
+              `since 2021`,
+              `for two hours`,
+              `since morning`
+            ],
+            examTip: "Look at the time phrase first. The time phrase usually tells you whether since or for must be used."
+          });
+        }
+
+        if (detailMode === "prepAtOnIn") {
+          return explanationShell({
+            summary: `The correct preposition is <strong>${meta.answer}</strong> because English chooses time prepositions according to scale.`,
+            rule: `<strong>At</strong> works for a point, <strong>on</strong> for a day or date, and <strong>in</strong> for a larger period such as a month, year, or season.`,
+            transcript: `${transcriptNotes.logicFirst} Instead of memorising loosely, classify the time expression: point, day/date, or broader period.`,
+            contrast: `If the expression is a day like Monday, <strong>in Monday</strong> sounds wrong because Monday is not a broad period. If it is a month like September, <strong>on September</strong> is equally mismatched.`,
+            examples: [
+              `at 6 p.m.`,
+              `on Monday`,
+              `in September`
+            ],
+            examTip: "Time prepositions become much easier if you map them to scale rather than memorising isolated phrases."
+          });
+        }
+
+        if (detailMode === "prepCollocation") {
+          return explanationShell({
+            summary: `The correct choice is <strong>${meta.answer}</strong> because this expression follows a fixed collocation in standard English.`,
+            rule: `Some verbs, adjectives, and nouns strongly prefer one preposition: <strong>interested in</strong>, <strong>capable of</strong>, <strong>responsible for</strong>, <strong>consist of</strong>, and so on.`,
+            transcript: `${transcriptNotes.logicFirst} Even in collocation questions, it helps to ask what relationship the sentence wants to express, but once the standard phrase is known, you should trust the collocation.`,
+            contrast: `A wrong preposition may still look close in meaning, but exam English tests the accepted pattern, not just rough similarity.`,
+            examples: [
+              `interested in learning`,
+              `capable of solving`,
+              `responsible for records`
+            ],
+            examTip: "When a verb and preposition appear together repeatedly in good English, learn them as a pair rather than as two separate items."
+          });
+        }
+
+        if (detailMode === "prepMovement") {
+          return explanationShell({
+            summary: `The correct preposition is <strong>${meta.answer}</strong> because it matches the direction or position expressed by the sentence.`,
+            rule: `Movement prepositions are not interchangeable. <strong>Over</strong>, <strong>under</strong>, <strong>through</strong>, <strong>across</strong>, and <strong>behind</strong> each build a different spatial picture.`,
+            transcript: `${transcriptNotes.logicFirst} The cleanest method is to imagine the motion or position physically instead of translating the word mechanically.`,
+            contrast: `If the movement goes across and beyond something, <strong>over</strong> is different from <strong>through</strong>. If the object is at the back, <strong>behind</strong> is different from <strong>under</strong>.`,
+            examples: [
+              `jump over the wall`,
+              `walk through the tunnel`,
+              `hide behind the curtain`
+            ],
+            examTip: "Visualise the scene. In movement questions, the right preposition usually becomes clear when you can picture the motion."
+          });
+        }
+
+        if (detailMode === "prepTimePhrase") {
+          return explanationShell({
+            summary: `The correct phrase is <strong>${meta.answer}</strong> because English separates scheduled punctuality from sufficient earliness.`,
+            rule: `<strong>On time</strong> means according to schedule. <strong>In time</strong> means early enough to do something.`,
+            transcript: `${transcriptNotes.logicFirst} The words look similar, but the meaning difference is practical and important in exam questions.`,
+            contrast: `A train can arrive <strong>on time</strong>. A student can reach the hall <strong>in time</strong> to hear the instructions.`,
+            examples: [
+              `The train arrived on time.`,
+              `We reached in time to catch the anthem.`,
+              `The report was submitted on time.`
+            ],
+            examTip: "When you see time, ask whether the sentence is talking about schedule or about being early enough."
+          });
+        }
+
+        return explanationShell({
+          summary: `The correct preposition here is <strong>${question.correctAnswer}</strong>.`,
+          rule: `Preposition questions become easier when you identify the relationship: medium, position, time, duration, movement, or a fixed collocation.`,
+          transcript: `${transcriptNotes.mediumBy} ${transcriptNotes.positionVsMeans}`,
+          contrast: question.briefExplanation || "A similar-looking preposition may feel tempting, but it changes the relationship inside the sentence.",
+          examples: [
+            `by bus for medium`,
+            `on a bike for position`,
+            `since 2021 but for two years`
+          ],
+          examTip: "Always name the relationship before you choose the preposition."
+        });
+      }
+
+      function explainAgreement(detailMode, meta, question) {
+        if (detailMode === "agreementOfSingular") {
+          return explanationShell({
+            summary: `The correct verb is <strong>${meta.answer}</strong> because the true head of the subject is singular.`,
+            rule: `${transcriptNotes.ofStructures} In structures such as <strong>each of</strong>, <strong>one of</strong>, <strong>either of</strong>, and <strong>neither of</strong>, the noun after <strong>of</strong> stays plural because it names a set, but the controlling word before <strong>of</strong> is singular.`,
+            transcript: `So the exam has two separate checkpoints: <strong>each of the players</strong> is correct because <strong>players</strong> is plural after <strong>of</strong>, but the verb becomes singular because <strong>each</strong> is singular.`,
+            contrast: `Students often fix one side and break the other. They may write <strong>each of the player</strong> or <strong>each of the players are</strong>. Both are wrong, but for different reasons.`,
+            examples: [
+              `Each of the students is ready.`,
+              `One of the chapters is missing.`,
+              `Neither of the answers is convincing.`
+            ],
+            examTip: "In an of-structure, do not let the plural noun near the verb distract you from the real head word."
+          });
+        }
+
+        if (detailMode === "agreementOfPlural") {
+          return explanationShell({
+            summary: `The correct verb is <strong>${meta.answer}</strong> because the controlling word before <strong>of</strong> is plural in force.`,
+            rule: `${transcriptNotes.ofStructures} Expressions such as <strong>both of</strong>, <strong>many of</strong>, <strong>some of</strong>, and usually <strong>most of</strong> point to more than one member of a set, so the verb is generally plural.`,
+            transcript: `The transcript still keeps the two-step logic: noun after <strong>of</strong> should stay plural, and the verb should reflect the meaning of the head expression.`,
+            contrast: `A common exam trap is to see the word <strong>of</strong> and panic. But <strong>both</strong> and <strong>many</strong> clearly describe plurality, so the verb must also stay plural.`,
+            examples: [
+              `Both of the players are fit.`,
+              `Many of the files were incomplete.`,
+              `Most of the students have opted for English.`
+            ],
+            examTip: "Do not treat all of-structures as singular. Look at the head expression itself."
+          });
+        }
+
+        if (detailMode === "agreementNumberPhrase") {
+          return explanationShell({
+            summary: `The verb choice depends on the expression itself, not simply on the nearby plural noun.`,
+            rule: `<strong>A number of</strong> behaves like a plural idea and normally takes a plural verb. <strong>The number of</strong> behaves like a singular count and normally takes a singular verb.`,
+            transcript: `${transcriptNotes.logicFirst} The transcript's habit of isolating the real controller helps here too. In one phrase, the focus is many members; in the other, the focus is one total count.`,
+            contrast: `So <strong>a number of candidates are</strong> is correct, but <strong>the number of candidates is</strong> is also correct even though both phrases contain the same plural noun.`,
+            examples: [
+              `A number of candidates are absent.`,
+              `The number of vacancies is low.`,
+              `A number of complaints were received.`
+            ],
+            examTip: "Train your eye to spot the whole phrase, not just the noun nearest the verb."
+          });
+        }
+
+        if (detailMode === "agreementHeadNoun") {
+          return explanationShell({
+            summary: `The correct verb is <strong>${meta.answer}</strong> because English agreement follows the real head noun, not the noun hidden inside an of-phrase.`,
+            rule: `In subjects such as <strong>the bouquet of roses</strong>, <strong>the quality of the files</strong>, or <strong>the list of candidates</strong>, the first noun controls the verb.`,
+            transcript: `${transcriptNotes.logicFirst} The safe strategy is to strip the sentence to its backbone. If you remove the of-phrase, the agreement becomes much easier to hear.`,
+            contrast: `For example, <strong>bouquet</strong> is singular even though <strong>roses</strong> is plural. That is why the sentence takes <strong>is</strong>, not <strong>are</strong>.`,
+            examples: [
+              `The quality of these files is impressive.`,
+              `The list of candidates is on the board.`,
+              `The bouquet of roses smells fresh.`
+            ],
+            examTip: "When a sentence feels crowded, remove the extra phrase mentally and test agreement on the core subject only."
+          });
+        }
+
+        if (detailMode === "agreementCorrelative") {
+          return explanationShell({
+            summary: `The correct verb is <strong>${meta.answer}</strong> because in correlative structures the verb usually agrees with the nearer subject.`,
+            rule: `This rule applies to patterns such as <strong>either...or</strong>, <strong>neither...nor</strong>, and <strong>not only...but also</strong>.`,
+            transcript: `${transcriptNotes.logicFirst} The sentence does not ask you to choose abstractly between singular and plural. It asks you to see which noun is standing closest to the verb in that paired structure.`,
+            contrast: `So <strong>Either the teachers or the principal is</strong> is correct, while <strong>Either the principal or the teachers are</strong> is also correct because the nearer subject changes.`,
+            examples: [
+              `Either the principal or the teachers are signing.`,
+              `Neither the guards nor the supervisor was aware.`,
+              `Not only the guide but also the tourists were tired.`
+            ],
+            examTip: "When you see a paired structure, jump straight to the noun nearest the verb."
+          });
+        }
+
+        if (detailMode === "agreementAmount") {
+          return explanationShell({
+            summary: `The correct verb is <strong>${meta.answer}</strong> because the subject is being treated as one unit, amount, subject, or title.`,
+            rule: `Distances, sums of money, periods of time, academic subjects, and some fixed expressions often take singular agreement when they are viewed as one whole.`,
+            transcript: `${transcriptNotes.logicFirst} Meaning matters more than surface plurality. <strong>Ten kilometres</strong> may look plural, but if it is one measured distance, English can treat it as singular.`,
+            contrast: `The grammar changes when the sentence shifts from one unit to separate individual items. That is why <strong>ten kilometres is a long walk</strong> but <strong>ten kilometres of roads were repaired</strong>.`,
+            examples: [
+              `Ten kilometres is a long walk.`,
+              `Fifty thousand rupees is a large amount.`,
+              `Mathematics is his weakest section.`
+            ],
+            examTip: "Ask whether the phrase means one unit or many separate pieces. That meaning decides the verb."
+          });
+        }
+
+        if (detailMode === "agreementCollective") {
+          return explanationShell({
+            summary: `The correct verb depends on whether the collective noun is acting as one unit or as several members.`,
+            rule: `Words such as committee, team, jury, and staff can be singular when the group acts together, but plural when the sentence clearly focuses on the members as individuals.`,
+            transcript: `${transcriptNotes.logicFirst} Do not memorize one rigid answer for every collective noun. Read the meaning carefully: unity or separate members?`,
+            contrast: `<strong>The committee is meeting today</strong> treats the body as one unit. <strong>The committee members are divided</strong> highlights individuals, so the verb becomes plural.`,
+            examples: [
+              `The team is ready for the match.`,
+              `The committee members are divided.`,
+              `The staff is preparing the hall.`
+            ],
+            examTip: "Collective nouns are meaning-sensitive. The verb follows the meaning, not only the dictionary label."
+          });
+        }
+
+        return explanationShell({
+          summary: `The correct verb here is <strong>${question.correctAnswer}</strong>.`,
+          rule: `Subject-verb agreement becomes easier when you identify the true controller of the verb instead of staring at the nearest noun.`,
+          transcript: `${transcriptNotes.ofStructures} ${transcriptNotes.logicFirst}`,
+          contrast: question.briefExplanation || "The nearby noun may tempt you in the wrong direction, but the verb listens to the actual subject.",
+          examples: [
+            `Each of the players is`,
+            `A number of students are`,
+            `The list of candidates is`
+          ],
+          examTip: "Separate the subject backbone from the extra phrase before you choose the verb."
+        });
+      }
+
+      function explainPronoun(detailMode, meta, question) {
+        if (detailMode === "pronounObjectivePrep") {
+          return explanationShell({
+            summary: `The correct pronoun is <strong>${meta.answer}</strong> because a pronoun after a preposition must appear in the objective form.`,
+            rule: `English uses objective pronouns after prepositions: between you and <strong>me</strong>, to <strong>him</strong>, for <strong>her</strong>, with <strong>them</strong>.`,
+            transcript: `${transcriptNotes.logicFirst} The safest exam move is to identify the preposition first. Once you see a preposition, the objective form becomes the strong candidate.`,
+            contrast: `Forms like <strong>I</strong>, <strong>he</strong>, <strong>she</strong>, and <strong>we</strong> are subject forms. They do not normally sit after a preposition.`,
+            examples: [
+              `between you and me`,
+              `to him`,
+              `with them`
+            ],
+            examTip: "In pronoun questions, scan for prepositions early. They often settle the case immediately."
+          });
+        }
+
+        if (detailMode === "pronounObjectiveOf") {
+          return explanationShell({
+            summary: `The correct pronoun is <strong>${meta.answer}</strong> because after <strong>of</strong> the transcript expects the objective form, not the subject form or the possessive pronoun.`,
+            rule: `${transcriptNotes.objectiveAfterOf} So we say <strong>the smartest of them</strong> and <strong>the most patient of us</strong> rather than switching to subject forms.`,
+            transcript: `${transcriptNotes.logicFirst} The point is structural: once the pronoun follows <strong>of</strong>, objective case becomes the default expectation.`,
+            contrast: `A possessive may appear in other structures, but here the grammar of <strong>of</strong> favours objective forms.`,
+            examples: [
+              `the smartest of them`,
+              `the bravest of us`,
+              `the most reliable of them`
+            ],
+            examTip: "Do not mix up subject, objective, and possessive forms. The position of the pronoun in the sentence matters."
+          });
+        }
+
+        if (detailMode === "pronounPossDet") {
+          return explanationShell({
+            summary: `The correct word is <strong>${meta.answer}</strong> because the sentence needs a possessive determiner before a noun.`,
+            rule: `Words like <strong>my</strong>, <strong>your</strong>, <strong>his</strong>, <strong>her</strong>, <strong>its</strong>, <strong>our</strong>, and <strong>their</strong> directly modify a following noun.`,
+            transcript: `${transcriptNotes.logicFirst} Ask a simple question: is there a noun immediately after the blank? If yes, a possessive determiner is usually more likely than a possessive pronoun.`,
+            contrast: `Compare <strong>my file</strong> with <strong>the file is mine</strong>. The first needs a determiner before a noun; the second uses a pronoun without a following noun.`,
+            examples: [
+              `his report`,
+              `their books`,
+              `its tail`
+            ],
+            examTip: "If a noun follows the blank, test my/your/his/her/its/our/their before testing mine/yours/his/hers/ours/theirs."
+          });
+        }
+
+        if (detailMode === "pronounPossPro") {
+          return explanationShell({
+            summary: `The correct word is <strong>${meta.answer}</strong> because the sentence needs a possessive pronoun standing independently, not a determiner before a noun.`,
+            rule: `Possessive pronouns such as <strong>mine</strong>, <strong>yours</strong>, <strong>hers</strong>, <strong>ours</strong>, and <strong>theirs</strong> replace the whole noun phrase.`,
+            transcript: `${transcriptNotes.logicFirst} The easiest clue is whether a noun follows the blank. If nothing follows, the independent possessive form becomes very likely.`,
+            contrast: `Compare <strong>our notes</strong> with <strong>the notes are ours</strong>. One needs a noun after it; the other does not.`,
+            examples: [
+              `This seat is mine.`,
+              `Those books are theirs.`,
+              `The final decision was ours.`
+            ],
+            examTip: "No noun after the blank often means the possessive pronoun, not the possessive determiner."
+          });
+        }
+
+        if (detailMode === "pronounReflexive") {
+          return explanationShell({
+            summary: `The correct form is <strong>${meta.answer}</strong> because the subject and object refer to the same person or group.`,
+            rule: `Reflexive pronouns bounce the action back to the subject: himself, herself, itself, ourselves, themselves.`,
+            transcript: `${transcriptNotes.logicFirst} Instead of memorising blindly, check whether the doer of the action and the receiver of the action are the same.`,
+            contrast: `If the object is different from the subject, a normal object pronoun is needed. If the object is the same, the reflexive form is required.`,
+            examples: [
+              `She blamed herself.`,
+              `The players prepared themselves.`,
+              `The child hurt himself.`
+            ],
+            examTip: "When the subject and object are the same, start testing a reflexive pronoun."
+          });
+        }
+
+        if (detailMode === "pronounRelative") {
+          return explanationShell({
+            summary: `The correct relative form is <strong>${meta.answer}</strong> because the blank has to show the right relationship between the noun and the clause that follows.`,
+            rule: `<strong>Who</strong> works as a subject for people, <strong>whom</strong> appears in object positions in formal grammar, <strong>whose</strong> shows possession, and <strong>which</strong> normally refers to things.`,
+            transcript: `${transcriptNotes.logicFirst} The transcript keeps pushing the same habit: ask what job the word is doing in the clause instead of guessing from appearance.`,
+            contrast: `If the clause needs possession, <strong>whose</strong> is stronger than <strong>who</strong>. If the blank follows a preposition in formal usage, <strong>whom</strong> may be expected.`,
+            examples: [
+              `the student whose project won`,
+              `the person who called`,
+              `the candidate to whom I spoke`
+            ],
+            examTip: "In relative pronoun questions, identify whether the blank is a subject, object, or possessor."
+          });
+        }
+
+        if (detailMode === "pronounDistributive") {
+          return explanationShell({
+            summary: `The correct form is <strong>${meta.answer}</strong> because the controlling word is distributive and grammatically singular in traditional exam usage.`,
+            rule: `Words such as <strong>each</strong>, <strong>every</strong>, <strong>either</strong>, <strong>neither</strong>, and <strong>one</strong> often take singular agreement in formal test grammar.`,
+            transcript: `${transcriptNotes.logicFirst} The sentence may talk about many people overall, but each distributive word looks at them one by one.`,
+            contrast: `That is why <strong>Each player brought his or her admit card</strong> is traditionally safer in objective exam grammar than a loose plural substitute.`,
+            examples: [
+              `Each student brought his or her file.`,
+              `Neither of the girls forgot her assignment.`,
+              `One should keep one's word.`
+            ],
+            examTip: "In banking-style grammar questions, distributive words are often tested through singular pronoun agreement."
+          });
+        }
+
+        return explanationShell({
+          summary: `The correct pronoun here is <strong>${question.correctAnswer}</strong>.`,
+          rule: `Pronoun questions are usually about case, possession, reflexive use, or relative function.`,
+          transcript: `${transcriptNotes.objectiveAfterOf} ${transcriptNotes.logicFirst}`,
+          contrast: question.briefExplanation || "A pronoun may look familiar, but the sentence position decides whether it should be subject, object, possessive, or reflexive.",
+          examples: [
+            `between you and me`,
+            `the book is mine`,
+            `the student whose project won`
+          ],
+          examTip: "Always ask what grammatical job the pronoun is doing before you choose it."
+        });
+      }
+
+      function buildDetailedExplanation(question) {
+        if (question.detailMode && question.detailMode.startsWith("article")) {
+          return explainArticle(question.detailMode, question.detailMeta || {}, question);
+        }
+        if (question.detailMode && question.detailMode.startsWith("prep")) {
+          return explainPreposition(question.detailMode, question.detailMeta || {}, question);
+        }
+        if (question.detailMode && question.detailMode.startsWith("agreement")) {
+          return explainAgreement(question.detailMode, question.detailMeta || {}, question);
+        }
+        if (question.detailMode && question.detailMode.startsWith("pronoun")) {
+          return explainPronoun(question.detailMode, question.detailMeta || {}, question);
+        }
+
+        if (question.type === "error") {
+          return explanationShell({
+            summary: question.correctAnswer === "E"
+              ? "This sentence is treated as correct in the current form, so the best answer is <strong>E. No error</strong>."
+              : `The error lies in part <strong>${question.correctAnswer}</strong>. Error-spotting questions reward careful isolation of the faulty segment rather than rewriting the whole sentence at once.`,
+            rule: `Read the sentence part by part and test the likely checkpoints: article choice, agreement, pronoun case, preposition logic, and tense sequence.`,
+            transcript: `${transcriptNotes.logicFirst} ${transcriptNotes.examLogic}`,
+            contrast: question.briefExplanation || "Once the weak segment is identified, correct only that segment and then re-read the whole sentence for flow and meaning.",
+            examples: [
+              "Check whether the noun is specific or non-specific.",
+              "Check whether the verb agrees with the real subject, not the nearest noun.",
+              "Check whether the preposition shows medium, position, time, or a fixed collocation."
+            ],
+            examTip: "Do not panic if more than one part feels awkward at first. Test one grammar decision at a time until one segment clearly breaks the logic."
+          });
+        }
+
+        if (question.category === "Articles") {
+          if (question.correctAnswer === "the") return explainArticle("articleUnique", {}, question);
+          if (question.correctAnswer === "No article") return explainArticle("articleZeroGeneral", {}, question);
+          if (question.correctAnswer === "an") {
+            return explainArticle("articleSound", { answer: "an", phrase: inferArticlePhrase(question.stem) }, question);
+          }
+          return explainArticle("articleOneMany", { answer: question.correctAnswer }, question);
+        }
+
+        if (question.category === "Subject-Verb Agreement") {
+          return explainAgreement("agreementHeadNoun", { answer: question.correctAnswer }, question);
+        }
+
+        if (question.category === "Pronouns") {
+          return explainPronoun("pronounObjectivePrep", { answer: question.correctAnswer }, question);
+        }
+
+        if (question.category === "Prepositions") {
+          return explainPreposition("prepCollocation", { answer: question.correctAnswer }, question);
+        }
+
+        if (question.category === "Tenses and Conditionals") {
+          return explanationShell({
+            summary: `The correct answer is <strong>${question.correctAnswer}</strong> because tense selection depends on time relationship, not on mechanical verb matching.`,
+            rule: `Tense questions usually test sequence: earlier past versus later past, habitual action versus current continuation, real condition versus unreal condition, or present schedule versus future result.`,
+            transcript: `${transcriptNotes.logicFirst} Good tense solving starts with the timeline. Ask when each action happened and whether it still continues.`,
+            contrast: question.briefExplanation || "A wrong tense may use the right verb family but place the action at the wrong point in time.",
+            examples: [
+              "had left for the earlier of two past actions",
+              "has been living for an action continuing up to now",
+              "would have applied for an unreal past result"
+            ],
+            examTip: "Draw a tiny mental timeline. Once the order of actions is clear, the tense usually becomes obvious."
+          });
+        }
+
+        if (question.category === "Modifiers and Parallelism") {
+          return explanationShell({
+            summary: `The correct answer is <strong>${question.correctAnswer}</strong> because the sentence needs the form that matches the grammatical role exactly.`,
+            rule: `These questions often test adjective versus adverb, comparative versus superlative, or parallel structure in coordinated phrases.`,
+            transcript: `${transcriptNotes.superlative} ${transcriptNotes.logicFirst}`,
+            contrast: question.briefExplanation || "A near-looking form may still be wrong if it breaks the pattern of the sentence.",
+            examples: [
+              "looked sad but answered quickly",
+              "better of two but best of many",
+              "analyse, propose, and recommend in parallel structure"
+            ],
+            examTip: "Check the function of the word first: is it modifying a noun, a verb, or an entire comparison?"
+          });
+        }
+
+        if (question.category === "Vocabulary and Cloze") {
+          return explanationShell({
+            summary: `The correct word is <strong>${question.correctAnswer}</strong> because it fits both the literal meaning and the tone of the sentence.`,
+            rule: `Good cloze solving works in two stages: first predict the required meaning from the context, then compare each option against that predicted meaning.`,
+            transcript: "Even though the vocabulary questions come from the PDF pattern rather than the long concept lecture, the same logic-first method still helps: understand the context before touching the options.",
+            contrast: question.briefExplanation || "Distractors in vocabulary questions are often near in tone or register but wrong in meaning, usage, or context.",
+            examples: [
+              "Ask what quality the blank needs.",
+              "Check whether the word is positive, negative, formal, or neutral.",
+              "Reject options that fit the grammar but not the meaning."
+            ],
+            examTip: "Never choose a difficult-looking word only because it sounds impressive. Context must control the choice."
+          });
+        }
+
+        return explanationShell({
+          summary: `The correct answer is <strong>${question.correctAnswer}</strong>.`,
+          rule: transcriptNotes.logicFirst,
+          transcript: transcriptNotes.examLogic,
+          contrast: question.briefExplanation || "The sentence becomes clear once the underlying grammatical relationship is identified correctly.",
+          examples: [
+            "identify the set",
+            "identify the controller",
+            "identify the exact relationship"
+          ],
+          examTip: "When in doubt, reduce the sentence to its basic meaning before deciding the form."
+        });
+      }
+
+      [
+        ["She wants to become ___ engineer after graduation.", "an", "Use \"an\" before a vowel sound like \"engineer\"."],
+        ["It took him only ___ hour to finish the mock test.", "an", "Use \"an\" before a silent h in \"hour\"."],
+        ["Riya is ___ MBA aspirant from Pune.", "an", "M begins with a vowel sound (\"em\"), so use \"an\"."],
+        ["The board hired ___ honest officer to lead the inquiry.", "an", "\"Honest\" begins with a silent h."],
+        ["He met ___ analyst who had worked on the merger.", "an", "\"Analyst\" starts with a vowel sound."],
+        ["The company needs ___ efficient auditor before the inspection.", "an", "\"Efficient\" starts with a vowel sound."],
+        ["Her brother is ___ university lecturer in Jaipur.", "a", "\"University\" begins with a consonant sound /yu/."],
+        ["We spoke to ___ European diplomat at the summit.", "a", "\"European\" begins with a consonant sound /yu/."],
+        ["He is ___ one-eyed goalkeeper with quick reflexes.", "a", "\"One\" begins with a consonant sound /w/."],
+        ["This guide is ___ useful handbook for beginners.", "a", "\"Useful\" begins with a consonant sound /yu/."],
+        ["They elected ___ union leader as the coordinator.", "a", "\"Union\" begins with a consonant sound /yu/."],
+        ["The vendor advertised ___ one-time offer for students.", "a", "\"One-time\" begins with a consonant sound /w/."],
+        ["The earth moves around ___ sun.", "the", "Use \"the\" for unique objects like the sun."],
+        ["She plays ___ violin better than her sister.", "the", "Use \"the\" with musical instruments in this pattern."],
+        ["This is ___ best explanation in the packet.", "the", "Superlatives normally take \"the\"."],
+        ["He was ___ first candidate to submit the form.", "the", "Ordinals usually take \"the\"."],
+        ["The ship crossed ___ Pacific Ocean during winter.", "the", "Use \"the\" with oceans."],
+        ["They visited ___ Taj Mahal on Monday.", "the", "Use \"the\" with famous monuments when specifically named in such usage."],
+        ["Please pass ___ salt.", "the", "A specific object shared in context takes \"the\"."],
+        ["The hikers could see ___ Himalayas from the ridge.", "the", "Use \"the\" with mountain ranges."],
+        ["My younger brother goes to ___ school by bus.", "No article", "Use zero article for institutions used for their primary purpose."],
+        ["After dinner, she went straight to ___ bed.", "No article", "Fixed expression: go to bed."],
+        ["They usually travel by ___ train when tickets are available.", "No article", "Means of transport after \"by\" generally take no article."],
+        ["The children are at ___ home because of the holiday.", "No article", "Fixed expression: at home."],
+        ["He was sent to ___ prison for fraud.", "No article", "Use zero article when referring to the institution in its primary sense."],
+        ["We had ___ lunch before the mock interview.", "No article", "Meals usually take no article in a general sense."],
+        ["She loves playing ___ chess with her grandfather.", "No article", "Games like chess usually take no article."],
+        ["The minister arrived after ___ sunset.", "No article", "General time expressions like sunset often take no article."],
+        ["___ moon looked unusually bright last night.", "the", "Use \"the\" for unique celestial objects in ordinary reference."],
+        ["The team needs ___ captain who can stay calm under pressure.", "a", "A singular countable noun used non-specifically takes \"a\"."],
+      ].forEach(([stem, correct, explanation]) => {
+        addMcq("Articles", "Transcript concepts", stem, ARTICLE_OPTIONS, correct, explanation);
+      });
+
+      [
+        ["Each of the players ___ ready for the toss.", ["are", "were", "is", "have been"], "is", "Each takes a singular verb."],
+        ["The bouquet of roses ___ on the table.", ["lie", "is", "were", "have"], "is", "The head noun \"bouquet\" is singular."],
+        ["Neither of the answers ___ convincing.", ["are", "is", "were", "have been"], "is", "Neither takes a singular verb here."],
+        ["The quality of these files ___ impressive.", ["are", "were", "is", "have been"], "is", "The subject is \"quality,\" not \"files\"."],
+        ["Bread and butter ___ his usual breakfast.", ["are", "were", "is", "have been"], "is", "A paired idea treated as one unit takes a singular verb."],
+        ["Ten kilometers ___ a long walk in this heat.", ["are", "were", "is", "have been"], "is", "Distance as one amount takes a singular verb."],
+        ["The news from the branch ___ encouraging.", ["are", "were", "is", "have been"], "is", "\"News\" is singular in form and meaning."],
+        ["A series of workshops ___ planned for June.", ["are", "were", "is", "have been"], "is", "The head noun \"series\" is singular."],
+        ["One of the candidates ___ already submitted the affidavit.", ["have", "are", "has", "were"], "has", "\"One\" is the subject, so use singular \"has\"."],
+        ["Mathematics ___ my weakest section.", ["are", "were", "is", "have been"], "is", "Academic subjects are usually singular."],
+        ["The players in the final ___ warming up outside.", ["is", "was", "are", "has been"], "are", "\"Players\" is plural."],
+        ["Both the manager and the cashier ___ present.", ["was", "is", "were", "has been"], "were", "Both...and joins a plural subject."],
+        ["The police ___ investigating the complaint.", ["is", "was", "are", "has been"], "are", "\"Police\" normally takes a plural verb."],
+        ["Many applicants ___ waiting in the corridor.", ["is", "was", "are", "has been"], "are", "\"Applicants\" is plural."],
+        ["The data from recent surveys ___ encouraging.", ["is", "was", "are", "has been"], "are", "In formal usage, \"data\" is treated as plural."],
+        ["Several boxes of stationery ___ missing.", ["is", "was", "are", "has been"], "are", "\"Boxes\" is plural."],
+        ["The committee members ___ divided in their opinions.", ["is", "was", "are", "has been"], "are", "The subject explicitly refers to members as individuals."],
+        ["Two thirds of the students ___ opted for English.", ["has", "is", "have", "was"], "have", "\"Students\" is plural, so the verb is plural."],
+        ["A number of candidates ___ absent today.", ["is", "was", "are", "has been"], "are", "\"A number of\" takes a plural verb."],
+        ["The stairs to the terrace ___ slippery after rain.", ["is", "was", "are", "has been"], "are", "\"Stairs\" is plural."],
+        ["Either the teachers or the principal ___ signing the circular.", ["are", "were", "is", "have been"], "is", "With either...or, the verb agrees with the nearer subject."],
+        ["Either the principal or the teachers ___ signing the circular.", ["is", "was", "are", "has been"], "are", "The nearer subject \"teachers\" is plural."],
+        ["Not only the guide but also the tourists ___ exhausted.", ["was", "is", "were", "has been"], "were", "The nearer subject \"tourists\" is plural."],
+        ["Neither the guards nor the supervisor ___ aware of the change.", ["were", "are", "was", "have been"], "was", "The nearer subject \"supervisor\" is singular."],
+        ["Every one of the files ___ labeled correctly.", ["are", "were", "is", "have been"], "is", "\"Every one\" is singular."],
+        ["More than one student ___ asked for extra time.", ["have", "are", "has", "were"], "has", "\"More than one\" usually takes a singular verb."],
+        ["The cost of new laptops ___ rising every year.", ["are", "were", "is", "have been"], "is", "The head noun \"cost\" is singular."],
+        ["Fifty thousand rupees ___ a big investment for a start-up.", ["are", "were", "is", "have been"], "is", "A sum of money as one amount takes a singular verb."],
+        ["The number of vacancies ___ lower this year.", ["are", "were", "is", "have been"], "is", "\"The number of\" takes a singular verb."],
+        ["The list of shortlisted candidates ___ on the noticeboard.", ["are", "were", "is", "have been"], "is", "The subject is the singular noun \"list\"."],
+      ].forEach(([stem, options, correct, explanation]) => {
+        addMcq("Subject-Verb Agreement", "Transcript concepts", stem, options, correct, explanation);
+      });
+
+      [
+        ["Between you and ___, this paper looks manageable.", ["I", "me", "myself", "mine"], "me", "After a preposition, use the object pronoun \"me\"."],
+        ["Each player brought ___ own admit card.", ["their", "our", "his or her", "your"], "his or her", "Traditional exam usage prefers a singular pronoun with \"each\"."],
+        ["The manager blamed ___ for the delay.", ["him", "herself", "her", "she"], "herself", "Use the reflexive pronoun when subject and object are the same person."],
+        ["This is the student ___ project impressed the panel.", ["who", "whose", "whom", "which"], "whose", "\"Whose\" shows possession."],
+        ["The person ___ called earlier will return tomorrow.", ["which", "whose", "who", "whom"], "who", "Use \"who\" for the subject referring to a person."],
+        ["Neither of the girls forgot ___ assignment.", ["their", "our", "her", "your"], "her", "Traditional exam grammar treats \"neither\" as singular."],
+        ["The teachers prepared the presentation by ___.", ["theirselves", "themselves", "them", "they"], "themselves", "The reflexive form for \"they\" is \"themselves\"."],
+        ["The book on the table is ___.", ["my", "mine", "me", "myself"], "mine", "Use the possessive pronoun without a following noun."],
+        ["These files are ___.", ["our", "ours", "us", "ourselves"], "ours", "Use the possessive pronoun \"ours\" without a noun."],
+        ["The dog wagged ___ tail when it saw the guard.", ["it's", "its", "it", "itself"], "its", "\"Its\" is the possessive form; \"it's\" means \"it is\"."],
+        ["The candidate to ___ I spoke was well prepared.", ["who", "whose", "whom", "which"], "whom", "After a preposition, formal usage prefers \"whom\" for people."],
+        ["We admired the artist and listened to ___ patiently.", ["he", "him", "his", "himself"], "him", "After the preposition \"to,\" use the object pronoun."],
+        ["The interns introduced ___.", ["their", "them", "themselves", "they"], "themselves", "Reflexive pronoun is needed because subject and object are the same."],
+        ["The clerk who lost the key admitted ___ mistake.", ["his", "him", "he", "himself"], "his", "A possessive determiner is needed before \"mistake.\""],
+        ["The houses on the hill lost ___ roofs in the storm.", ["its", "their", "there", "theirs"], "their", "Plural noun \"houses\" takes plural possessive \"their.\""],
+        ["The boy and his sister finished the assignment by ___.", ["himself", "herself", "themselves", "theirselves"], "themselves", "A compound subject requires the plural reflexive pronoun."],
+        ["The panel asked Ritu and me to submit ___ reports again.", ["our", "ours", "us", "their"], "our", "A possessive determiner is needed before the noun \"reports.\""],
+        ["One should keep ___ word.", ["his", "their", "one's", "your"], "one's", "Formal agreement with \"one\" is \"one's.\""],
+        ["The company for ___ she works is expanding rapidly.", ["that", "which", "who", "whom"], "which", "Use \"which\" for a thing after a preposition."],
+        ["The players knew that the final decision was ___.", ["our", "their", "theirs", "them"], "theirs", "Use the possessive pronoun when no noun follows."],
+        ["The child hurt ___ while climbing the wall.", ["him", "his", "himself", "he"], "himself", "Reflexive pronoun matches the subject."],
+        ["This is the judge ___ order changed the entire case.", ["who", "whose", "whom", "which"], "whose", "\"Whose\" can also refer to institutions or persons showing possession."],
+        ["The volunteers told the reporter that the food packets were ___.", ["their", "theirs", "there", "them"], "theirs", "Use the possessive pronoun without a noun."],
+        ["Rohan sits between Asha and ___.", ["I", "my", "me", "mine"], "me", "After \"between,\" use the object pronoun."],
+      ].forEach(([stem, options, correct, explanation]) => {
+        addMcq("Pronouns", "Transcript concepts", stem, options, correct, explanation);
+      });
+
+      [
+        ["He is capable ___ solving such puzzles quickly.", ["for", "in", "of", "to"], "of", "The correct collocation is \"capable of\"."],
+        ["She is interested ___ joining the editorial team.", ["on", "at", "in", "to"], "in", "The correct collocation is \"interested in\"."],
+        ["The clerk is responsible ___ maintaining the records.", ["for", "to", "with", "at"], "for", "\"Responsible for\" is the standard phrase."],
+        ["I prefer tea ___ coffee during revision breaks.", ["than", "over", "to", "with"], "to", "The correct structure is \"prefer X to Y.\""],
+        ["The doctor advised him to abstain ___ smoking.", ["to", "with", "from", "at"], "from", "Use \"abstain from.\""],
+        ["All branches must comply ___ the new audit rules.", ["to", "with", "for", "at"], "with", "Use \"comply with.\""],
+        ["The manager divided the bonus ___ the two interns.", ["among", "between", "into", "with"], "between", "Use \"between\" for two people or things."],
+        ["The blankets were distributed ___ the villagers.", ["between", "with", "among", "for"], "among", "Use \"among\" for more than two people."],
+        ["We arrived ___ the station at 6 a.m.", ["at", "on", "in", "to"], "at", "Use \"at\" with a specific point such as a station as a location here."],
+        ["He was born ___ September.", ["on", "at", "in", "by"], "in", "Use \"in\" with months."],
+        ["The review meeting will be held ___ Monday.", ["at", "in", "on", "for"], "on", "Use \"on\" with days."],
+        ["The train arrived ___ time despite the fog.", ["at", "on", "for", "in"], "on", "\"On time\" means according to schedule."],
+        ["We reached the hall just ___ time to hear the anthem.", ["on", "for", "in", "at"], "in", "\"In time\" means early enough for something."],
+        ["She has worked here ___ 2021.", ["for", "from", "since", "by"], "since", "Use \"since\" with a starting point in time."],
+        ["He has been waiting ___ two hours.", ["since", "from", "for", "by"], "for", "Use \"for\" with a duration."],
+        ["The cat jumped ___ the wall in a single motion.", ["on", "over", "with", "through"], "over", "\"Over\" shows movement across and beyond."],
+        ["The river flows ___ the bridge.", ["on", "into", "under", "between"], "under", "\"Under\" indicates a lower position."],
+        ["Translate this paragraph ___ English.", ["to", "for", "into", "with"], "into", "Translate something into a language."],
+        ["He apologized ___ his rude reply during the meeting.", ["about", "for", "with", "on"], "for", "The correct collocation is \"apologize for.\""],
+        ["The manager congratulated the team ___ the result.", ["about", "on", "for", "with"], "on", "Use \"congratulate someone on something.\""],
+        ["She suffers ___ migraine during summers.", ["with", "for", "from", "at"], "from", "The correct collocation is \"suffer from.\""],
+        ["We discussed the matter ___ detail before leaving.", ["with", "at", "in", "for"], "in", "The correct phrase is \"in detail.\""],
+        ["The child was hiding ___ the curtain.", ["beneath", "behind", "across", "towards"], "behind", "\"Behind\" indicates a position at the back of something."],
+        ["The report consists ___ four sections with examples.", ["in", "from", "of", "to"], "of", "The correct collocation is \"consist of.\""],
+      ].forEach(([stem, options, correct, explanation]) => {
+        addMcq("Prepositions", "Transcript concepts", stem, options, correct, explanation);
+      });
+
+      [
+        ["By the time we reached the station, the train ___.", ["left", "has left", "had left", "was leaving"], "had left", "Use past perfect for the earlier of two past actions."],
+        ["She ___ here since 2019.", ["lived", "has been living", "was living", "had lived"], "has been living", "\"Since 2019\" points to an action continuing up to the present."],
+        ["When the bell rings, the students ___ the hall.", ["entered", "would enter", "will enter", "had entered"], "will enter", "Use present simple in the time clause and future in the main clause."],
+        ["If I had known about the vacancy, I ___ earlier.", ["would apply", "applied", "would have applied", "had applied"], "would have applied", "Third conditional: past unreal condition."],
+        ["He usually ___ the editorial before breakfast.", ["read", "reads", "is reading", "has read"], "reads", "Use present simple for habitual actions."],
+        ["They ___ the report when the lights went out.", ["prepared", "had prepared", "were preparing", "have prepared"], "were preparing", "Use past continuous for a background action interrupted by another."],
+        ["She ___ the form before the deadline yesterday.", ["submits", "submitted", "has submitted", "had been submitting"], "submitted", "A completed action at a definite past time takes simple past."],
+        ["We ___ for the results since morning.", ["waited", "were waiting", "have been waiting", "had waited"], "have been waiting", "An action continuing until now takes present perfect continuous."],
+        ["If the weather improves, we ___ the campus interview outdoors.", ["held", "will hold", "would hold", "had held"], "will hold", "First conditional: real future possibility."],
+        ["The candidates ___ their seats before the examiner entered.", ["take", "had taken", "were taking", "have taken"], "had taken", "Past perfect shows the earlier past action."],
+        ["At 8 p.m. tonight, I ___ the revision marathon.", ["revised", "will be revising", "have revised", "am revised"], "will be revising", "Use future continuous for an action in progress at a future time."],
+        ["He ___ in Delhi for five years before moving to Pune.", ["has worked", "had worked", "worked", "was working"], "had worked", "Use past perfect before another past event."],
+        ["If she studies regularly, she ___ the cut-off comfortably.", ["would clear", "clears", "will clear", "had cleared"], "will clear", "First conditional for likely future result."],
+        ["When I called him, he ___ to the branch.", ["drove", "was driving", "had driven", "has driven"], "was driving", "Use past continuous for an action already in progress."],
+        ["This time tomorrow, they ___ their mock analysis.", ["complete", "will complete", "will be completing", "completed"], "will be completing", "Use future continuous for an action in progress at a future time."],
+        ["We ___ the chapter twice, so the rule is clear now.", ["read", "have read", "had read", "were reading"], "have read", "Present perfect connects past action with present result."],
+        ["If you heat ice, it ___.", ["melted", "will melt", "melts", "would melt"], "melts", "Use present simple in zero conditional statements of fact."],
+        ["The class ___ just ___ when the fire alarm rang.", ["has / begun", "had / begun", "was / begun", "had / begin"], "had / begun", "Past perfect fits the action completed before another past action."],
+        ["She ___ never ___ such a confusing instruction before.", ["had / seen", "has / seen", "was / seeing", "did / saw"], "has / seen", "Present perfect works with \"before\" when connected to present experience."],
+        ["Until last month, he ___ banking terms very confusing.", ["finds", "has found", "found", "was find"], "found", "A finished past period takes simple past."],
+        ["I ___ this question before, so it looked familiar.", ["have solved", "had solved", "solve", "was solving"], "had solved", "The solving happened before the later past realization."],
+        ["The teacher said that the test ___ at 10 sharp the next day.", ["will begin", "would begin", "begins", "has begun"], "would begin", "Backshift after a past reporting verb."],
+        ["Unless you revise the rules, you ___ the error.", ["missed", "would miss", "will miss", "had missed"], "will miss", "Unless introduces a real future condition."],
+        ["Hardly had I reached my seat when the invigilator ___ the extra sheet.", ["distributes", "distributed", "had distributed", "has distributed"], "distributed", "After \"hardly had...when,\" the next action is usually in simple past."],
+      ].forEach(([stem, options, correct, explanation]) => {
+        addMcq("Tenses and Conditionals", "Transcript concepts", stem, options, correct, explanation);
+      });
+
+      [
+        ["She answered the puzzle ___.", ["quick", "quickly", "quicker", "quickness"], "quickly", "An adverb modifies the verb \"answered.\""],
+        ["The speaker explained the rule so ___ that everyone stayed engaged.", ["clear", "clearly", "clearest", "clarity"], "clearly", "An adverb modifies the verb \"explained.\""],
+        ["He is the ___ of the two analysts.", ["good", "better", "best", "well"], "better", "Use the comparative form when comparing two people."],
+        ["No other runner in the batch is as ___ as Aditi.", ["consistent", "more consistent", "most consistent", "consistently"], "consistent", "Use the base adjective in the pattern as...as."],
+        ["The child looked ___ at the broken model.", ["sad", "sadly", "sadder", "sadness"], "sad", "Linking verbs like \"looked\" take an adjective, not an adverb."],
+        ["The officer handled the complaint ___.", ["tactful", "tactfully", "more tactful", "tactfulness"], "tactfully", "An adverb is needed to modify \"handled.\""],
+        ["This explanation is far ___ than the earlier one.", ["precise", "more precise", "most precise", "precisely"], "more precise", "\"Far\" commonly intensifies the comparative form."],
+        ["He works ___ than his teammate during revision week.", ["hard", "hardly", "harder", "hardest"], "harder", "A comparative idea is required because two people are being compared."],
+        ["The report was written ___ and submitted on time.", ["neat", "neatly", "neater", "neatness"], "neatly", "Use an adverb to modify \"written.\""],
+        ["The soup smells ___ after adding basil.", ["well", "good", "better", "best"], "good", "After a linking verb like \"smells,\" use an adjective."],
+        ["The coach asked the players to warm up, stretch, and ___.", ["breathing steadily", "to breathe steadily", "breathe steadily", "steady breathing"], "breathe steadily", "Parallel structure requires three base verbs: warm up, stretch, and breathe."],
+        ["She is not only intelligent but also ___.", ["discipline", "disciplined", "disciplining", "disciplinarily"], "disciplined", "Parallel structure after \"not only...but also\" requires a matching adjective."],
+        ["The new policy is both practical and ___.", ["transparency", "transparently", "transparent", "to transparent"], "transparent", "After \"both,\" keep the adjectives parallel."],
+        ["He would rather walk than ___ for a cab in this traffic.", ["waiting", "to wait", "wait", "waits"], "wait", "After \"would rather,\" use the base form."],
+        ["The intern was too ___ to ignore the formatting note.", ["care", "careful", "carefully", "carefulness"], "careful", "An adjective is needed after \"too.\""],
+        ["The movie was ___ long for a classroom discussion.", ["too", "very", "so much", "much"], "too", "\"Too\" expresses excess in this context."],
+        ["The banker explained the process in a ___ manner.", ["simply", "simple", "simpler", "simplest"], "simple", "An adjective is needed before the noun \"manner.\""],
+        ["She sang more ___ than anyone expected.", ["beautiful", "beautifully", "beauty", "beautified"], "beautifully", "An adverb modifies the verb \"sang.\""],
+        ["The chairperson asked the team to analyse the problem, propose options, and ___.", ["recommend one solution", "recommending one solution", "recommended one solution", "to recommend one solution"], "recommend one solution", "Parallel structure requires the third verb to match the first two."],
+        ["Of the three drafts, the second was the ___.", ["better", "best", "good", "well"], "best", "Use the superlative form when comparing more than two."],
+      ].forEach(([stem, options, correct, explanation]) => {
+        addMcq("Modifiers and Parallelism", "Transcript concepts", stem, options, correct, explanation);
+      });
+
+      [
+        [["She is", "an university professor", "from", "Lucknow"], "B", "Use \"a university professor\" because \"university\" begins with the consonant sound /yu/."],
+        [["The earth moves", "around sun", "once every year", "without a pause"], "B", "Use \"the sun\" for a unique object."],
+        [["He bought", "an one-time pass", "for", "the metro"], "B", "\"One-time\" begins with a consonant sound /w/, so use \"a.\""],
+        [["My brother goes to", "the school", "by bus", "every morning"], "B", "When school is used in its institutional sense, no article is needed."],
+        [["They had", "a honest discussion", "about", "the failed tender"], "B", "Use \"an honest discussion\" because h is silent in \"honest.\""],
+        [["She plays", "violin", "better than", "everyone here"], "B", "Use \"the violin\" in this pattern."],
+        [["The hikers could see", "Himalayas", "from", "the valley"], "B", "Use \"the Himalayas\" for a mountain range."],
+        [["We had", "the lunch", "before", "the mock interview"], "B", "Meals usually take no article in a general sense."],
+        [["She wants to become", "an MLA", "after", "graduation"], "E", "\"MLA\" begins with the vowel sound \"em,\" so \"an\" is correct."],
+        [["He returned from", "office", "after", "sunset"], "E", "The expression \"from office\" can be used institutionally without an article."],
+        [["Each of the candidates", "have submitted", "the declaration", "before noon"], "B", "\"Each\" takes a singular verb: has submitted."],
+        [["The bouquet of roses", "smell fresh", "in", "the hall"], "B", "The singular subject \"bouquet\" requires \"smells.\""],
+        [["A number of students", "was absent", "from", "the workshop"], "B", "\"A number of\" takes a plural verb: were absent."],
+        [["The number of vacancies", "are lower", "this year", "than last year"], "B", "\"The number of\" takes a singular verb: is lower."],
+        [["Neither the teachers nor the principal", "were willing", "to change", "the schedule"], "B", "The verb agrees with the nearer singular subject \"principal\": was willing."],
+        [["Either the principal or the teachers", "is attending", "the review", "meeting"], "B", "The nearer subject \"teachers\" is plural, so use \"are attending.\""],
+        [["Ten kilometers", "are too far", "to walk", "in this heat"], "B", "A distance measured as one amount usually takes a singular verb."],
+        [["Mathematics", "have always been", "his weakest", "section"], "B", "\"Mathematics\" as a subject takes a singular verb."],
+        [["The police", "are investigating", "the complaint", "carefully"], "E", "\"Police\" normally takes a plural verb."],
+        [["More than one student", "has asked", "for extra time", "today"], "E", "\"More than one\" usually takes a singular verb."],
+        [["Between you and I", "this plan", "needs", "one more revision"], "A", "After the preposition \"between,\" use the object pronoun \"me.\""],
+        [["Every player must carry", "their admit card", "to", "the centre"], "A", "Traditional exam grammar prefers a singular form with \"every player.\""],
+        [["The manager", "introduced hisself", "to", "the new interns"], "B", "The correct reflexive pronoun is \"himself\" or \"herself\" depending on the subject."],
+        [["This is the candidate", "who's file", "went missing", "yesterday"], "B", "Use the possessive relative pronoun \"whose,\" not the contraction \"who's.\""],
+        [["Neither of the girls", "forgot their file", "at", "the venue"], "B", "Traditional exam grammar prefers singular agreement with \"neither.\""],
+        [["Ritu and me", "completed", "the project", "before the deadline"], "A", "Use the subject pronouns \"Ritu and I.\""],
+        [["The dog wagged", "it's tail", "when", "the guard arrived"], "B", "Use the possessive determiner \"its,\" not \"it's.\""],
+        [["This is the firm", "whom she works for", "in", "Mumbai"], "B", "A firm is a thing, so use \"which\" or \"that.\""],
+        [["The players", "prepared themselves", "for", "the final round"], "E", "The reflexive pronoun is correct here."],
+        [["The book on the table", "is mine", "and the notebooks", "are ours"], "E", "Both possessive pronouns are correctly used."],
+        [["He is capable", "to solve", "such puzzles", "quickly"], "B", "The correct preposition is \"of\": capable of solving."],
+        [["She has been working here", "since three years", "without", "a long break"], "B", "Use \"for three years\" for a duration."],
+        [["The manager divided", "the bonus among", "the two interns", "fairly"], "B", "Use \"between\" for two people."],
+        [["The blankets were distributed", "between", "the flood-hit families", "by volunteers"], "B", "Use \"among\" for more than two families."],
+        [["We reached the hall", "on time", "for", "the briefing"], "E", "\"On time\" correctly means according to schedule."],
+        [["He apologized", "from his rude reply", "during", "the meeting"], "B", "The correct collocation is \"apologized for.\""],
+        [["The report", "consists from", "four sections", "with clear headings"], "B", "The correct collocation is \"consists of.\""],
+        [["She is interested", "on joining", "the editorial", "team"], "B", "Use \"interested in.\""],
+        [["The child was hiding", "behind the curtain", "during", "the rehearsal"], "E", "The preposition \"behind\" is correct."],
+        [["They congratulated", "him on", "winning", "the scholarship"], "E", "\"Congratulated him on\" is the correct collocation."],
+        [["By the time we reached", "the station, the train", "has already left", "the platform"], "C", "Use past perfect: had already left."],
+        [["If I had known", "about the vacancy,", "I will apply", "earlier"], "C", "Third conditional needs \"would have applied.\""],
+        [["She", "has been living here", "since 2018", "with her parents"], "E", "The present perfect continuous is correct with \"since 2018.\""],
+        [["When the bell will ring", "the students", "will enter", "the hall"], "A", "Use present simple in the time clause: when the bell rings."],
+        [["Hardly had I sat down", "when the invigilator", "had distributed", "the extra sheet"], "C", "After \"Hardly had...when,\" the next action is usually simple past."],
+        [["They were preparing", "the report", "when the lights", "went out"], "E", "The tense sequence is correct."],
+        [["Unless you revise", "the rules", "you missed", "the error"], "C", "Use future meaning: you will miss the error."],
+        [["I have seen", "that question", "yesterday", "in the worksheet"], "C", "A definite past time like \"yesterday\" takes simple past, not present perfect."],
+        [["The class", "had just began", "when", "the alarm rang"], "B", "Use the past participle \"begun\" after \"had.\""],
+        [["If water boils", "it evaporates", "into", "steam"], "E", "This zero conditional sentence is acceptable."],
+        [["The teacher said", "that the test", "would begin", "at ten sharp"], "E", "The backshifted verb \"would begin\" is correct."],
+        [["She looked", "sadly", "at the broken model", "after class"], "B", "After a linking verb like \"looked,\" use the adjective \"sad.\""],
+        [["He is the most better", "candidate", "for", "the role"], "A", "Do not use double comparison; use \"better\" or \"the best\" depending on context."],
+        [["The officer handled", "the complaint", "very tactful", "in the meeting"], "C", "Use the adverb \"tactfully\" to modify \"handled.\""],
+        [["The new policy is", "not only practical", "but also", "transparent"], "E", "The parallel adjectives are correct."],
+        [["The chairperson asked the team", "to analyse the problem,", "propose options,", "and recommending one solution"], "D", "Parallel structure requires \"recommend one solution.\""],
+        [["No other player", "in the camp", "is as consistent than", "Aditi"], "C", "Use the structure \"as consistent as.\""],
+      ].forEach(([parts, correct, explanation]) => {
+        addError("Error Spotting", "eng.pdf pattern", parts, correct, explanation);
+      });
+
+      [
+        ["She is known for her ___ in solving complex puzzles.", "acuity", "Acuity means sharpness or keenness of mind.", ["animosity", "chaos", "oblivion"]],
+        ["The company's new wellness policy aims to reduce ___ and improve work-life balance.", "stress", "Stress fits the idea of pressure and mental strain.", ["profits", "commute", "novelty"]],
+        ["The festival offered a colourful ___ of music traditions.", "medley", "A medley is a mixture or varied collection.", ["confusion", "vacuum", "scarcity"]],
+        ["The athlete withdrew because of an ___ injury.", "acute", "Acute means severe or sharp in effect.", ["ornamental", "obsolete", "routine"]],
+        ["The ___ of new software changed the workflow completely.", "implementation", "Implementation means putting a plan or system into effect.", ["hesitation", "opposition", "suspicion"]],
+        ["His ___ actions during the crisis earned praise from all sides.", "commendable", "Commendable means deserving praise.", ["repugnant", "careless", "hostile"]],
+        ["The judge took a ___ approach before making a comment.", "prudent", "Prudent means wise and careful.", ["reckless", "fragile", "dramatic"]],
+        ["Ticket sales have ___ after the heavy rains.", "dwindled", "Dwindled means become gradually smaller or fewer.", ["amplified", "multiplied", "stabilized"]],
+        ["The teacher ___ the student for her excellent answer.", "lauded", "Lauded means praised highly.", ["criticized", "ignored", "hesitated"]],
+        ["Her notes are so ___ that anyone can revise from them.", "meticulous", "Meticulous means very careful and precise.", ["casual", "vague", "untidy"]],
+        ["The village showed great ___ after the floods.", "resilience", "Resilience is the ability to recover quickly from difficulty.", ["ambiguity", "resentment", "monotony"]],
+        ["The policy wording created unnecessary ___ among applicants.", "ambiguity", "Ambiguity means uncertainty caused by more than one possible meaning.", ["clarity", "certainty", "relief"]],
+        ["Many workers fear that manual records will become ___ soon.", "obsolete", "Obsolete means outdated or no longer used.", ["vibrant", "essential", "careful"]],
+        ["The witness gave a ___ explanation supported by facts.", "plausible", "Plausible means reasonable or believable.", ["impossible", "reckless", "obscure"]],
+        ["The board reached only a ___ agreement after the first round.", "tentative", "Tentative means not final or still subject to change.", ["permanent", "furious", "literal"]],
+        ["He was ___ enough to admit his mistake publicly.", "candid", "Candid means honest and straightforward.", ["deceptive", "formal", "rigid"]],
+        ["Despite the chaos, the nurse remained ___ throughout the night.", "serene", "Serene means calm and untroubled.", ["volatile", "furious", "stubborn"]],
+        ["Fuel prices have remained highly ___ this quarter.", "volatile", "Volatile means likely to change rapidly and unpredictably.", ["stable", "placid", "cohesive"]],
+        ["Her pronunciation is nearly ___ after months of practice.", "impeccable", "Impeccable means flawless or perfect.", ["clumsy", "ordinary", "tentative"]],
+        ["The essay felt ___ because every paragraph supported the main idea.", "cohesive", "Cohesive means well connected and unified.", ["fragmented", "noisy", "sporadic"]],
+        ["Donating the prize money was an ___ gesture.", "altruistic", "Altruistic means selflessly concerned for others.", ["selfish", "skeptical", "stern"]],
+        ["We need a ___ plan that works under exam pressure.", "pragmatic", "Pragmatic means practical and realistic.", ["romantic", "vague", "ornate"]],
+        ["His answer was ___, clear, and relevant.", "succinct", "Succinct means brief and clearly expressed.", ["rambling", "opaque", "fragile"]],
+        ["The benefits of daily revision are ___ within two weeks.", "tangible", "Tangible means clear and real enough to notice.", ["imaginary", "remote", "vague"]],
+        ["The clerk was ___ and double-checked every entry.", "diligent", "Diligent means hard-working and careful.", ["lazy", "hasty", "uncertain"]],
+        ["A healthy reader should be ___ of sensational headlines.", "skeptical", "Skeptical means not easily convinced.", ["obedient", "gullible", "naive"]],
+        ["The speaker's argument became more ___ after he added evidence.", "coherent", "Coherent means logical and consistent.", ["confused", "erratic", "abrupt"]],
+        ["Without innovation, growth may remain ___ for years.", "stagnant", "Stagnant means not developing or moving.", ["dynamic", "fertile", "visible"]],
+        ["A ___ player can bat, bowl, and field well.", "versatile", "Versatile means able to adapt or useful in many roles.", ["fragile", "narrow", "hesitant"]],
+        ["Offering free classes was a ___ decision by the institute.", "benevolent", "Benevolent means kind and well-meaning.", ["spiteful", "volatile", "harsh"]],
+        ["With the storm approaching, delay was ___.", "inevitable", "Inevitable means certain to happen.", ["avoidable", "optional", "unlikely"]],
+        ["The final instruction was so ___ that many students asked for clarification.", "obscure", "Obscure means unclear or difficult to understand.", ["plain", "lucid", "eager"]],
+        ["She felt ___ before the interview but recovered quickly.", "hesitant", "Hesitant means unsure or slow to act.", ["confident", "boastful", "exuberant"]],
+        ["The crowd was ___ after the team lifted the trophy.", "exuberant", "Exuberant means extremely joyful and energetic.", ["gloomy", "muted", "cautious"]],
+        ["His ___ habits helped him save enough for the course.", "frugal", "Frugal means careful with money and resources.", ["lavish", "wasteful", "impulsive"]],
+        ["The principal gave a ___ warning against cheating.", "stern", "Stern means strict and severe.", ["playful", "gentle", "comic"]],
+        ["The proposal is ambitious but still ___ if funding arrives.", "viable", "Viable means workable or capable of succeeding.", ["futile", "broken", "casual"]],
+        ["Past success made the team ___, and practice quality dropped.", "complacent", "Complacent means too satisfied to notice danger or need for improvement.", ["alert", "anxious", "resolute"]],
+        ["The mountain trail looked ___ even from a distance.", "formidable", "Formidable means inspiring fear or respect because of difficulty.", ["friendly", "tiny", "fragile"]],
+        ["As a ___ to coding, he started with simple HTML pages.", "novice", "Novice means a beginner.", ["veteran", "expert", "critic"]],
+        ["A short break can ___ stress during long study sessions.", "alleviate", "Alleviate means make something less severe.", ["intensify", "provoke", "repeat"]],
+        ["Rainfall in this belt is ___; some weeks stay completely dry.", "sporadic", "Sporadic means occurring at irregular intervals.", ["constant", "steady", "uniform"]],
+        ["The author was so ___ that she finished three books in a year.", "prolific", "Prolific means producing a lot in large quantities.", ["silent", "timid", "skeptical"]],
+        ["The new checklist helped ___ avoidable mistakes in the final round.", "mitigate", "Mitigate means reduce the seriousness or impact of something.", ["magnify", "invite", "praise"]],
+      ].forEach(([stem, correct, explanation, distractors]) => {
+        addMcq(
+          "Vocabulary and Cloze",
+          "eng1.pdf pattern",
+          stem,
+          rotatedOptions(correct, distractors),
+          correct,
+          explanation,
+          "Choose the word that best completes the sentence."
+        );
+      });
+
+      const articlePrompt = "Choose the article that best matches the logic of the sentence.";
+      const prepositionPrompt = "Choose the option that gives the most natural preposition or phrase.";
+      const agreementPrompt = "Choose the form that makes the sentence grammatically correct.";
+      const pronounPrompt = "Choose the pronoun or determiner that fits the sentence.";
+
+      const articleSoundSeeds = [
+        { stem: "The college invited ___ engineer from ISRO for the seminar.", answer: "an", phrase: "engineer", soundNote: "The word <strong>engineer</strong> begins with a vowel sound, so the indefinite article becomes <strong>an</strong>." },
+        { stem: "They appointed ___ honest officer to supervise the probe.", answer: "an", phrase: "honest officer", soundNote: "The <strong>h</strong> in <strong>honest</strong> is silent, so the phrase begins with a vowel sound." },
+        { stem: "It took only ___ hour to complete the formality.", answer: "an", phrase: "hour", soundNote: "The word <strong>hour</strong> also starts with a silent <strong>h</strong>, so English says <strong>an hour</strong>." },
+        { stem: "She is ___ MBA aspirant from Patna.", answer: "an", phrase: "MBA aspirant", soundNote: "The letter <strong>M</strong> is pronounced <strong>em</strong>, so the phrase begins with a vowel sound." },
+        { stem: "The committee needs ___ analyst with risk-model experience.", answer: "an", phrase: "analyst", soundNote: "<strong>Analyst</strong> starts with a vowel sound." },
+        { stem: "We saw ___ X-ray technician entering the lab.", answer: "an", phrase: "X-ray technician", soundNote: "The letter name <strong>X</strong> begins with the vowel sound <strong>ex</strong>." },
+        { stem: "The school honoured ___ NCC cadet for discipline.", answer: "an", phrase: "NCC cadet", soundNote: "The letter name <strong>N</strong> begins with <strong>en</strong>, so the phrase takes <strong>an</strong>." },
+        { stem: "She bought ___ umbrella before the rain started.", answer: "an", phrase: "umbrella", soundNote: "<strong>Umbrella</strong> begins with a vowel sound." },
+        { stem: "Her brother is ___ university lecturer in Jaipur.", answer: "a", phrase: "university lecturer", soundNote: "<strong>University</strong> begins with the consonant sound <strong>yu</strong>, so English prefers <strong>a</strong>." },
+        { stem: "The panel spoke to ___ European diplomat after the session.", answer: "a", phrase: "European diplomat", soundNote: "<strong>European</strong> starts with the consonant sound <strong>yu</strong>." },
+        { stem: "He showed me ___ one-time pass for the metro.", answer: "a", phrase: "one-time pass", soundNote: "<strong>One</strong> begins with the consonant sound <strong>w</strong>, not a vowel sound." },
+        { stem: "The trainer recommended ___ useful handbook for revision.", answer: "a", phrase: "useful handbook", soundNote: "<strong>Useful</strong> starts with the consonant sound <strong>yu</strong>." },
+        { stem: "They elected ___ union leader as coordinator.", answer: "a", phrase: "union leader", soundNote: "<strong>Union</strong> begins with the consonant sound <strong>yu</strong>." },
+        { stem: "She adopted ___ unique strategy for the interview round.", answer: "a", phrase: "unique strategy", soundNote: "<strong>Unique</strong> begins with the consonant sound <strong>yu</strong>." },
+        { stem: "The branch hired ___ US-based consultant for compliance.", answer: "a", phrase: "US-based consultant", soundNote: "The letter name <strong>U</strong> begins with the consonant sound <strong>yu</strong>." },
+        { stem: "He is ___ one-eyed goalkeeper with strong reflexes.", answer: "a", phrase: "one-eyed goalkeeper", soundNote: "<strong>One-eyed</strong> still begins with the consonant sound <strong>w</strong>." }
+      ];
+
+      articleSoundSeeds.forEach((seed) => {
+        addMcq(
+          "Articles: Sound and Choice",
+          "Transcript article logic",
+          seed.stem,
+          ARTICLE_OPTIONS,
+          seed.answer,
+          "",
+          articlePrompt,
+          { detailMode: "articleSound", detailMeta: seed }
+        );
+      });
+
+      const oneAmongManySeeds = [
+        "bottle",
+        "sample",
+        "player",
+        "flight",
+        "chapter",
+        "candidate",
+        "seat",
+        "room",
+        "question",
+        "file",
+        "page",
+        "paragraph",
+        "route",
+        "tablet",
+        "mentor",
+        "button"
+      ];
+
+      oneAmongManySeeds.forEach((phrase) => {
+        addMcq(
+          "Articles: One Among Many",
+          "Transcript article logic",
+          fillTemplate("Please give me ___ {phrase} from the table.", { phrase }),
+          ARTICLE_OPTIONS,
+          "a",
+          "",
+          articlePrompt,
+          { detailMode: "articleOneMany", detailMeta: { answer: "a", phrase } }
+        );
+      });
+
+      const uniqueRoleSeeds = [
+        { stem: "The school suspended ___ captain of the team for indiscipline.", contextNote: "A team normally has one captain at a time, so the role is identifiable." },
+        { stem: "The parents met ___ principal of the school after the complaint.", contextNote: "Within one school, the principal is treated as a fixed post." },
+        { stem: "The board called ___ chairman of the company for clarification.", contextNote: "Inside one company board, the chairman is understood as one identified role." },
+        { stem: "The members elected ___ leader of the group unanimously.", contextNote: "The sentence identifies the single role of leader inside that group." },
+        { stem: "The governor addressed ___ chief minister of the state privately.", contextNote: "The office is tied to one state-specific role in that context." },
+        { stem: "The manager consulted ___ director of the branch before replying.", contextNote: "The phrase points to one fixed director within that branch setting." },
+        { stem: "The child called for ___ mother after waking up suddenly.", contextNote: "A particular child is linked to one identifiable mother in ordinary context." },
+        { stem: "The jury listened carefully to ___ witness in the box.", contextNote: "In this courtroom situation, the sentence points to the identified witness already in focus." },
+        { stem: "The class thanked ___ monitor for organising the notes.", contextNote: "The class monitor is one recognised role within that class." },
+        { stem: "The villagers welcomed ___ head of the panchayat at the event.", contextNote: "The role is treated as a single recognised office within that body." },
+        { stem: "The staff briefed ___ minister before the press conference.", contextNote: "The minister being briefed is a specific identified person in that event." },
+        { stem: "The board announced ___ winner of the scholarship in the hall.", contextNote: "Winner here refers to the identified one person who won." }
+      ];
+
+      uniqueRoleSeeds.forEach((seed) => {
+        addMcq(
+          "Articles: Context and Uniqueness",
+          "Transcript article logic",
+          seed.stem,
+          ARTICLE_OPTIONS,
+          "the",
+          "",
+          articlePrompt,
+          { detailMode: "articleUnique", detailMeta: { contextNote: seed.contextNote } }
+        );
+      });
+
+      const summitRoleSeeds = [
+        { stem: "At the G20 dinner, she spoke to ___ prime minister from Europe.", answer: "a", phrase: "prime minister" },
+        { stem: "The journalist interviewed ___ president from South America at the summit.", answer: "a", phrase: "president" },
+        { stem: "During the conference, we met ___ governor from another state.", answer: "a", phrase: "governor" },
+        { stem: "The panel invited ___ chief minister to discuss rural credit.", answer: "a", phrase: "chief minister" },
+        { stem: "The scouts welcomed ___ ambassador at the airport lounge.", answer: "an", phrase: "ambassador" },
+        { stem: "The organisers assigned me to help ___ analyst from Singapore.", answer: "an", phrase: "analyst" },
+        { stem: "We sat beside ___ engineer from Bengaluru during the workshop.", answer: "an", phrase: "engineer" },
+        { stem: "The branch hosted ___ union leader from another district.", answer: "a", phrase: "union leader" }
+      ];
+
+      summitRoleSeeds.forEach((seed) => {
+        addMcq(
+          "Articles: One Among Many",
+          "Transcript summit logic",
+          seed.stem,
+          ARTICLE_OPTIONS,
+          seed.answer,
+          "",
+          articlePrompt,
+          { detailMode: seed.answer === "an" ? "articleSound" : "articleOneMany", detailMeta: seed.answer === "an"
+            ? { answer: seed.answer, phrase: seed.phrase, soundNote: `The phrase <strong>${seed.phrase}</strong> is still one among many here, and it begins with a vowel sound.` }
+            : { answer: seed.answer, phrase: seed.phrase } }
+        );
+      });
+
+      const relationSeeds = [
+        "colour of the laptop",
+        "battery compartment of the car",
+        "roof of the house",
+        "handle of the suitcase",
+        "cover of the book",
+        "door of the cabin",
+        "screen of the phone",
+        "engine of the bus",
+        "title of the report",
+        "entrance of the building"
+      ];
+
+      relationSeeds.forEach((phrase) => {
+        addMcq(
+          "Articles: Context and Uniqueness",
+          "Transcript relation logic",
+          fillTemplate("The mechanic checked ___ {phrase} before the trip.", { phrase }),
+          ARTICLE_OPTIONS,
+          "the",
+          "",
+          articlePrompt,
+          { detailMode: "articleUnique", detailMeta: { contextNote: `Once the phrase names <strong>${phrase}</strong>, the second noun makes the first noun fully identifiable.` } }
+        );
+      });
+
+      const globalUniqueSeeds = [
+        "sun",
+        "moon",
+        "Pacific Ocean",
+        "Himalayas",
+        "Ganges",
+        "equator",
+        "internet",
+        "sky"
+      ];
+
+      globalUniqueSeeds.forEach((phrase) => {
+        addMcq(
+          "Articles: Context and Uniqueness",
+          "Transcript uniqueness logic",
+          fillTemplate("The travellers admired ___ {phrase} during the journey.", { phrase }),
+          ARTICLE_OPTIONS,
+          "the",
+          "",
+          articlePrompt,
+          { detailMode: "articleUnique", detailMeta: { contextNote: `The noun <strong>${phrase}</strong> is treated as globally unique or conventionally definite in normal usage.` } }
+        );
+      });
+
+      const superlativeSeeds = [
+        "best answer",
+        "first candidate",
+        "smartest child",
+        "most useful chapter",
+        "highest peak",
+        "oldest temple",
+        "most reliable source",
+        "largest branch"
+      ];
+
+      superlativeSeeds.forEach((phrase) => {
+        addMcq(
+          "Articles: Context and Uniqueness",
+          "Transcript superlative logic",
+          fillTemplate("This was ___ {phrase} in the whole set.", { phrase }),
+          ARTICLE_OPTIONS,
+          "the",
+          "",
+          articlePrompt,
+          { detailMode: "articleSuperlative", detailMeta: { phrase } }
+        );
+      });
+
+      const zeroTransportSeeds = ["bus", "train", "air", "rail", "metro", "car", "bike", "ship"];
+      zeroTransportSeeds.forEach((medium) => {
+        addMcq(
+          "Articles: Zero Article",
+          "Transcript medium logic",
+          fillTemplate("They travelled by ___ {medium} to reach the centre.", { medium }),
+          ARTICLE_OPTIONS,
+          "No article",
+          "",
+          articlePrompt,
+          { detailMode: "articleZeroTransport", detailMeta: { medium } }
+        );
+      });
+
+      const zeroInstitutionSeeds = [
+        "school",
+        "college",
+        "bed",
+        "prison",
+        "home",
+        "court",
+        "class",
+        "church"
+      ];
+
+      zeroInstitutionSeeds.forEach((place) => {
+        const stem = place === "home"
+          ? "The children stayed at ___ home because of the storm."
+          : place === "bed"
+            ? "After dinner, she went straight to ___ bed."
+            : fillTemplate("He went to ___ {place} early in the morning.", { place });
+        addMcq(
+          "Articles: Zero Article",
+          "Transcript zero-article logic",
+          stem,
+          ARTICLE_OPTIONS,
+          "No article",
+          "",
+          articlePrompt,
+          { detailMode: "articleZeroInstitution", detailMeta: { place } }
+        );
+      });
+
+      const zeroGeneralSeeds = [
+        "breakfast",
+        "lunch",
+        "dinner",
+        "chess",
+        "cricket",
+        "sunset",
+        "dawn",
+        "football",
+        "homework",
+        "music"
+      ];
+
+      zeroGeneralSeeds.forEach((word) => {
+        let stem = "";
+        if (word === "breakfast" || word === "lunch" || word === "dinner") {
+          stem = fillTemplate("We had ___ {word} before the mock interview.", { word });
+        } else if (word === "sunset" || word === "dawn") {
+          stem = fillTemplate("The minister arrived after ___ {word}.", { word });
+        } else if (word === "homework" || word === "music") {
+          stem = fillTemplate("She completed ___ {word} before going out.", { word });
+        } else {
+          stem = fillTemplate("They love playing ___ {word} on weekends.", { word });
+        }
+        addMcq(
+          "Articles: Zero Article",
+          "Transcript zero-article logic",
+          stem,
+          ARTICLE_OPTIONS,
+          "No article",
+          "",
+          articlePrompt,
+          { detailMode: "articleZeroGeneral", detailMeta: { word } }
+        );
+      });
+
+      const travelModes = [
+        { medium: "train", destination: "Jaipur" },
+        { medium: "bus", destination: "Lucknow" },
+        { medium: "air", destination: "Delhi" },
+        { medium: "metro", destination: "the city centre" },
+        { medium: "car", destination: "the branch office" },
+        { medium: "bike", destination: "the coaching centre" },
+        { medium: "ship", destination: "the island" },
+        { medium: "rail", destination: "Mumbai" },
+        { medium: "tram", destination: "the museum" },
+        { medium: "ferry", destination: "the riverbank" }
+      ];
+
+      travelModes.forEach((seed) => {
+        addMcq(
+          "Prepositions: Means vs Position",
+          "Transcript medium logic",
+          fillTemplate("We travelled ___ {medium} to reach {destination}.", seed),
+          ["by", "in", "on", "with"],
+          "by",
+          "",
+          prepositionPrompt,
+          { detailMode: "prepMeans", detailMeta: { answer: "by", medium: seed.medium } }
+        );
+        addMcq(
+          "Prepositions: Means vs Position",
+          "Transcript medium logic",
+          fillTemplate("She prefers to commute ___ {medium} during rush hour.", seed),
+          ["by", "at", "inside", "for"],
+          "by",
+          "",
+          prepositionPrompt,
+          { detailMode: "prepMeans", detailMeta: { answer: "by", medium: seed.medium } }
+        );
+      });
+
+      const vehiclePositions = [
+        { stem: "He was sitting ___ when I called him from the gate.", answer: "on the bus" },
+        { stem: "She left her notebook ___ while paying the fare.", answer: "in the car" },
+        { stem: "The child stood nervously ___ before the race started.", answer: "on the bike" },
+        { stem: "We ate our snacks ___ during the journey.", answer: "on the train" },
+        { stem: "The crew had already taken their seats ___ before take-off.", answer: "on the plane" },
+        { stem: "The tourist slept peacefully ___ throughout the trip.", answer: "on the ship" },
+        { stem: "He checked the route map ___ before the next stop.", answer: "on the metro" },
+        { stem: "The guard kept the forms ___ near the dashboard.", answer: "in the jeep" },
+        { stem: "The mechanic repaired the puncture while sitting ___ by the roadside.", answer: "on the scooter" },
+        { stem: "She met an old friend ___ on her way home.", answer: "on the tram" }
+      ];
+
+      vehiclePositions.forEach((seed) => {
+        addMcq(
+          "Prepositions: Means vs Position",
+          "Transcript position logic",
+          seed.stem,
+          [seed.answer, "by", "at the vehicle", "through the vehicle"],
+          seed.answer,
+          "",
+          prepositionPrompt,
+          { detailMode: "prepPosition", detailMeta: { answer: seed.answer } }
+        );
+        addMcq(
+          "Prepositions: Means vs Position",
+          "Transcript position logic",
+          seed.stem.replace("when I called him from the gate.", "during the heavy rain.")
+            .replace("while paying the fare.", "during the traffic jam.")
+            .replace("before the race started.", "for the team photograph.")
+            .replace("throughout the trip.", "while the others were talking."),
+          [seed.answer, "by", "for", "with"],
+          seed.answer,
+          "",
+          prepositionPrompt,
+          { detailMode: "prepPosition", detailMeta: { answer: seed.answer } }
+        );
+      });
+
+      const sinceForSeeds = [
+        { stem: "She has worked here ___ 2021.", answer: "since" },
+        { stem: "He has been waiting ___ two hours.", answer: "for" },
+        { stem: "They have lived in Patna ___ childhood.", answer: "since" },
+        { stem: "The interns have been practicing ___ six months.", answer: "for" },
+        { stem: "I have known her ___ school days.", answer: "since" },
+        { stem: "We have been revising ___ morning.", answer: "since" },
+        { stem: "The shop has remained closed ___ three days.", answer: "for" },
+        { stem: "She has worn glasses ___ 2018.", answer: "since" },
+        { stem: "The committee has met regularly ___ the past year.", answer: "for" },
+        { stem: "He has been ill ___ Monday.", answer: "since" },
+        { stem: "The candidate has studied banking terms ___ five weeks.", answer: "for" },
+        { stem: "They have stayed in touch ___ the interview day.", answer: "since" }
+      ];
+
+      sinceForSeeds.forEach((seed) => {
+        addMcq(
+          "Prepositions: Time and Duration",
+          "Transcript logic",
+          seed.stem,
+          ["since", "for", "from", "by"],
+          seed.answer,
+          "",
+          prepositionPrompt,
+          { detailMode: "prepSinceFor", detailMeta: { answer: seed.answer } }
+        );
+      });
+
+      const atOnInSeeds = [
+        { stem: "The review meeting will be held ___ Monday.", answer: "on" },
+        { stem: "He was born ___ September.", answer: "in" },
+        { stem: "The train arrives ___ 6 p.m. every day.", answer: "at" },
+        { stem: "We usually go hiking ___ winter.", answer: "in" },
+        { stem: "The branch stays closed ___ Sunday.", answer: "on" },
+        { stem: "Please call me ___ noon.", answer: "at" },
+        { stem: "The festival begins ___ August.", answer: "in" },
+        { stem: "She submitted the form ___ Friday evening.", answer: "on" },
+        { stem: "The manager reached the office ___ dawn.", answer: "at" },
+        { stem: "The audit was completed ___ 2025.", answer: "in" },
+        { stem: "We will meet again ___ the weekend.", answer: "at" },
+        { stem: "The result was announced ___ 15 March.", answer: "on" }
+      ];
+
+      atOnInSeeds.forEach((seed) => {
+        addMcq(
+          "Prepositions: Time and Duration",
+          "Core time pattern",
+          seed.stem,
+          ["at", "on", "in", "for"],
+          seed.answer,
+          "",
+          prepositionPrompt,
+          { detailMode: "prepAtOnIn", detailMeta: { answer: seed.answer } }
+        );
+      });
+
+      const collocationSeeds = [
+        { stem: "She is interested ___ joining the editorial team.", answer: "in" },
+        { stem: "He is capable ___ solving these puzzles quickly.", answer: "of" },
+        { stem: "The clerk is responsible ___ maintaining the records.", answer: "for" },
+        { stem: "I prefer tea ___ coffee during revision breaks.", answer: "to" },
+        { stem: "The doctor advised him to abstain ___ smoking.", answer: "from" },
+        { stem: "All branches must comply ___ the new audit rules.", answer: "with" },
+        { stem: "The report consists ___ four sections with examples.", answer: "of" },
+        { stem: "She suffers ___ migraine during summers.", answer: "from" },
+        { stem: "He apologized ___ his rude reply.", answer: "for" },
+        { stem: "The manager congratulated the team ___ the result.", answer: "on" },
+        { stem: "We discussed the matter ___ detail before leaving.", answer: "in" },
+        { stem: "Translate this paragraph ___ English.", answer: "into" },
+        { stem: "The final decision depends ___ market conditions.", answer: "on" },
+        { stem: "The principal insisted ___ punctual attendance.", answer: "on" },
+        { stem: "The firm is known ___ transparent hiring practices.", answer: "for" },
+        { stem: "The doctor warned him ___ late-night stress.", answer: "against" },
+        { stem: "The speaker referred ___ last year's data.", answer: "to" },
+        { stem: "The article deals ___ climate anxiety among youth.", answer: "with" },
+        { stem: "She specialized ___ financial compliance after graduation.", answer: "in" },
+        { stem: "The club appealed ___ the public for support.", answer: "to" }
+      ];
+
+      collocationSeeds.forEach((seed) => {
+        addMcq(
+          "Prepositions: Fixed Combinations",
+          "Transcript logic + standard usage",
+          seed.stem,
+          rotatedOptions(seed.answer, ["at", "for", "with", "on", "of", "to", "from", "in", "into", "against"]),
+          seed.answer,
+          "",
+          prepositionPrompt,
+          { detailMode: "prepCollocation", detailMeta: { answer: seed.answer } }
+        );
+      });
+
+      const movementSeeds = [
+        { stem: "The cat jumped ___ the wall in one smooth motion.", answer: "over" },
+        { stem: "The river flows ___ the bridge.", answer: "under" },
+        { stem: "The children ran ___ the tunnel shouting loudly.", answer: "through" },
+        { stem: "He hid ___ the curtain when the guests arrived.", answer: "behind" },
+        { stem: "The hikers walked ___ the field toward the village.", answer: "across" },
+        { stem: "The drone hovered ___ the crowd for a few seconds.", answer: "above" },
+        { stem: "She slipped the note ___ the door quietly.", answer: "under" },
+        { stem: "The cyclist rode ___ the market and stopped near the temple.", answer: "through" },
+        { stem: "The parade moved ___ the main road before turning left.", answer: "along" },
+        { stem: "He leaned ___ the railing to watch the game.", answer: "over" },
+        { stem: "The plane flew ___ the mountains at dawn.", answer: "over" },
+        { stem: "They sat ___ each other during the mock interview.", answer: "opposite" }
+      ];
+
+      movementSeeds.forEach((seed) => {
+        addMcq(
+          "Prepositions: Movement and Place",
+          "Spatial logic",
+          seed.stem,
+          rotatedOptions(seed.answer, ["across", "through", "under", "behind", "over", "along", "opposite"]),
+          seed.answer,
+          "",
+          prepositionPrompt,
+          { detailMode: "prepMovement", detailMeta: { answer: seed.answer } }
+        );
+      });
+
+      [
+        ["The train arrived ___ despite the heavy fog.", "on time"],
+        ["We reached the hall just ___ to hear the anthem.", "in time"],
+        ["The assignment was submitted ___ for the interview panel.", "on time"],
+        ["The ambulance reached ___ to save the patient.", "in time"]
+      ].forEach(([stem, answer]) => {
+        addMcq(
+          "Prepositions: Time and Duration",
+          "Common exam phrase",
+          stem,
+          ["on time", "in time", "at time", "with time"],
+          answer,
+          "",
+          prepositionPrompt,
+          { detailMode: "prepTimePhrase", detailMeta: { answer } }
+        );
+      });
+
+      const eachOfSeeds = [
+        { plural: "players", tail: "ready for the toss" },
+        { plural: "candidates", tail: "carrying an admit card" },
+        { plural: "chapters", tail: "important for the mains exam" },
+        { plural: "files", tail: "labeled correctly" },
+        { plural: "branches", tail: "under fresh review" },
+        { plural: "students", tail: "eager for the result" },
+        { plural: "lectures", tail: "worth revising twice" },
+        { plural: "officers", tail: "expected at the briefing" },
+        { plural: "paragraphs", tail: "linked to the same theme" },
+        { plural: "machines", tail: "working smoothly today" }
+      ];
+
+      eachOfSeeds.forEach((seed) => {
+        addMcq(
+          "Agreement: Of Structures",
+          "Transcript of-structure logic",
+          fillTemplate("Each of the {plural} ___ {tail}.", seed),
+          ["are", "were", "is", "have been"],
+          "is",
+          "",
+          agreementPrompt,
+          { detailMode: "agreementOfSingular", detailMeta: { answer: "is" } }
+        );
+      });
+
+      const oneOfSeeds = [
+        { plural: "candidates", tail: "already submitted the affidavit" },
+        { plural: "books", tail: "missing from the shelf" },
+        { plural: "questions", tail: "looks familiar to me" },
+        { plural: "branches", tail: "has changed its schedule" },
+        { plural: "guards", tail: "was absent from duty" },
+        { plural: "leaders", tail: "deserves public appreciation" },
+        { plural: "reports", tail: "has been leaked online" },
+        { plural: "students", tail: "was selected for the exchange program" },
+        { plural: "plans", tail: "needs legal approval" },
+        { plural: "machines", tail: "has broken down again" }
+      ];
+
+      oneOfSeeds.forEach((seed) => {
+        addMcq(
+          "Agreement: Of Structures",
+          "Transcript of-structure logic",
+          fillTemplate("One of the {plural} ___ {tail}.", seed),
+          ["have", "are", "has", "were"],
+          "has",
+          "",
+          agreementPrompt,
+          { detailMode: "agreementOfSingular", detailMeta: { answer: "has" } }
+        );
+      });
+
+      const eitherSeeds = [
+        { head: "Either", plural: "routes", tail: "acceptable for the field trip" },
+        { head: "Either", plural: "answers", tail: "correct in this context" },
+        { head: "Either", plural: "plans", tail: "suitable for the pilot run" },
+        { head: "Either", plural: "chairs", tail: "good enough for the guest" },
+        { head: "Either", plural: "days", tail: "fine for the workshop" },
+        { head: "Neither", plural: "routes", tail: "safe after dark" },
+        { head: "Neither", plural: "arguments", tail: "convincing to the panel" },
+        { head: "Neither", plural: "candidates", tail: "ready for a final answer" },
+        { head: "Neither", plural: "reports", tail: "complete at the moment" },
+        { head: "Neither", plural: "options", tail: "satisfactory for the committee" }
+      ];
+
+      eitherSeeds.forEach((seed) => {
+        addMcq(
+          "Agreement: Of Structures",
+          "Transcript of-structure logic",
+          fillTemplate("{head} of the {plural} ___ {tail}.", seed),
+          ["are", "is", "were", "have been"],
+          "is",
+          "",
+          agreementPrompt,
+          { detailMode: "agreementOfSingular", detailMeta: { answer: "is" } }
+        );
+      });
+
+      [
+        ["Both", "players", "fit for the semifinal", "are"],
+        ["Both", "analysts", "working on the merger", "are"],
+        ["Both", "wings", "open for public access", "are"],
+        ["Both", "answers", "relevant to the debate", "are"],
+        ["Some", "students", "waiting outside the office", "are"],
+        ["Some", "questions", "easy enough to solve mentally", "are"],
+        ["Some", "documents", "still unsigned", "are"],
+        ["Some", "files", "missing from the cabinet", "are"],
+        ["Most", "employees", "happy with the revised timing", "are"],
+        ["Most", "branches", "closed on the public holiday", "are"],
+        ["Most", "voters", "aware of the change", "are"],
+        ["Most", "books", "kept on the top shelf", "are"]
+      ].forEach(([head, plural, tail, answer]) => {
+        addMcq(
+          "Agreement: Of Structures",
+          "Transcript of-structure logic",
+          `${head} of the ${plural} ___ ${tail}.`,
+          ["is", "was", "are", "has been"],
+          answer,
+          "",
+          agreementPrompt,
+          { detailMode: "agreementOfPlural", detailMeta: { answer } }
+        );
+      });
+
+      [
+        ["A number of applicants ___ waiting outside the hall.", "are"],
+        ["A number of complaints ___ received last week.", "were"],
+        ["A number of officers ___ absent from the briefing.", "were"],
+        ["A number of books ___ stacked near the door.", "were"],
+        ["The number of vacancies ___ lower this year.", "is"],
+        ["The number of complaints ___ alarming.", "is"],
+        ["The number of visitors ___ rising steadily.", "is"],
+        ["The number of shortlisted candidates ___ small.", "is"]
+      ].forEach(([stem, answer]) => {
+        addMcq(
+          "Agreement: Head Noun Logic",
+          "Standard exam pattern",
+          stem,
+          ["is", "was", "are", "were"],
+          answer,
+          "",
+          agreementPrompt,
+          { detailMode: "agreementNumberPhrase", detailMeta: { answer } }
+        );
+      });
+
+      [
+        ["The bouquet of roses ___ on the table.", "is"],
+        ["The quality of these files ___ impressive.", "is"],
+        ["The list of shortlisted candidates ___ on the noticeboard.", "is"],
+        ["The cost of new laptops ___ rising every year.", "is"],
+        ["The smell of the roses ___ pleasant.", "is"],
+        ["The title of the essays ___ confusing.", "is"],
+        ["The message from the editors ___ clear.", "is"],
+        ["The price of the vegetables ___ high today.", "is"],
+        ["The shape of these clouds ___ unusual.", "is"],
+        ["The colour of the curtains ___ too dark.", "is"],
+        ["The details of the proposal ___ available online.", "are"],
+        ["The stairs to the terrace ___ slippery after rain.", "are"],
+        ["The players in the final ___ warming up outside.", "are"],
+        ["Several boxes of stationery ___ missing.", "are"],
+        ["The committee members ___ divided in their opinions.", "are"]
+      ].forEach(([stem, answer]) => {
+        addMcq(
+          "Agreement: Head Noun Logic",
+          "Transcript logic + classic pattern",
+          stem,
+          ["is", "was", "are", "were"],
+          answer,
+          "",
+          agreementPrompt,
+          { detailMode: answer === "are" ? "agreementCollective" : "agreementHeadNoun", detailMeta: { answer } }
+        );
+      });
+
+      [
+        ["Either the teachers or the principal ___ signing the circular.", "is"],
+        ["Either the principal or the teachers ___ signing the circular.", "are"],
+        ["Neither the guards nor the supervisor ___ aware of the change.", "was"],
+        ["Neither the supervisor nor the guards ___ aware of the change.", "were"],
+        ["Not only the guide but also the tourists ___ exhausted.", "were"],
+        ["Not only the tourists but also the guide ___ exhausted.", "was"],
+        ["Either the driver or the passengers ___ responsible for the noise.", "are"],
+        ["Either the passengers or the driver ___ responsible for the noise.", "is"],
+        ["Neither the documents nor the file ___ complete.", "is"],
+        ["Neither the file nor the documents ___ complete.", "are"],
+        ["Not only the clerk but also the managers ___ informed.", "were"],
+        ["Not only the managers but also the clerk ___ informed.", "was"]
+      ].forEach(([stem, answer]) => {
+        addMcq(
+          "Agreement: Correlative Structures",
+          "Transcript logic",
+          stem,
+          ["is", "was", "are", "were"],
+          answer,
+          "",
+          agreementPrompt,
+          { detailMode: "agreementCorrelative", detailMeta: { answer } }
+        );
+      });
+
+      [
+        ["Ten kilometres ___ a long walk in this heat.", "is"],
+        ["Fifty thousand rupees ___ a big investment for a start-up.", "is"],
+        ["Mathematics ___ my weakest section.", "is"],
+        ["Economics ___ taught in the next semester.", "is"],
+        ["The news from the branch ___ encouraging.", "is"],
+        ["Three months ___ enough time for revision if used well.", "is"],
+        ["Bread and butter ___ his usual breakfast.", "is"],
+        ["More than one student ___ asked for extra time.", "has"],
+        ["Two thirds of the students ___ opted for English.", "have"],
+        ["The police ___ investigating the complaint.", "are"],
+        ["The team ___ ready for the match.", "is"],
+        ["The staff ___ preparing the hall for the event.", "is"]
+      ].forEach(([stem, answer]) => {
+        addMcq(
+          "Agreement: Amounts and Collectives",
+          "High-frequency agreement pattern",
+          stem,
+          ["is", "has", "are", "have"],
+          answer,
+          "",
+          agreementPrompt,
+          { detailMode: (answer === "are" || answer === "have") ? "agreementCollective" : "agreementAmount", detailMeta: { answer } }
+        );
+      });
+
+      const objectivePrepSeeds = [
+        ["Between you and ___, the paper looks manageable.", "me"],
+        ["The manager spoke to Riya and ___ after the meeting.", "me"],
+        ["The award was given to him and ___.", "her"],
+        ["This note is for Asha and ___.", "him"],
+        ["The principal sat beside Ravi and ___.", "me"],
+        ["The reporter interviewed the captain and ___.", "him"],
+        ["The coach divided the prize between Anu and ___.", "her"],
+        ["The clerk handed the key to my brother and ___.", "me"],
+        ["The lesson was difficult for them and ___.", "us"],
+        ["The board relied on the auditor and ___ equally.", "him"]
+      ];
+
+      objectivePrepSeeds.forEach(([stem, answer]) => {
+        addMcq(
+          "Pronouns: Case and Reference",
+          "Core pronoun logic",
+          stem,
+          rotatedOptions(answer, ["I", "he", "they", "we", "she", "him", "us"]),
+          answer,
+          "",
+          pronounPrompt,
+          { detailMode: "pronounObjectivePrep", detailMeta: { answer } }
+        );
+      });
+
+      const reflexiveSeeds = [
+        ["The manager blamed ___ for the delay.", "himself"],
+        ["She prepared ___ carefully for the final interview.", "herself"],
+        ["The players introduced ___ to the new coach.", "themselves"],
+        ["The child hurt ___ while climbing the wall.", "himself"],
+        ["We reminded ___ to stay calm during the viva.", "ourselves"],
+        ["They saw ___ in the mirror and laughed.", "themselves"],
+        ["The machine shuts ___ down after overheating.", "itself"],
+        ["The speaker corrected ___ before finishing the sentence.", "himself"],
+        ["She taught ___ coding during the lockdown.", "herself"],
+        ["The interns arranged ___ in two neat rows.", "themselves"]
+      ];
+
+      reflexiveSeeds.forEach(([stem, answer]) => {
+        addMcq(
+          "Pronouns: Reflexive and Possessive",
+          "Core pronoun logic",
+          stem,
+          rotatedOptions(answer, ["him", "her", "them", "theirselves", "it", "they"]),
+          answer,
+          "",
+          pronounPrompt,
+          { detailMode: "pronounReflexive", detailMeta: { answer } }
+        );
+      });
+
+      const possDetSeeds = [
+        ["Each player brought ___ admit card.", "his or her"],
+        ["The dog wagged ___ tail when it saw the guard.", "its"],
+        ["The clerk admitted ___ mistake immediately.", "his"],
+        ["The houses lost ___ roofs in the storm.", "their"],
+        ["Ritu and I submitted ___ reports again.", "our"],
+        ["Every child should carry ___ notebook.", "his or her"],
+        ["The company revised ___ hiring policy last week.", "its"],
+        ["The students opened ___ books together.", "their"],
+        ["The nurse checked ___ watch before the round.", "her"],
+        ["The player forgot ___ gloves in the dressing room.", "his"]
+      ];
+
+      possDetSeeds.forEach(([stem, answer]) => {
+        addMcq(
+          "Pronouns: Reflexive and Possessive",
+          "Core pronoun logic",
+          stem,
+          rotatedOptions(answer, ["their", "mine", "me", "theirs", "our", "ours"]),
+          answer,
+          "",
+          pronounPrompt,
+          { detailMode: "pronounPossDet", detailMeta: { answer } }
+        );
+      });
+
+      const possProSeeds = [
+        ["The book on the table is ___.", "mine"],
+        ["These files are ___.", "ours"],
+        ["The final decision was ___.", "theirs"],
+        ["The victory was completely ___.", "hers"],
+        ["That blue bag is ___.", "his"],
+        ["The blame was not ___ at all.", "ours"],
+        ["The old house near the gate is ___.", "theirs"],
+        ["The idea was always ___.", "mine"]
+      ];
+
+      possProSeeds.forEach(([stem, answer]) => {
+        addMcq(
+          "Pronouns: Reflexive and Possessive",
+          "Core pronoun logic",
+          stem,
+          rotatedOptions(answer, ["my", "our", "their", "her", "him", "us"]),
+          answer,
+          "",
+          pronounPrompt,
+          { detailMode: "pronounPossPro", detailMeta: { answer } }
+        );
+      });
+
+      const relativeSeeds = [
+        ["This is the student ___ project impressed the panel.", "whose"],
+        ["The person ___ called earlier will return tomorrow.", "who"],
+        ["The candidate to ___ I spoke was well prepared.", "whom"],
+        ["The company for ___ she works is expanding rapidly.", "which"],
+        ["This is the judge ___ order changed the entire case.", "whose"],
+        ["The teacher ___ explained the rule is absent today.", "who"],
+        ["The file ___ was lying on the desk is missing now.", "which"],
+        ["The officer ___ the minister praised retired last year.", "whom"],
+        ["The boy ___ won the race looked exhausted.", "who"],
+        ["The village ___ we visited last winter was peaceful.", "which"],
+        ["The writer ___ novel won the prize thanked the jury.", "whose"],
+        ["The man to ___ the parcel was addressed is away.", "whom"],
+        ["The bridge ___ collapsed last year has been rebuilt.", "which"],
+        ["The player ___ scored twice was carried on the shoulders of fans.", "who"],
+        ["The school ___ library was renovated last year now has a digital wing.", "whose"]
+      ];
+
+      relativeSeeds.forEach(([stem, answer]) => {
+        addMcq(
+          "Pronouns: Relative and Of-Structures",
+          "Core pronoun logic",
+          stem,
+          rotatedOptions(answer, ["who", "whom", "whose", "which"]),
+          answer,
+          "",
+          pronounPrompt,
+          { detailMode: "pronounRelative", detailMeta: { answer } }
+        );
+      });
+
+      const objectiveOfSeeds = [
+        ["She was the smartest of ___.", "them"],
+        ["He became the bravest of ___.", "us"],
+        ["This child is the youngest of ___.", "them"],
+        ["The final speaker was the most confident of ___.", "them"],
+        ["She turned out to be the fastest of ___.", "us"],
+        ["He is the tallest of ___.", "them"],
+        ["That answer was the best of ___.", "them"],
+        ["The new recruit is the most punctual of ___.", "them"],
+        ["She is the strongest of ___.", "us"],
+        ["He sounded the calmest of ___.", "them"]
+      ];
+
+      objectiveOfSeeds.forEach(([stem, answer]) => {
+        addMcq(
+          "Pronouns: Relative and Of-Structures",
+          "Transcript of-structure logic",
+          stem,
+          rotatedOptions(answer, ["they", "their", "theirs", "we", "our", "ours"]),
+          answer,
+          "",
+          pronounPrompt,
+          { detailMode: "pronounObjectiveOf", detailMeta: { answer } }
+        );
+      });
+
+      const distributiveSeeds = [
+        ["One should keep ___ word.", "one's"],
+        ["Neither of the girls forgot ___ assignment.", "her"],
+        ["Each student must sign ___ own declaration.", "his or her"],
+        ["Every player must wear ___ jersey properly.", "his or her"],
+        ["Either candidate may submit ___ form online.", "his or her"],
+        ["Neither boy completed ___ homework on time.", "his"],
+        ["Each child opened ___ lunch box quietly.", "his or her"],
+        ["Every applicant has to carry ___ ID card.", "his or her"]
+      ];
+
+      distributiveSeeds.forEach(([stem, answer]) => {
+        addMcq(
+          "Pronouns: Case and Reference",
+          "Formal exam usage",
+          stem,
+          rotatedOptions(answer, ["their", "our", "your", "mine", "theirs"]),
+          answer,
+          "",
+          pronounPrompt,
+          { detailMode: "pronounDistributive", detailMeta: { answer } }
+        );
+      });
+
+      bank.forEach((question) => {
+        question.explanation = buildDetailedExplanation(question);
+      });
+
+      return bank;
+    }
+
+    if (typeof module !== "undefined") {
+      module.exports = { buildQuestionBank };
+    }
+
+    if (typeof document !== "undefined") {
+      document.addEventListener("DOMContentLoaded", initApp);
+    }
+
+    function initApp() {
+      const questionBank = buildQuestionBank();
+      const categorySelect = document.getElementById("categorySelect");
+      const styleSelect = document.getElementById("styleSelect");
+      const timerSelect = document.getElementById("timerSelect");
+      const reviewWrongBtn = document.getElementById("reviewWrongBtn");
+      const resetSessionBtn = document.getElementById("resetSessionBtn");
+      const questionNumber = document.getElementById("questionNumber");
+      const questionPrompt = document.getElementById("questionPrompt");
+      const questionStem = document.getElementById("questionStem");
+      const segmentArea = document.getElementById("segmentArea");
+      const optionsArea = document.getElementById("optionsArea");
+      const feedbackBox = document.getElementById("feedbackBox");
+      const checkBtn = document.getElementById("checkBtn");
+      const showBtn = document.getElementById("showBtn");
+      const nextBtn = document.getElementById("nextBtn");
+      const categoryBadge = document.getElementById("categoryBadge");
+      const sourceBadge = document.getElementById("sourceBadge");
+      const heroCount = document.getElementById("heroCount");
+      const heroFilterCount = document.getElementById("heroFilterCount");
+      const heroWrongCount = document.getElementById("heroWrongCount");
+      const seenCount = document.getElementById("seenCount");
+      const correctCount = document.getElementById("correctCount");
+      const accuracyCount = document.getElementById("accuracyCount");
+      const streakCount = document.getElementById("streakCount");
+      const timerDisplay = document.getElementById("timerDisplay");
+
+      const storageKey = "english-practice-transcript-master-v2-state";
+      const LETTERS = ["A", "B", "C", "D"];
+      const state = {
+        all: questionBank,
+        filtered: [],
+        queue: [],
+        current: null,
+        currentIndex: 0,
+        selected: null,
+        answered: false,
+        reviewWrongOnly: false,
+        timerHandle: null,
+        timeLeft: 0,
+        progress: loadProgress()
+      };
+
+      heroCount.textContent = String(questionBank.length);
+
+      const categories = ["All Categories"].concat(
+        [...new Set(questionBank.map((item) => item.category))].sort((a, b) => a.localeCompare(b))
+      );
+      categories.forEach((name) => {
+        const option = document.createElement("option");
+        option.value = name;
+        option.textContent = name;
+        categorySelect.appendChild(option);
+      });
+
+      categorySelect.addEventListener("change", rebuildAndServe);
+      styleSelect.addEventListener("change", rebuildAndServe);
+      timerSelect.addEventListener("change", () => {
+        saveProgress();
+        restartTimer();
+      });
+      reviewWrongBtn.addEventListener("click", () => {
+        state.reviewWrongOnly = !state.reviewWrongOnly;
+        rebuildAndServe();
+      });
+      resetSessionBtn.addEventListener("click", () => {
+        if (!window.confirm("Reset stored stats and wrong-question history for this app?")) {
+          return;
+        }
+        state.progress = {
+          attempted: 0,
+          correct: 0,
+          streak: 0,
+          bestStreak: 0,
+          wrongIds: []
+        };
+        saveProgress();
+        state.reviewWrongOnly = false;
+        rebuildAndServe();
+      });
+      checkBtn.addEventListener("click", handleCheck);
+      showBtn.addEventListener("click", revealAnswer);
+      nextBtn.addEventListener("click", serveNextQuestion);
+
+      rebuildAndServe();
+      refreshStats();
+
+      function loadProgress() {
+        try {
+          const raw = window.localStorage.getItem(storageKey);
+          if (!raw) {
+            return { attempted: 0, correct: 0, streak: 0, bestStreak: 0, wrongIds: [] };
+          }
+          const parsed = JSON.parse(raw);
+          return {
+            attempted: parsed.attempted || 0,
+            correct: parsed.correct || 0,
+            streak: parsed.streak || 0,
+            bestStreak: parsed.bestStreak || 0,
+            wrongIds: Array.isArray(parsed.wrongIds) ? parsed.wrongIds : []
+          };
+        } catch (error) {
+          return { attempted: 0, correct: 0, streak: 0, bestStreak: 0, wrongIds: [] };
+        }
+      }
+
+      function saveProgress() {
+        window.localStorage.setItem(storageKey, JSON.stringify(state.progress));
+      }
+
+      function rebuildAndServe() {
+        clearTimer();
+        const category = categorySelect.value || "All Categories";
+        const style = styleSelect.value || "all";
+        const wrongSet = new Set(state.progress.wrongIds);
+        state.reviewWrongOnly = state.reviewWrongOnly && wrongSet.size > 0;
+
+        state.filtered = questionBank.filter((item) => {
+          const categoryMatch = category === "All Categories" || item.category === category;
+          const styleMatch = style === "all" || item.type === style;
+          const wrongMatch = !state.reviewWrongOnly || wrongSet.has(item.id);
+          return categoryMatch && styleMatch && wrongMatch;
+        });
+
+        state.queue = shuffle(state.filtered);
+        state.currentIndex = 0;
+        state.selected = null;
+        state.answered = false;
+        refreshStats();
+
+        if (state.queue.length === 0) {
+          state.current = null;
+          renderEmptyState();
+          return;
+        }
+
+        serveNextQuestion();
+      }
+
+      function serveNextQuestion() {
+        if (state.filtered.length === 0) {
+          renderEmptyState();
+          return;
+        }
+
+        if (state.queue.length === 0) {
+          state.queue = shuffle(state.filtered);
+          state.currentIndex = 0;
+        }
+
+        state.current = state.queue.shift();
+        state.currentIndex += 1;
+        state.selected = null;
+        state.answered = false;
+        renderQuestion();
+        restartTimer();
+      }
+
+      function restartTimer() {
+        clearTimer();
+        const seconds = Number(timerSelect.value || 0);
+        if (!state.current || !seconds || state.answered) {
+          timerDisplay.textContent = seconds ? seconds + "s" : "Off";
+          return;
+        }
+        state.timeLeft = seconds;
+        timerDisplay.textContent = state.timeLeft + "s";
+        state.timerHandle = window.setInterval(() => {
+          state.timeLeft -= 1;
+          timerDisplay.textContent = state.timeLeft + "s";
+          if (state.timeLeft <= 0) {
+            clearTimer();
+            timerDisplay.textContent = "0s";
+            revealAnswer(true);
+          }
+        }, 1000);
+      }
+
+      function clearTimer() {
+        if (state.timerHandle) {
+          window.clearInterval(state.timerHandle);
+          state.timerHandle = null;
+        }
+      }
+
+      function renderQuestion() {
+        const question = state.current;
+        questionNumber.textContent = "Question " + state.currentIndex + " / " + state.filtered.length;
+        questionPrompt.textContent = question.prompt;
+        questionStem.textContent = question.type === "error" ? "Sentence parts" : question.stem;
+        categoryBadge.textContent = question.category;
+        sourceBadge.textContent = question.source;
+        feedbackBox.className = "feedback";
+        feedbackBox.innerHTML = "<div class=\"feedback-title\">Ready</div><div>Select an option and press <strong>Check Answer</strong> to unlock the full explanation.</div>";
+
+        segmentArea.innerHTML = "";
+        segmentArea.hidden = question.type !== "error";
+        if (question.type === "error") {
+          question.parts.forEach((part, index) => {
+            const row = document.createElement("div");
+            row.className = "segment";
+            row.innerHTML = "<div class=\"segment-tag\">" + LETTERS[index] + "</div><div>" + part + "</div>";
+            segmentArea.appendChild(row);
+          });
+        }
+
+        optionsArea.innerHTML = "";
+        const optionLabels = question.type === "error"
+          ? ["A", "B", "C", "D", "E. No error"]
+          : question.options;
+
+        optionLabels.forEach((label, index) => {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = "option";
+          const value = question.type === "error" ? question.options[index] : question.options[index];
+          button.dataset.value = value;
+          button.innerHTML = question.type === "error"
+            ? "<strong>" + value + "</strong><span>" + label + "</span>"
+            : "<strong>" + String.fromCharCode(65 + index) + "</strong><span>" + label + "</span>";
+          button.addEventListener("click", () => selectOption(value));
+          optionsArea.appendChild(button);
+        });
+
+        refreshStats();
+      }
+
+      function renderEmptyState() {
+        questionNumber.textContent = "Question 0 / 0";
+        questionPrompt.textContent = "No questions match the current filter.";
+        questionStem.textContent = "";
+        categoryBadge.textContent = state.reviewWrongOnly ? "Wrong Review" : "Filtered";
+        sourceBadge.textContent = "Try another category";
+        segmentArea.hidden = true;
+        segmentArea.innerHTML = "";
+        optionsArea.innerHTML = "<div class=\"empty\">No items are available here yet. Change the filter or answer some fresh questions before using wrong-only review.</div>";
+        feedbackBox.className = "feedback";
+        feedbackBox.innerHTML = "<div class=\"feedback-title\">Queue Empty</div><div>Switch category, style, or review mode to keep practicing.</div>";
+        refreshStats();
+      }
+
+      function selectOption(value) {
+        if (!state.current || state.answered) {
+          return;
+        }
+        state.selected = value;
+        [...optionsArea.querySelectorAll(".option")].forEach((button) => {
+          button.classList.toggle("selected", button.dataset.value === value);
+        });
+      }
+
+      function markProgress(correct) {
+        state.progress.attempted += 1;
+        if (correct) {
+          state.progress.correct += 1;
+          state.progress.streak += 1;
+          state.progress.bestStreak = Math.max(state.progress.bestStreak, state.progress.streak);
+          state.progress.wrongIds = state.progress.wrongIds.filter((id) => id !== state.current.id);
+        } else {
+          state.progress.streak = 0;
+          if (!state.progress.wrongIds.includes(state.current.id)) {
+            state.progress.wrongIds.push(state.current.id);
+          }
+        }
+        saveProgress();
+        refreshStats();
+      }
+
+      function handleCheck() {
+        if (!state.current || state.answered) {
+          return;
+        }
+        if (!state.selected) {
+          feedbackBox.className = "feedback";
+          feedbackBox.innerHTML = "<div class=\"feedback-title\">Pick One</div><div>Select an option before checking the answer.</div>";
+          return;
+        }
+        clearTimer();
+        state.answered = true;
+        const correct = state.selected === state.current.correctAnswer;
+        markProgress(correct);
+        paintAnswer(correct, false);
+      }
+
+      function revealAnswer(timedOut) {
+        if (!state.current || state.answered) {
+          return;
+        }
+        clearTimer();
+        state.answered = true;
+        markProgress(false);
+        paintAnswer(false, Boolean(timedOut));
+      }
+
+      function paintAnswer(correct, timedOut) {
+        const correctAnswer = state.current.correctAnswer;
+        [...optionsArea.querySelectorAll(".option")].forEach((button) => {
+          const value = button.dataset.value;
+          if (value === correctAnswer) {
+            button.classList.add("correct");
+          } else if (state.selected && value === state.selected) {
+            button.classList.add("wrong");
+          }
+        });
+
+        if (state.current.type === "error") {
+          [...segmentArea.querySelectorAll(".segment")].forEach((segment, index) => {
+            const letter = LETTERS[index];
+            if (letter === correctAnswer) {
+              segment.classList.add("correct");
+            } else if (state.selected === letter && state.selected !== correctAnswer) {
+              segment.classList.add("wrong");
+            }
+          });
+        }
+
+        const title = timedOut ? "Time Up" : correct ? "Correct" : "Review This Rule";
+        const answerText = state.current.type === "error"
+          ? (correctAnswer === "E" ? "E. No error" : correctAnswer + " is the incorrect part.")
+          : "Correct answer: " + correctAnswer;
+
+        feedbackBox.className = "feedback " + (correct ? "good" : "bad");
+        feedbackBox.innerHTML =
+          "<div class=\"feedback-title\">" + title + "</div>" +
+          "<div class=\"feedback-answer\">" + answerText + "</div>" +
+          "<div class=\"feedback-copy\">" + state.current.explanation + "</div>";
+      }
+
+      function refreshStats() {
+        heroFilterCount.textContent = String(state.filtered.length);
+        heroWrongCount.textContent = String(state.progress.wrongIds.length);
+        seenCount.textContent = String(state.progress.attempted);
+        correctCount.textContent = String(state.progress.correct);
+        streakCount.textContent = String(state.progress.streak);
+        accuracyCount.textContent = state.progress.attempted
+          ? Math.round((state.progress.correct / state.progress.attempted) * 100) + "%"
+          : "0%";
+        reviewWrongBtn.textContent = state.reviewWrongOnly
+          ? "Back To Full Bank (" + state.progress.wrongIds.length + ")"
+          : "Review Wrong (" + state.progress.wrongIds.length + ")";
+        if (!state.current) {
+          timerDisplay.textContent = Number(timerSelect.value || 0) ? timerSelect.value + "s" : "Off";
+        }
+      }
+    }
+  </script>
+</body>
+</html>
