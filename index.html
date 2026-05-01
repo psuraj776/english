@@ -1329,6 +1329,325 @@
         });
       }
 
+      function escapeHtml(value) {
+        return String(value)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#39;");
+      }
+
+      function categoryHas(question, text) {
+        return String(question.category || "").toLowerCase().includes(text.toLowerCase());
+      }
+
+      function topicRuleSummary(question) {
+        if (categoryHas(question, "article")) {
+          return "Article rule: first decide whether the noun is specific or non-specific; then decide whether the noun needs a, an, the, or no article. Use a/an for one non-specific singular countable noun, the for a definite/unique noun, and no article for many fixed general uses.";
+        }
+        if (categoryHas(question, "preposition")) {
+          return "Preposition rule: choose the word that shows the exact relationship in the sentence: means, position, movement, time, duration, source, purpose, or fixed collocation.";
+        }
+        if (categoryHas(question, "agreement") || categoryHas(question, "subject-verb")) {
+          return "Agreement rule: the verb agrees with the real subject, not with a nearby distracting noun. Remove extra phrases mentally and test the subject-verb backbone.";
+        }
+        if (categoryHas(question, "pronoun")) {
+          return "Pronoun rule: choose the pronoun according to its job in the sentence: subject case, object case, possessive determiner, possessive pronoun, reflexive form, or relative pronoun.";
+        }
+        if (categoryHas(question, "tense") || categoryHas(question, "conditional")) {
+          return "Tense rule: place each action on the timeline. Conditional sentences must also match their pattern: real condition, unreal present, unreal past, or mixed condition.";
+        }
+        if (categoryHas(question, "determiner") || categoryHas(question, "negation")) {
+          return "Determiner rule: match the exact quantity and negative meaning. All, not all, some, none, either, neither, every, another, and the other are not interchangeable.";
+        }
+        if (categoryHas(question, "conjunction") || categoryHas(question, "clause")) {
+          return "Connector rule: choose the connector that gives the correct clause relationship: condition, alternative, precaution, reported fact, reason, contrast, or result.";
+        }
+        if (categoryHas(question, "reading")) {
+          return "Reading rule: the correct answer must cover the central idea of the whole passage, not just one sentence, example, or emotional detail.";
+        }
+        if (categoryHas(question, "spelling")) {
+          return "Spelling and word-choice rule: check the accepted spelling first, then check whether the word fits the context, tone, and part of speech.";
+        }
+        if (categoryHas(question, "vocabulary") || categoryHas(question, "cloze")) {
+          return "Vocabulary rule: predict the required meaning before looking at the options, then reject words with the wrong meaning, tone, or part of speech.";
+        }
+        if (categoryHas(question, "modifier") || categoryHas(question, "parallel")) {
+          return "Modifier rule: adjectives modify nouns, adverbs modify verbs/adjectives/clauses, comparisons must not be doubled, and joined items must stay parallel.";
+        }
+        return "Grammar rule: identify the exact relationship in the sentence, then choose the option that satisfies both grammar and meaning.";
+      }
+
+      function topicExamples(question) {
+        if (categoryHas(question, "article")) {
+          return "Examples: an engineer, a university, the sun, go to school, by train.";
+        }
+        if (categoryHas(question, "preposition")) {
+          return "Examples: interested in, capable of, by bus for means, on the bus for position, since 2021 but for two years.";
+        }
+        if (categoryHas(question, "agreement") || categoryHas(question, "subject-verb")) {
+          return "Examples: Each of the players is ready; The list of candidates is final; A number of students are absent.";
+        }
+        if (categoryHas(question, "pronoun")) {
+          return "Examples: between you and me, the book is mine, the student whose project won, she blamed herself.";
+        }
+        if (categoryHas(question, "tense") || categoryHas(question, "conditional")) {
+          return "Examples: If he comes, I will call; If I were you, I would wait; If she had studied, she would have passed.";
+        }
+        if (categoryHas(question, "determiner") || categoryHas(question, "negation")) {
+          return "Examples: Not all students came means some did not; none means zero; neither is used for two negative choices.";
+        }
+        if (categoryHas(question, "conjunction") || categoryHas(question, "clause")) {
+          return "Examples: Carry an umbrella in case it rains; I do not know whether he will come; The report says that costs increased.";
+        }
+        if (categoryHas(question, "reading")) {
+          return "Example: if a passage criticises rote learning, an option about only exam panic is too narrow; the theme must cover the full argument.";
+        }
+        if (categoryHas(question, "spelling")) {
+          return "Examples: accommodation, maintenance, separate, privilege. One wrong letter can make the whole option wrong.";
+        }
+        if (categoryHas(question, "vocabulary") || categoryHas(question, "cloze")) {
+          return "Example: if the sentence needs 'careful and exact', meticulous fits; random, vague, or casual words do not.";
+        }
+        if (categoryHas(question, "modifier") || categoryHas(question, "parallel")) {
+          return "Examples: answered quickly, looked sad, better than, the best of all, analyse, propose, and recommend.";
+        }
+        return "Example method: remove extra words, identify the core grammar relationship, and test each option against that relationship.";
+      }
+
+      function correctUseExample(question, option) {
+        const raw = String(option);
+        const value = escapeHtml(raw);
+        const lower = raw.toLowerCase().trim();
+
+        if (categoryHas(question, "conjunction") || categoryHas(question, "clause")) {
+          const examples = {
+            if: "Correct use: <strong>If</strong> he submits the form today, the office will process it tomorrow. Here <strong>if</strong> introduces a condition.",
+            whether: "Correct use: I do not know <strong>whether</strong> he will attend the interview. Here <strong>whether</strong> introduces doubt or alternatives.",
+            that: "Correct use: The report clarified <strong>that</strong> the delay was caused by outdated software. Here <strong>that</strong> introduces a reported fact or statement.",
+            "in case": "Correct use: Take a photocopy <strong>in case</strong> the original is misplaced. Here <strong>in case</strong> shows precaution.",
+            unless: "Correct use: <strong>Unless</strong> you revise the rules, you will miss this error. Here <strong>unless</strong> means if not."
+          };
+          return examples[lower] || `Correct use example: <strong>${value}</strong> is correct only when it gives the exact clause relationship required by the sentence.`;
+        }
+
+        if (categoryHas(question, "article")) {
+          const examples = {
+            a: "Correct use: She bought <strong>a</strong> useful guide. Use <strong>a</strong> before a non-specific singular countable noun with a consonant sound.",
+            an: "Correct use: He is <strong>an</strong> engineer. Use <strong>an</strong> before a non-specific singular countable noun with a vowel sound.",
+            the: "Correct use: <strong>The</strong> sun rises in the east. Use <strong>the</strong> when the noun is unique, specific, or already identified.",
+            "no article": "Correct use: They travelled by <strong>train</strong>. Use no article in fixed/general expressions such as by train, go to school, and have lunch."
+          };
+          return examples[lower] || `Correct use example: <strong>${value}</strong> works only when the noun logic and sound logic require it.`;
+        }
+
+        if (categoryHas(question, "preposition")) {
+          const examples = {
+            in: "Correct use: She is interested <strong>in</strong> learning grammar. Use <strong>in</strong> for inside-position, periods, or fixed phrases like interested in.",
+            on: "Correct use: The meeting is <strong>on</strong> Monday. Use <strong>on</strong> for days/dates, surfaces, and fixed phrases like depend on.",
+            at: "Correct use: We arrived <strong>at</strong> the station. Use <strong>at</strong> for points, exact times, or specific locations.",
+            of: "Correct use: He is capable <strong>of</strong> solving it. Use <strong>of</strong> in fixed phrases such as capable of, consist of, and one of.",
+            for: "Correct use: She waited <strong>for</strong> two hours. Use <strong>for</strong> for duration, purpose, benefit, or fixed phrases like responsible for.",
+            since: "Correct use: She has lived here <strong>since</strong> 2021. Use <strong>since</strong> with a starting point in time.",
+            by: "Correct use: They travelled <strong>by</strong> bus. Use <strong>by</strong> for means, agent in passive voice, or deadlines.",
+            from: "Correct use: He suffers <strong>from</strong> migraine. Use <strong>from</strong> for source, separation, or fixed phrases like suffer from.",
+            with: "Correct use: The branch complied <strong>with</strong> the rules. Use <strong>with</strong> for association, instrument, or fixed phrases like comply with.",
+            to: "Correct use: I prefer tea <strong>to</strong> coffee. Use <strong>to</strong> for direction, recipient, comparison in prefer, or fixed phrases.",
+            into: "Correct use: Translate the paragraph <strong>into</strong> English. Use <strong>into</strong> for movement/transformation from outside to inside or one form to another.",
+            over: "Correct use: The cat jumped <strong>over</strong> the wall. Use <strong>over</strong> for movement above/across something.",
+            under: "Correct use: The river flows <strong>under</strong> the bridge. Use <strong>under</strong> for lower position.",
+            through: "Correct use: The train passed <strong>through</strong> the tunnel. Use <strong>through</strong> for movement inside and out of something.",
+            across: "Correct use: They walked <strong>across</strong> the field. Use <strong>across</strong> for movement from one side to another.",
+            behind: "Correct use: The child hid <strong>behind</strong> the curtain. Use <strong>behind</strong> for position at the back of something.",
+            among: "Correct use: The sweets were distributed <strong>among</strong> the children. Use <strong>among</strong> for more than two.",
+            between: "Correct use: The prize was divided <strong>between</strong> the two winners. Use <strong>between</strong> for two people/things or clearly separate items."
+          };
+          return examples[lower] || `Correct use example: <strong>${value}</strong> is correct only when it expresses the intended relation or fixed collocation.`;
+        }
+
+        if (categoryHas(question, "agreement") || categoryHas(question, "subject-verb")) {
+          const examples = {
+            is: "Correct use: Each of the players <strong>is</strong> ready. Use a singular verb when the true subject is singular.",
+            are: "Correct use: Many applicants <strong>are</strong> waiting. Use a plural verb when the true subject is plural.",
+            was: "Correct use: Neither of the answers <strong>was</strong> convincing. Use singular past verb with a singular controller.",
+            were: "Correct use: Both managers <strong>were</strong> present. Use plural past verb with a plural subject.",
+            has: "Correct use: One of the candidates <strong>has</strong> submitted the form. Use singular <strong>has</strong> with one/each/either/neither.",
+            have: "Correct use: Both of the candidates <strong>have</strong> submitted the form. Use plural <strong>have</strong> with plural controllers."
+          };
+          return examples[lower] || `Correct use example: <strong>${value}</strong> is correct only when it agrees with the real subject.`;
+        }
+
+        if (categoryHas(question, "pronoun")) {
+          const examples = {
+            i: "Correct use: <strong>I</strong> completed the form. Use <strong>I</strong> as a subject, not after a preposition.",
+            me: "Correct use: The officer spoke to <strong>me</strong>. Use <strong>me</strong> as an object or after a preposition.",
+            he: "Correct use: <strong>He</strong> called the manager. Use <strong>he</strong> as a subject.",
+            him: "Correct use: We listened to <strong>him</strong>. Use <strong>him</strong> as an object.",
+            she: "Correct use: <strong>She</strong> prepared the report. Use <strong>she</strong> as a subject.",
+            her: "Correct use: The prize was given to <strong>her</strong>. Use <strong>her</strong> as an object, or before a noun as possessive determiner.",
+            they: "Correct use: <strong>They</strong> finished early. Use <strong>they</strong> as a subject.",
+            them: "Correct use: We helped <strong>them</strong>. Use <strong>them</strong> as an object.",
+            their: "Correct use: The students opened <strong>their</strong> books. Use <strong>their</strong> before a noun.",
+            theirs: "Correct use: These books are <strong>theirs</strong>. Use <strong>theirs</strong> without a following noun.",
+            who: "Correct use: The student <strong>who</strong> called is absent. Use <strong>who</strong> as subject for people.",
+            whom: "Correct use: The candidate to <strong>whom</strong> I spoke was confident. Use <strong>whom</strong> as object in formal grammar.",
+            whose: "Correct use: The student <strong>whose</strong> project won thanked the teacher. Use <strong>whose</strong> for possession.",
+            which: "Correct use: The file <strong>which</strong> was missing has been found. Use <strong>which</strong> for things."
+          };
+          return examples[lower] || `Correct use example: <strong>${value}</strong> is correct only when its pronoun case and sentence role match.`;
+        }
+
+        if (categoryHas(question, "tense") || categoryHas(question, "conditional")) {
+          return `Correct use example: <strong>${value}</strong> is correct only when the timeline requires that exact verb form. Example patterns: <strong>If he comes, I will call</strong>; <strong>If I were you, I would wait</strong>; <strong>If she had studied, she would have passed</strong>.`;
+        }
+
+        if (categoryHas(question, "determiner") || categoryHas(question, "negation")) {
+          return `Correct use example: <strong>${value}</strong> is correct only when it matches the exact quantity. Examples: <strong>not all students came</strong> means some did not; <strong>none came</strong> means zero came; <strong>neither answer is correct</strong> refers to two answers.`;
+        }
+
+        if (categoryHas(question, "reading")) {
+          return `Correct use example: this option would be correct only if it stated the main point of the whole passage, not merely one detail.`;
+        }
+
+        if (categoryHas(question, "spelling")) {
+          return `Correct use example: <strong>${value}</strong> should be chosen only if it is the standard spelling or the exact word required by context.`;
+        }
+
+        if (categoryHas(question, "vocabulary") || categoryHas(question, "cloze")) {
+          return `Correct use example: <strong>${value}</strong> is correct only in a sentence where its exact meaning, tone, and part of speech are required.`;
+        }
+
+        return `Correct use example: <strong>${value}</strong> works only in a sentence where its grammar and meaning are required.`;
+      }
+
+      function optionRuleReason(question, option, isCorrect) {
+        const value = String(option);
+        const lower = value.toLowerCase();
+        const correct = escapeHtml(question.correctAnswer);
+        const rule = topicRuleSummary(question);
+        const examples = topicExamples(question);
+        const useExample = correctUseExample(question, option);
+
+        if (isCorrect) {
+          if (categoryHas(question, "article")) {
+            return `<strong>${escapeHtml(value)}</strong> is the correct option. ${rule} Here this option fits the noun's exact status in the sentence: non-specific, specific, unique, sound-based, or zero-article use. ${useExample}`;
+          }
+          if (categoryHas(question, "preposition")) {
+            return `<strong>${escapeHtml(value)}</strong> is the correct option. ${rule} Here it gives the relationship intended by the sentence, while the other prepositions would change the meaning. ${useExample}`;
+          }
+          if (categoryHas(question, "agreement") || categoryHas(question, "subject-verb")) {
+            return `<strong>${escapeHtml(value)}</strong> is the correct option. ${rule} This verb form matches the true controller of the verb. ${useExample}`;
+          }
+          if (categoryHas(question, "pronoun")) {
+            return `<strong>${escapeHtml(value)}</strong> is the correct option. ${rule} Its form matches the grammatical job required at the blank. ${useExample}`;
+          }
+          if (categoryHas(question, "tense") || categoryHas(question, "conditional")) {
+            return `<strong>${escapeHtml(value)}</strong> is the correct option. ${rule} It places the action at the right time and keeps the clause pattern grammatically consistent. ${useExample}`;
+          }
+          if (categoryHas(question, "determiner") || categoryHas(question, "negation")) {
+            return `<strong>${escapeHtml(value)}</strong> is the correct option. ${rule} It preserves the exact quantity or negative meaning intended by the sentence. ${useExample}`;
+          }
+          if (categoryHas(question, "conjunction") || categoryHas(question, "clause")) {
+            return `<strong>${escapeHtml(value)}</strong> is the correct option. ${rule} It connects the two clauses with the correct logical relationship. ${useExample}`;
+          }
+          if (categoryHas(question, "reading")) {
+            return `<strong>${escapeHtml(value)}</strong> is the correct option. ${rule} It represents the author's main point, not a small detail. ${useExample}`;
+          }
+          if (categoryHas(question, "spelling")) {
+            return `<strong>${escapeHtml(value)}</strong> is the correct option. ${rule} It is the standard form or the word that fits the sentence context most accurately. ${useExample}`;
+          }
+          if (categoryHas(question, "vocabulary") || categoryHas(question, "cloze")) {
+            return `<strong>${escapeHtml(value)}</strong> is the correct option. ${rule} It matches the meaning, tone, and grammar demanded by the sentence. ${useExample}`;
+          }
+          return `<strong>${escapeHtml(value)}</strong> is the correct option. ${rule} It satisfies the sentence's grammar and meaning more precisely than the alternatives. ${useExample}`;
+        }
+
+        if (categoryHas(question, "article")) {
+          if (lower === "a") return `<strong>a</strong> is wrong here. ${rule} This option would be correct only for a non-specific singular countable noun beginning with a consonant sound. That is not the logic needed here; the sentence needs <strong>${correct}</strong>. ${useExample}`;
+          if (lower === "an") return `<strong>an</strong> is wrong here. ${rule} This option is used only when the noun is non-specific, singular, countable, and begins with a vowel sound. That condition is not fully satisfied here. ${useExample}`;
+          if (lower === "the") return `<strong>the</strong> is wrong here. ${rule} It would make the noun definite or already identified. Here that definiteness is not the intended meaning, so <strong>${correct}</strong> is better. ${useExample}`;
+          if (lower === "no article") return `<strong>No article</strong> is wrong here. ${rule} Zero article works only in fixed/general uses, but this sentence still requires <strong>${correct}</strong>. ${useExample}`;
+        }
+
+        if (categoryHas(question, "preposition")) {
+          return `<strong>${escapeHtml(value)}</strong> is a wrong option. ${rule} This preposition would express a different relation or break the accepted phrase in this sentence. ${useExample}`;
+        }
+
+        if (categoryHas(question, "agreement") || categoryHas(question, "subject-verb")) {
+          return `<strong>${escapeHtml(value)}</strong> is a wrong option. ${rule} It is attracted by a nearby word or uses the wrong number in this sentence. ${useExample}`;
+        }
+
+        if (categoryHas(question, "pronoun")) {
+          return `<strong>${escapeHtml(value)}</strong> is a wrong option. ${rule} It uses the wrong case or pronoun type for this position. ${useExample}`;
+        }
+
+        if (categoryHas(question, "tense") || categoryHas(question, "conditional")) {
+          return `<strong>${escapeHtml(value)}</strong> is a wrong option. ${rule} It puts the action in the wrong time frame or breaks the if-clause/main-clause combination. ${useExample}`;
+        }
+
+        if (categoryHas(question, "modifier") || categoryHas(question, "parallel")) {
+          return `<strong>${escapeHtml(value)}</strong> is a wrong option. ${rule} It breaks the form required by the sentence. ${useExample}`;
+        }
+
+        if (categoryHas(question, "determiner") || categoryHas(question, "negation")) {
+          return `<strong>${escapeHtml(value)}</strong> is a wrong option. ${rule} It changes the quantity or negative force in this sentence. ${useExample}`;
+        }
+
+        if (categoryHas(question, "conjunction") || categoryHas(question, "clause")) {
+          return `<strong>${escapeHtml(value)}</strong> is a wrong option. ${rule} It changes the relation between clauses in this sentence. ${useExample}`;
+        }
+
+        if (categoryHas(question, "reading")) {
+          return `<strong>${escapeHtml(value)}</strong> is a wrong option. ${rule} It may mention something from the passage, but it is too narrow, too extreme, opposite, or only a supporting detail rather than the main theme. ${useExample}`;
+        }
+
+        if (categoryHas(question, "spelling")) {
+          return `<strong>${escapeHtml(value)}</strong> is a wrong option. ${rule} It is misspelt or contextually weaker than <strong>${correct}</strong>. ${useExample}`;
+        }
+
+        if (categoryHas(question, "vocabulary") || categoryHas(question, "cloze")) {
+          return `<strong>${escapeHtml(value)}</strong> is a wrong option. ${rule} It does not match the required meaning, tone, or part of speech as well as <strong>${correct}</strong>. ${useExample}`;
+        }
+
+        return `<strong>${escapeHtml(value)}</strong> is a wrong option. ${rule} It does not satisfy the sentence's grammar or meaning as precisely as <strong>${correct}</strong>. ${useExample}`;
+      }
+
+      function buildOptionReview(question) {
+        if (!question.options || !question.options.length) return "";
+
+        const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        const ruleIntro = `<p><strong>Rule used for this question:</strong> ${topicRuleSummary(question)} ${topicExamples(question)}</p>`;
+
+        if (question.type === "error") {
+          const items = question.options.map((option, index) => {
+            const label = escapeHtml(option);
+            const optionName = `<strong>Option ${label}</strong>`;
+            const part = option === "E" ? "No error" : escapeHtml((question.parts || [])[index] || `part ${option}`);
+            const isCorrect = option === question.correctAnswer;
+            const reason = isCorrect
+              ? option === "E"
+                ? `${optionName} is the correct answer. None of the marked parts breaks the tested grammar rule, so <strong>No error</strong> is the safest choice. Correct use example: when every segment already follows article, agreement, tense, pronoun, and preposition rules, choose <strong>No error</strong>.`
+                : `${optionName} is the correct answer. This segment contains the error: <em>${part}</em>. The other parts may look suspicious, but they do not violate the main rule being tested. Correct-version example: correct only this faulty segment according to the rule above, then reread the full sentence for grammar and meaning.`
+              : option === "E"
+                ? `${optionName} is wrong because the sentence is not fully correct; one marked part does contain an error. Correct use example: choose <strong>E</strong> only when all four marked parts are already grammatically acceptable.`
+                : `${optionName} is wrong because <em>${part}</em> is not the faulty segment for this question. Read that part with the rule above and it remains acceptable in context. Correct use example: this kind of segment is acceptable when it agrees with the real subject, uses the right article/preposition/pronoun, and fits the tense timeline.`;
+            return `<li>${reason}</li>`;
+          }).join("");
+
+          return `<p><strong>Option-by-option review</strong></p>${ruleIntro}<ul>${items}</ul>`;
+        }
+
+        const items = question.options.map((option, index) => {
+          const isCorrect = option === question.correctAnswer;
+          const marker = `<strong>Option ${letters[index] || index + 1}</strong>`;
+          const status = isCorrect ? "<strong>Correct option.</strong>" : "<strong>Wrong option.</strong>";
+          return `<li>${marker}: ${status} ${optionRuleReason(question, option, isCorrect)}</li>`;
+        }).join("");
+
+        return `<p><strong>Option-by-option review</strong></p>${ruleIntro}<ul>${items}</ul>`;
+      }
+
       [
         ["She wants to become ___ engineer after graduation.", "an", "Use \"an\" before a vowel sound like \"engineer\"."],
         ["It took him only ___ hour to finish the mock test.", "an", "Use \"an\" before a silent h in \"hour\"."],
@@ -2529,7 +2848,7 @@
       });
 
       bank.forEach((question) => {
-        question.explanation = buildDetailedExplanation(question);
+        question.explanation = buildDetailedExplanation(question) + buildOptionReview(question);
       });
 
       return bank;
