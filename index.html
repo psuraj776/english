@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>English Grammar Transcript Marathon 600+</title>
+  <title>English Grammar Practice Marathon 900+</title>
   <style>
     :root {
       --bg: #f2eadf;
@@ -440,12 +440,11 @@
   <main class="app-shell">
     <section class="hero">
       <div class="eyebrow">Source-based English Practice</div>
-      <h1>English Grammar Transcript Marathon 600+</h1>
+      <h1>English Grammar Practice Marathon 900+</h1>
       <p>
-        A standalone practice app built from the grammar-rule transcript plus the error-spotting and vocab/cloze
-        patterns in <code>eng.pdf</code> and <code>eng1.pdf</code>. The bank now runs at 600+ questions, and the
-        explanation layer is the main feature: every answer expands into rule logic, transcript-style reasoning,
-        contrast with tempting wrong choices, and worked examples instead of a one-line note.
+        A standalone practice app built from grammar rules, error-spotting drills, and vocabulary/cloze
+        patterns from your source PDFs. The bank now runs at 900+ questions, and every answer expands into rule
+        logic, corrected forms, option-by-option reasoning, examples, and exam tips.
       </p>
       <div class="hero-grid">
         <div class="hero-chip">
@@ -556,6 +555,7 @@
   </main>
 
   <script src="pdf-question-data.js"></script>
+  <script src="advanced-question-data.js"></script>
   <script>
     function shuffle(list) {
       const copy = list.slice();
@@ -619,18 +619,18 @@
       }
 
       const transcriptNotes = {
-        logicFirst: "The transcript repeatedly argues that grammar questions should be solved by logic first, not by blind memorisation. Before choosing any option, you are supposed to ask what the noun, verb, pronoun, or preposition is actually doing in the sentence.",
+        logicFirst: "Good grammar questions should be solved by meaning and structure first, not by blind memorisation. Before choosing any option, ask what the noun, verb, pronoun, or preposition is actually doing in the sentence.",
         oneAmongMany: "For articles, the teacher's favourite test is simple: is the sentence talking about one item chosen from many possible items, or about the only identifiable item in that situation? If it is one among many, English usually moves toward a or an.",
-        onlyOne: "If the listener can point to one fixed item, or if the sentence itself makes the noun unique, the transcript treats it as the only one case. That is the zone where the article usually becomes the.",
+        onlyOne: "If the listener can point to one fixed item, or if the sentence itself makes the noun unique, the noun is definite. That is the zone where the article usually becomes the.",
         soundRule: "After the meaning is clear, the final choice between a and an is made by sound, not by spelling. A vowel sound or silent h invites an, while a consonant sound, including /yu/ and /w/ openings such as university or one, invites a.",
-        mediumBy: "Another strong transcript idea is the difference between medium and position. When a sentence tells us the means or mode of travel, English prefers by plus zero article: by bus, by train, by air.",
+        mediumBy: "A key distinction is the difference between medium and position. When a sentence tells us the means or mode of travel, English prefers by plus zero article: by bus, by train, by air.",
         positionVsMeans: "But if the sentence is about where someone is sitting or standing, the logic changes. Then we stop talking about medium and start talking about position, so in or on becomes natural and the article may return.",
-        zeroArticle: "The lecture also emphasises the zero-article idea. English sometimes deliberately uses no article at all in general institutional or habitual expressions such as at home, go to school, go to bed, have lunch, or play chess.",
+        zeroArticle: "English sometimes deliberately uses no article at all in general institutional or habitual expressions such as at home, go to school, go to bed, have lunch, or play chess.",
         relationUniqueness: "A noun can become definite even on first mention when another phrase fixes it tightly. In expressions such as the colour of the laptop or the battery compartment of the car, the first noun is no longer vague because the second noun identifies it completely.",
-        superlative: "The transcript links superlatives with uniqueness. When something is the smartest, the tallest, the best, or the first, it already stands alone inside the group, so the usually appears before it.",
-        ofStructures: "For each of, one of, either of, neither of, most of, and both of, the transcript teaches a two-step method: keep the noun after of plural because it names a set, then choose the verb according to the real head word before of.",
+        superlative: "Superlatives create uniqueness. When something is the smartest, the tallest, the best, or the first, it already stands alone inside the group, so the usually appears before it.",
+        ofStructures: "For each of, one of, either of, neither of, most of, and both of, use a two-step method: keep the noun after of plural because it names a set, then choose the verb according to the real head word before of.",
       objectiveAfterOf: "When a pronoun follows of in expressions such as the smartest of them or the most patient of us, the pronoun stays in the objective form: them, us, him, her, not they, we, he, or she.",
-        examLogic: "The exam advice in the transcript is to avoid mechanical translation. Read the situation, identify the set, decide whether the word is unique or not, and then choose the form that matches that exact meaning."
+        examLogic: "Avoid mechanical translation. Read the situation, identify the set, decide whether the word is unique or not, and then choose the form that matches that exact meaning."
       };
 
       function fillTemplate(template, replacements) {
@@ -649,7 +649,6 @@
         const blocks = [];
         if (summary) blocks.push(`<p>${summary}</p>`);
         if (rule) blocks.push(`<p>${rule}</p>`);
-        if (transcript) blocks.push(`<p>${transcript}</p>`);
         if (contrast) blocks.push(`<p>${contrast}</p>`);
         if (examples && examples.length) blocks.push(htmlList("Examples to remember", examples));
         if (examTip) blocks.push(`<p><strong>Exam tip:</strong> ${examTip}</p>`);
@@ -687,7 +686,7 @@
             contrast: `Do not let spelling trick you. The article system listens to sound. A vowel letter does not always need <strong>an</strong>, and a consonant letter does not always need <strong>a</strong>.`,
             examples: [
               `Say <strong>${meta.answer} ${meta.phrase || inferArticlePhrase(question.stem)}</strong> aloud and listen to the opening sound.`,
-              `Compare the transcript-style contrast: <strong>a bottle</strong> means one possible bottle; <strong>the bottle</strong> means the identifiable bottle.`,
+              `Compare the meaning contrast: <strong>a bottle</strong> means one possible bottle; <strong>the bottle</strong> means the identifiable bottle.`,
               `Always decide the meaning first, then decide the sound.`
             ],
             examTip: "In article questions, first decide whether the noun is specific or non-specific. Only after that should you choose between a and an."
@@ -697,7 +696,7 @@
         if (detailMode === "articleOneMany") {
           return explanationShell({
             summary: `The correct choice is <strong>${meta.answer}</strong> because the sentence is talking about one item drawn from a larger possible set, not about a fixed item already known to the listener.`,
-            rule: `${transcriptNotes.oneAmongMany} That is exactly the logic behind examples from the lecture such as <strong>a finger</strong>, <strong>a bottle</strong>, <strong>a sample</strong>, or <strong>a player</strong>.`,
+            rule: `${transcriptNotes.oneAmongMany} That is exactly the logic behind examples such as <strong>a finger</strong>, <strong>a bottle</strong>, <strong>a sample</strong>, or <strong>a player</strong>.`,
             transcript: `${transcriptNotes.examLogic} If several candidates, samples, bottles, flights, or players are possible and the sentence picks only one of them, the article stays indefinite.`,
             contrast: `The meaning would change if we used <strong>the</strong>. Then the sentence would point to one known object, not just any one member of the group.`,
             examples: [
@@ -712,7 +711,7 @@
         if (detailMode === "articleUnique") {
           return explanationShell({
             summary: `The correct article is <strong>the</strong> because the noun is unique or fully identifiable inside the sentence context.`,
-            rule: `${transcriptNotes.onlyOne} The lecture explains this through roles such as the captain of the team, the principal of the school, or the prime minister of a country. Even on first mention, the context already tells us exactly which person or thing is meant.`,
+            rule: `${transcriptNotes.onlyOne} This is clear in roles such as the captain of the team, the principal of the school, or the prime minister of a country. Even on first mention, the context already tells us exactly which person or thing is meant.`,
             transcript: `${transcriptNotes.relationUniqueness} Once the noun stops being one among many and becomes the fixed one for that context, <strong>the</strong> becomes the natural choice.`,
             contrast: meta.contextNote || `Compare <strong>a prime minister</strong> at an international summit, where many prime ministers may be present, with <strong>the prime minister</strong> of a particular country, where the role is fixed.`,
             examples: [
@@ -1056,7 +1055,7 @@
 
         if (detailMode === "pronounObjectiveOf") {
           return explanationShell({
-            summary: `The correct pronoun is <strong>${meta.answer}</strong> because after <strong>of</strong> the transcript expects the objective form, not the subject form or the possessive pronoun.`,
+            summary: `The correct pronoun is <strong>${meta.answer}</strong> because after <strong>of</strong> English expects the objective form, not the subject form or the possessive pronoun.`,
             rule: `${transcriptNotes.objectiveAfterOf} So we say <strong>the smartest of them</strong> and <strong>the most patient of us</strong> rather than switching to subject forms.`,
             transcript: `${transcriptNotes.logicFirst} The point is structural: once the pronoun follows <strong>of</strong>, objective case becomes the default expectation.`,
             contrast: `A possessive may appear in other structures, but here the grammar of <strong>of</strong> favours objective forms.`,
@@ -1173,17 +1172,17 @@
         }
 
         if (question.type === "error") {
+          const corrected = correctedErrorSentence(question);
+          const insight = errorRuleInsight(question);
           return explanationShell({
             summary: question.correctAnswer === "E"
               ? "This sentence is treated as correct in the current form, so the best answer is <strong>E. No error</strong>."
-              : `The error lies in part <strong>${question.correctAnswer}</strong>. Error-spotting questions reward careful isolation of the faulty segment rather than rewriting the whole sentence at once.`,
-            rule: `Read the sentence part by part and test the likely checkpoints: article choice, agreement, pronoun case, preposition logic, and tense sequence.`,
-            transcript: `${transcriptNotes.logicFirst} ${transcriptNotes.examLogic}`,
-            contrast: question.briefExplanation || "Once the weak segment is identified, correct only that segment and then re-read the whole sentence for flow and meaning.",
+              : `The error lies in part <strong>${question.correctAnswer}</strong>. The corrected sentence is: <strong>${escapeHtml(corrected)}</strong>`,
+            rule: `<strong>Rule applied:</strong> ${insight.rule}`,
+            contrast: `<strong>Why this correction is correct:</strong> ${insight.why}`,
             examples: [
-              "Check whether the noun is specific or non-specific.",
-              "Check whether the verb agrees with the real subject, not the nearest noun.",
-              "Check whether the preposition shows medium, position, time, or a fixed collocation."
+              insight.example,
+              "After correcting the faulty part, always read the full sentence again to check that the subject, verb, pronoun, preposition, and meaning now work together."
             ],
             examTip: "Do not panic if more than one part feels awkward at first. Test one grammar decision at a time until one segment clearly breaks the logic."
           });
@@ -1521,6 +1520,219 @@
         return `Correct use example: <strong>${value}</strong> works only in a sentence where its grammar and meaning are required.`;
       }
 
+      function normalSentence(parts) {
+        return parts.join(" ")
+          .replace(/\s+([,.;:!?])/g, "$1")
+          .replace(/\s+/g, " ")
+          .trim();
+      }
+
+      function quotedSuggestion(text) {
+        const matches = [...String(text || "").matchAll(/"([^"]+)"/g)].map((match) => match[1]);
+        if (!matches.length) return "";
+        return matches[matches.length - 1];
+      }
+
+      function correctionFromExplanation(question, part) {
+        const explanation = String(question.briefExplanation || question.explanation || "");
+        const lowerPart = String(part || "").toLowerCase();
+        const lowerFull = normalSentence(question.parts || []).toLowerCase();
+        const quoted = quotedSuggestion(explanation);
+
+        if (/between you and i/i.test(part)) return part.replace(/\bI\b/i, "me");
+        if (/ritu and me/i.test(part)) return part.replace(/\bme\b/i, "I");
+        if (/\bhisself\b/i.test(part)) return part.replace(/\bhisself\b/i, "himself");
+        if (/\bwho's file\b/i.test(part)) return part.replace(/\bwho's file\b/i, "whose file");
+        if (/\bit's tail\b/i.test(part)) return part.replace(/\bit's\b/i, "its");
+        if (/whom she works for/i.test(part)) return part.replace(/\bwhom\b/i, "which");
+        if (/\btheir\b/i.test(part) && /(every|each|neither|either|singular)/i.test(explanation + " " + lowerFull)) {
+          return part.replace(/\btheir\b/i, /neither of the girls/i.test(lowerFull) ? "her" : "his or her");
+        }
+        if (/have submitted/i.test(part) && /has submitted/i.test(explanation)) return part.replace(/have submitted/i, "has submitted");
+        if (/smell fresh/i.test(part) && /smells/i.test(explanation)) return part.replace(/smell fresh/i, "smells fresh");
+        if (/was absent/i.test(part) && /were absent/i.test(explanation)) return part.replace(/was absent/i, "were absent");
+        if (/are lower/i.test(part) && /is lower/i.test(explanation)) return part.replace(/are lower/i, "is lower");
+        if (/were willing/i.test(part) && /was willing/i.test(explanation)) return part.replace(/were willing/i, "was willing");
+        if (/is attending/i.test(part) && /are attending/i.test(explanation)) return part.replace(/is attending/i, "are attending");
+        if (/are too far/i.test(part) && /singular verb/i.test(explanation)) return part.replace(/are too far/i, "is too far");
+        if (/have always been/i.test(part) && /singular verb/i.test(explanation)) return part.replace(/have always been/i, "has always been");
+        if (/to solve/i.test(part) && /capable of solving/i.test(explanation)) return part.replace(/to solve/i, "of solving");
+        if (/since three years/i.test(part)) return part.replace(/since three years/i, "for three years");
+        if (/bonus among/i.test(part) && /between/i.test(explanation)) return part.replace(/among/i, "between");
+        if (/^between$/i.test(part) && /among/i.test(explanation)) return "among";
+        if (/from his rude reply/i.test(part)) return part.replace(/from/i, "for");
+        if (/consists from/i.test(part)) return part.replace(/from/i, "of");
+        if (/on joining/i.test(part)) return part.replace(/on/i, "in");
+        if (/has already left/i.test(part)) return part.replace(/has already left/i, "had already left");
+        if (/i will apply/i.test(part)) return part.replace(/I will apply/i, "I would have applied");
+        if (/bell will ring/i.test(part)) return part.replace(/will ring/i, "rings");
+        if (/had distributed/i.test(part)) return part.replace(/had distributed/i, "distributed");
+        if (/you missed/i.test(part)) return part.replace(/missed/i, "will miss");
+        if (/yesterday/i.test(part) && /simple past/i.test(explanation)) return part;
+        if (/had just began/i.test(part)) return part.replace(/began/i, "begun");
+
+        if (quoted) {
+          if (lowerPart.split(/\s+/).length <= 4) return quoted;
+          return part.replace(/\b[a-zA-Z]+(?:\s+[a-zA-Z]+)?\b/, quoted);
+        }
+
+        const colonFix = explanation.match(/:\s*([^.:;]+)\.?$/);
+        if (colonFix && colonFix[1] && colonFix[1].length < 45) return colonFix[1].trim();
+
+        return part;
+      }
+
+      function correctedErrorSentence(question) {
+        if (question.type !== "error" || !question.parts) return "";
+        if (question.correctedSentence) return question.correctedSentence;
+        if (question.correctAnswer === "E") {
+          return normalSentence(question.parts);
+        }
+
+        const index = question.options.indexOf(question.correctAnswer);
+        const correctedParts = question.parts.slice();
+        if (index >= 0) {
+          correctedParts[index] = correctionFromExplanation(question, correctedParts[index]);
+        }
+        return normalSentence(correctedParts);
+      }
+
+      function errorRuleInsight(question) {
+        if (question.type !== "error") return null;
+        if (question.ruleInsight) {
+          return {
+            rule: question.ruleInsight.rule || topicRuleSummary(question),
+            why: question.ruleInsight.why || question.briefExplanation || "The corrected form follows the grammar relationship required by the sentence.",
+            correctPart: question.ruleInsight.correctPart || "",
+            example: question.ruleInsight.example || topicExamples(question),
+            corrected: question.correctedSentence || correctedErrorSentence(question)
+          };
+        }
+
+        const sentence = normalSentence(question.parts || []);
+        const explanation = String(question.briefExplanation || "");
+        const lower = `${sentence} ${explanation}`.toLowerCase();
+        const corrected = correctedErrorSentence(question);
+
+        if (/ten kilometers|ten kilometres|distance measured as one amount|distance as one amount/.test(lower)) {
+          return {
+            rule: "When a distance is treated as one measured amount, English uses a singular verb.",
+            why: "In this sentence, <strong>Ten kilometers</strong> does not mean ten separate kilometer-units acting independently. It means one total distance. Because the subject idea is one amount, the verb must be singular: <strong>is</strong>, not <strong>are</strong>.",
+            correctPart: "is too far",
+            example: "Example: <strong>Twenty kilometres is a long distance</strong>. But if we talk about separate road sections, plural may return: <strong>Twenty kilometres of roads were repaired</strong>.",
+            corrected
+          };
+        }
+
+        if (/\bevery player\b|every .* singular|each .* singular|neither .* singular|either .* singular/.test(lower) && /\btheir\b/.test(lower)) {
+          return {
+            rule: "In traditional exam grammar, distributive words such as every, each, either, and neither are treated as singular.",
+            why: "<strong>Every player</strong> looks at the players one by one, not as a plural group. Therefore the possessive must also be singular in formal exam usage: <strong>his or her admit card</strong>, not <strong>their admit card</strong>.",
+            correctPart: "his or her admit card",
+            example: "Example: <strong>Every student must bring his or her ID card</strong>. Similarly, <strong>Each candidate should sign his or her form</strong>.",
+            corrected
+          };
+        }
+
+        if (/each of|one of|neither of|every one/.test(lower) && /has submitted|singular verb|takes a singular verb/.test(lower)) {
+          return {
+            rule: "Expressions such as each of, one of, neither of, and every one are singular in agreement.",
+            why: "The plural noun after <strong>of</strong> names the set, but it does not control the verb. The controller is <strong>each/one/neither/every one</strong>, so the verb must be singular.",
+            correctPart: correctionFromExplanation(question, question.parts[question.options.indexOf(question.correctAnswer)] || ""),
+            example: "Example: <strong>Each of the students is ready</strong>; <strong>One of the files has been deleted</strong>.",
+            corrected
+          };
+        }
+
+        if (/a number of/.test(lower)) {
+          return {
+            rule: "<strong>A number of</strong> means many and normally takes a plural verb.",
+            why: "Here the subject idea is not one number; it is several people or things. That is why the verb should be plural.",
+            correctPart: correctionFromExplanation(question, question.parts[question.options.indexOf(question.correctAnswer)] || ""),
+            example: "Example: <strong>A number of students were absent</strong>. But <strong>The number of students was high</strong> because <strong>the number</strong> means one total count.",
+            corrected
+          };
+        }
+
+        if (/the number of/.test(lower)) {
+          return {
+            rule: "<strong>The number of</strong> refers to one total count and takes a singular verb.",
+            why: "The noun after <strong>of</strong> may be plural, but the real subject is <strong>number</strong>, which is singular.",
+            correctPart: correctionFromExplanation(question, question.parts[question.options.indexOf(question.correctAnswer)] || ""),
+            example: "Example: <strong>The number of vacancies is low</strong>; <strong>The number of complaints was alarming</strong>.",
+            corrected
+          };
+        }
+
+        if (/neither .* nor|either .* or|not only .* but also|nearer subject/.test(lower)) {
+          return {
+            rule: "With either...or, neither...nor, and not only...but also, the verb usually agrees with the nearer subject.",
+            why: "In this structure, the noun closest to the verb controls the verb form. If the nearer subject is singular, use a singular verb; if it is plural, use a plural verb.",
+            correctPart: correctionFromExplanation(question, question.parts[question.options.indexOf(question.correctAnswer)] || ""),
+            example: "Example: <strong>Either the teachers or the principal is coming</strong>, but <strong>Either the principal or the teachers are coming</strong>.",
+            corrected
+          };
+        }
+
+        if (/between you and i|object pronoun|after the preposition/.test(lower)) {
+          return {
+            rule: "A pronoun after a preposition must be in the object case.",
+            why: "<strong>Between</strong> is a preposition. After a preposition, English uses object forms such as <strong>me, him, her, us, them</strong>, not subject forms such as <strong>I, he, she, we, they</strong>.",
+            correctPart: correctionFromExplanation(question, question.parts[question.options.indexOf(question.correctAnswer)] || ""),
+            example: "Example: <strong>between you and me</strong>; <strong>for him</strong>; <strong>to her</strong>.",
+            corrected
+          };
+        }
+
+        if (/since three years|duration/.test(lower)) {
+          return {
+            rule: "Use <strong>for</strong> with a duration and <strong>since</strong> with a starting point.",
+            why: "<strong>Three years</strong> is a length of time, not the starting point. Therefore the sentence needs <strong>for three years</strong>.",
+            correctPart: "for three years",
+            example: "Example: <strong>for two hours</strong>, <strong>for five months</strong>, but <strong>since 2021</strong>, <strong>since Monday</strong>.",
+            corrected
+          };
+        }
+
+        if (/capable of|interested in|consists of|apologized for|collocation/.test(lower)) {
+          return {
+            rule: "Some adjectives, verbs, and nouns take fixed prepositions in standard English.",
+            why: "The sentence is testing a fixed combination. The preposition cannot be freely replaced by a similar-looking one because the accepted phrase controls the answer.",
+            correctPart: correctionFromExplanation(question, question.parts[question.options.indexOf(question.correctAnswer)] || ""),
+            example: "Examples: <strong>capable of solving</strong>, <strong>interested in joining</strong>, <strong>consists of four parts</strong>, <strong>apologized for the delay</strong>.",
+            corrected
+          };
+        }
+
+        if (/by the time|past perfect|had already left|earlier of two past actions/.test(lower)) {
+          return {
+            rule: "Use past perfect for the earlier of two past actions.",
+            why: "When two past actions are mentioned, the action completed first takes <strong>had + past participle</strong>. The later past action stays in simple past.",
+            correctPart: correctionFromExplanation(question, question.parts[question.options.indexOf(question.correctAnswer)] || ""),
+            example: "Example: <strong>By the time we reached the station, the train had left</strong>.",
+            corrected
+          };
+        }
+
+        if (/if .* will|when .* will|time clause|if-clause/.test(lower)) {
+          return {
+            rule: "In time and condition clauses, use present simple for future meaning.",
+            why: "After words like <strong>if</strong> and <strong>when</strong>, English normally avoids <strong>will</strong> in the dependent clause. The main clause can carry the future meaning.",
+            correctPart: correctionFromExplanation(question, question.parts[question.options.indexOf(question.correctAnswer)] || ""),
+            example: "Example: <strong>If he comes, we will start</strong>; <strong>When the bell rings, the students will enter</strong>.",
+            corrected
+          };
+        }
+
+        return {
+          rule: topicRuleSummary(question),
+          why: question.briefExplanation || "The corrected form follows the grammar relationship required by the sentence.",
+          correctPart: correctionFromExplanation(question, question.parts[question.options.indexOf(question.correctAnswer)] || ""),
+          example: topicExamples(question),
+          corrected
+        };
+      }
+
       function optionRuleReason(question, option, isCorrect) {
         const value = String(option);
         const lower = value.toLowerCase();
@@ -1620,22 +1832,29 @@
         const ruleIntro = `<p><strong>Rule used for this question:</strong> ${topicRuleSummary(question)} ${topicExamples(question)}</p>`;
 
         if (question.type === "error") {
+          const corrected = escapeHtml(correctedErrorSentence(question));
+          const insight = errorRuleInsight(question);
+          const errorRuleIntro = `<p><strong>Rule used for this question:</strong> ${insight.rule}</p>`;
+          const correctedBlock = question.correctAnswer === "E"
+            ? `<p><strong>Correct sentence:</strong> ${corrected}</p>`
+            : `<p><strong>Correct sentence:</strong> ${corrected}</p><p><strong>Why the corrected sentence is legal:</strong> ${insight.why}</p><p><strong>Example:</strong> ${insight.example}</p>`;
           const items = question.options.map((option, index) => {
             const label = escapeHtml(option);
             const optionName = `<strong>Option ${label}</strong>`;
             const part = option === "E" ? "No error" : escapeHtml((question.parts || [])[index] || `part ${option}`);
+            const fixedPart = option === "E" ? "" : escapeHtml(correctionFromExplanation(question, (question.parts || [])[index] || ""));
             const isCorrect = option === question.correctAnswer;
             const reason = isCorrect
               ? option === "E"
                 ? `${optionName} is the correct answer. None of the marked parts breaks the tested grammar rule, so <strong>No error</strong> is the safest choice. Correct use example: when every segment already follows article, agreement, tense, pronoun, and preposition rules, choose <strong>No error</strong>.`
-                : `${optionName} is the correct answer. This segment contains the error: <em>${part}</em>. The other parts may look suspicious, but they do not violate the main rule being tested. Correct-version example: correct only this faulty segment according to the rule above, then reread the full sentence for grammar and meaning.`
+                : `${optionName} is the correct answer. This segment contains the error: <em>${part}</em>. Correct form: <strong>${fixedPart}</strong>. <strong>Rule:</strong> ${insight.rule} <strong>Why:</strong> ${insight.why} After correction, the full sentence becomes: <strong>${corrected}</strong>.`
               : option === "E"
                 ? `${optionName} is wrong because the sentence is not fully correct; one marked part does contain an error. Correct use example: choose <strong>E</strong> only when all four marked parts are already grammatically acceptable.`
                 : `${optionName} is wrong because <em>${part}</em> is not the faulty segment for this question. Read that part with the rule above and it remains acceptable in context. Correct use example: this kind of segment is acceptable when it agrees with the real subject, uses the right article/preposition/pronoun, and fits the tense timeline.`;
             return `<li>${reason}</li>`;
           }).join("");
 
-          return `<p><strong>Option-by-option review</strong></p>${ruleIntro}<ul>${items}</ul>`;
+          return `<p><strong>Option-by-option review</strong></p>${errorRuleIntro}${correctedBlock}<ul>${items}</ul>`;
         }
 
         const items = question.options.map((option, index) => {
@@ -1680,7 +1899,7 @@
         ["___ moon looked unusually bright last night.", "the", "Use \"the\" for unique celestial objects in ordinary reference."],
         ["The team needs ___ captain who can stay calm under pressure.", "a", "A singular countable noun used non-specifically takes \"a\"."],
       ].forEach(([stem, correct, explanation]) => {
-        addMcq("Articles", "Transcript concepts", stem, ARTICLE_OPTIONS, correct, explanation);
+        addMcq("Articles", "Core grammar concepts", stem, ARTICLE_OPTIONS, correct, explanation);
       });
 
       [
@@ -1715,7 +1934,7 @@
         ["The number of vacancies ___ lower this year.", ["are", "were", "is", "have been"], "is", "\"The number of\" takes a singular verb."],
         ["The list of shortlisted candidates ___ on the noticeboard.", ["are", "were", "is", "have been"], "is", "The subject is the singular noun \"list\"."],
       ].forEach(([stem, options, correct, explanation]) => {
-        addMcq("Subject-Verb Agreement", "Transcript concepts", stem, options, correct, explanation);
+        addMcq("Subject-Verb Agreement", "Core grammar concepts", stem, options, correct, explanation);
       });
 
       [
@@ -1744,7 +1963,7 @@
         ["The volunteers told the reporter that the food packets were ___.", ["their", "theirs", "there", "them"], "theirs", "Use the possessive pronoun without a noun."],
         ["Rohan sits between Asha and ___.", ["I", "my", "me", "mine"], "me", "After \"between,\" use the object pronoun."],
       ].forEach(([stem, options, correct, explanation]) => {
-        addMcq("Pronouns", "Transcript concepts", stem, options, correct, explanation);
+        addMcq("Pronouns", "Core grammar concepts", stem, options, correct, explanation);
       });
 
       [
@@ -1773,7 +1992,7 @@
         ["The child was hiding ___ the curtain.", ["beneath", "behind", "across", "towards"], "behind", "\"Behind\" indicates a position at the back of something."],
         ["The report consists ___ four sections with examples.", ["in", "from", "of", "to"], "of", "The correct collocation is \"consist of.\""],
       ].forEach(([stem, options, correct, explanation]) => {
-        addMcq("Prepositions", "Transcript concepts", stem, options, correct, explanation);
+        addMcq("Prepositions", "Core grammar concepts", stem, options, correct, explanation);
       });
 
       [
@@ -1802,7 +2021,7 @@
         ["Unless you revise the rules, you ___ the error.", ["missed", "would miss", "will miss", "had missed"], "will miss", "Unless introduces a real future condition."],
         ["Hardly had I reached my seat when the invigilator ___ the extra sheet.", ["distributes", "distributed", "had distributed", "has distributed"], "distributed", "After \"hardly had...when,\" the next action is usually in simple past."],
       ].forEach(([stem, options, correct, explanation]) => {
-        addMcq("Tenses and Conditionals", "Transcript concepts", stem, options, correct, explanation);
+        addMcq("Tenses and Conditionals", "Core grammar concepts", stem, options, correct, explanation);
       });
 
       [
@@ -1827,7 +2046,7 @@
         ["The chairperson asked the team to analyse the problem, propose options, and ___.", ["recommend one solution", "recommending one solution", "recommended one solution", "to recommend one solution"], "recommend one solution", "Parallel structure requires the third verb to match the first two."],
         ["Of the three drafts, the second was the ___.", ["better", "best", "good", "well"], "best", "Use the superlative form when comparing more than two."],
       ].forEach(([stem, options, correct, explanation]) => {
-        addMcq("Modifiers and Parallelism", "Transcript concepts", stem, options, correct, explanation);
+        addMcq("Modifiers and Parallelism", "Core grammar concepts", stem, options, correct, explanation);
       });
 
       [
@@ -1852,7 +2071,7 @@
         [["The police", "are investigating", "the complaint", "carefully"], "E", "\"Police\" normally takes a plural verb."],
         [["More than one student", "has asked", "for extra time", "today"], "E", "\"More than one\" usually takes a singular verb."],
         [["Between you and I", "this plan", "needs", "one more revision"], "A", "After the preposition \"between,\" use the object pronoun \"me.\""],
-        [["Every player must carry", "their admit card", "to", "the centre"], "A", "Traditional exam grammar prefers a singular form with \"every player.\""],
+        [["Every player must carry", "their admit card", "to", "the centre"], "B", "Traditional exam grammar prefers a singular form with \"every player\": his or her admit card."],
         [["The manager", "introduced hisself", "to", "the new interns"], "B", "The correct reflexive pronoun is \"himself\" or \"herself\" depending on the subject."],
         [["This is the candidate", "who's file", "went missing", "yesterday"], "B", "Use the possessive relative pronoun \"whose,\" not the contraction \"who's.\""],
         [["Neither of the girls", "forgot their file", "at", "the venue"], "B", "Traditional exam grammar prefers singular agreement with \"neither.\""],
@@ -1976,7 +2195,7 @@
       articleSoundSeeds.forEach((seed) => {
         addMcq(
           "Articles: Sound and Choice",
-          "Transcript article logic",
+          "Article logic",
           seed.stem,
           ARTICLE_OPTIONS,
           seed.answer,
@@ -2008,7 +2227,7 @@
       oneAmongManySeeds.forEach((phrase) => {
         addMcq(
           "Articles: One Among Many",
-          "Transcript article logic",
+          "Article logic",
           fillTemplate("Please give me ___ {phrase} from the table.", { phrase }),
           ARTICLE_OPTIONS,
           "a",
@@ -2036,7 +2255,7 @@
       uniqueRoleSeeds.forEach((seed) => {
         addMcq(
           "Articles: Context and Uniqueness",
-          "Transcript article logic",
+          "Article logic",
           seed.stem,
           ARTICLE_OPTIONS,
           "the",
@@ -2060,7 +2279,7 @@
       summitRoleSeeds.forEach((seed) => {
         addMcq(
           "Articles: One Among Many",
-          "Transcript summit logic",
+          "Context logic",
           seed.stem,
           ARTICLE_OPTIONS,
           seed.answer,
@@ -2088,7 +2307,7 @@
       relationSeeds.forEach((phrase) => {
         addMcq(
           "Articles: Context and Uniqueness",
-          "Transcript relation logic",
+          "Relation logic",
           fillTemplate("The mechanic checked ___ {phrase} before the trip.", { phrase }),
           ARTICLE_OPTIONS,
           "the",
@@ -2112,7 +2331,7 @@
       globalUniqueSeeds.forEach((phrase) => {
         addMcq(
           "Articles: Context and Uniqueness",
-          "Transcript uniqueness logic",
+          "Uniqueness logic",
           fillTemplate("The travellers admired ___ {phrase} during the journey.", { phrase }),
           ARTICLE_OPTIONS,
           "the",
@@ -2136,7 +2355,7 @@
       superlativeSeeds.forEach((phrase) => {
         addMcq(
           "Articles: Context and Uniqueness",
-          "Transcript superlative logic",
+          "Superlative logic",
           fillTemplate("This was ___ {phrase} in the whole set.", { phrase }),
           ARTICLE_OPTIONS,
           "the",
@@ -2150,7 +2369,7 @@
       zeroTransportSeeds.forEach((medium) => {
         addMcq(
           "Articles: Zero Article",
-          "Transcript medium logic",
+          "Means and medium logic",
           fillTemplate("They travelled by ___ {medium} to reach the centre.", { medium }),
           ARTICLE_OPTIONS,
           "No article",
@@ -2179,7 +2398,7 @@
             : fillTemplate("He went to ___ {place} early in the morning.", { place });
         addMcq(
           "Articles: Zero Article",
-          "Transcript zero-article logic",
+          "Zero-article logic",
           stem,
           ARTICLE_OPTIONS,
           "No article",
@@ -2215,7 +2434,7 @@
         }
         addMcq(
           "Articles: Zero Article",
-          "Transcript zero-article logic",
+          "Zero-article logic",
           stem,
           ARTICLE_OPTIONS,
           "No article",
@@ -2241,7 +2460,7 @@
       travelModes.forEach((seed) => {
         addMcq(
           "Prepositions: Means vs Position",
-          "Transcript medium logic",
+          "Means and medium logic",
           fillTemplate("We travelled ___ {medium} to reach {destination}.", seed),
           ["by", "in", "on", "with"],
           "by",
@@ -2251,7 +2470,7 @@
         );
         addMcq(
           "Prepositions: Means vs Position",
-          "Transcript medium logic",
+          "Means and medium logic",
           fillTemplate("She prefers to commute ___ {medium} during rush hour.", seed),
           ["by", "at", "inside", "for"],
           "by",
@@ -2277,7 +2496,7 @@
       vehiclePositions.forEach((seed) => {
         addMcq(
           "Prepositions: Means vs Position",
-          "Transcript position logic",
+          "Position logic",
           seed.stem,
           [seed.answer, "by", "at the vehicle", "through the vehicle"],
           seed.answer,
@@ -2287,7 +2506,7 @@
         );
         addMcq(
           "Prepositions: Means vs Position",
-          "Transcript position logic",
+          "Position logic",
           seed.stem.replace("when I called him from the gate.", "during the heavy rain.")
             .replace("while paying the fare.", "during the traffic jam.")
             .replace("before the race started.", "for the team photograph.")
@@ -2318,7 +2537,7 @@
       sinceForSeeds.forEach((seed) => {
         addMcq(
           "Prepositions: Time and Duration",
-          "Transcript logic",
+          "Core grammar logic",
           seed.stem,
           ["since", "for", "from", "by"],
           seed.answer,
@@ -2382,7 +2601,7 @@
       collocationSeeds.forEach((seed) => {
         addMcq(
           "Prepositions: Fixed Combinations",
-          "Transcript logic + standard usage",
+          "Core grammar logic + standard usage",
           seed.stem,
           rotatedOptions(seed.answer, ["at", "for", "with", "on", "of", "to", "from", "in", "into", "against"]),
           seed.answer,
@@ -2454,7 +2673,7 @@
       eachOfSeeds.forEach((seed) => {
         addMcq(
           "Agreement: Of Structures",
-          "Transcript of-structure logic",
+          "Of-structure logic",
           fillTemplate("Each of the {plural} ___ {tail}.", seed),
           ["are", "were", "is", "have been"],
           "is",
@@ -2480,7 +2699,7 @@
       oneOfSeeds.forEach((seed) => {
         addMcq(
           "Agreement: Of Structures",
-          "Transcript of-structure logic",
+          "Of-structure logic",
           fillTemplate("One of the {plural} ___ {tail}.", seed),
           ["have", "are", "has", "were"],
           "has",
@@ -2506,7 +2725,7 @@
       eitherSeeds.forEach((seed) => {
         addMcq(
           "Agreement: Of Structures",
-          "Transcript of-structure logic",
+          "Of-structure logic",
           fillTemplate("{head} of the {plural} ___ {tail}.", seed),
           ["are", "is", "were", "have been"],
           "is",
@@ -2532,7 +2751,7 @@
       ].forEach(([head, plural, tail, answer]) => {
         addMcq(
           "Agreement: Of Structures",
-          "Transcript of-structure logic",
+          "Of-structure logic",
           `${head} of the ${plural} ___ ${tail}.`,
           ["is", "was", "are", "has been"],
           answer,
@@ -2583,7 +2802,7 @@
       ].forEach(([stem, answer]) => {
         addMcq(
           "Agreement: Head Noun Logic",
-          "Transcript logic + classic pattern",
+          "Core grammar logic + classic pattern",
           stem,
           ["is", "was", "are", "were"],
           answer,
@@ -2609,7 +2828,7 @@
       ].forEach(([stem, answer]) => {
         addMcq(
           "Agreement: Correlative Structures",
-          "Transcript logic",
+          "Core grammar logic",
           stem,
           ["is", "was", "are", "were"],
           answer,
@@ -2794,7 +3013,7 @@
       objectiveOfSeeds.forEach(([stem, answer]) => {
         addMcq(
           "Pronouns: Relative and Of-Structures",
-          "Transcript of-structure logic",
+          "Of-structure logic",
           stem,
           rotatedOptions(answer, ["they", "their", "theirs", "we", "our", "ours"]),
           answer,
@@ -2831,8 +3050,26 @@
       const extractedPdfQuestions = Array.isArray(globalThis.PDF_QUESTION_DATA)
         ? globalThis.PDF_QUESTION_DATA
         : [];
+      const advancedQuestions = Array.isArray(globalThis.ADVANCED_QUESTION_DATA)
+        ? globalThis.ADVANCED_QUESTION_DATA
+        : [];
 
-      extractedPdfQuestions.forEach((item) => {
+      [...extractedPdfQuestions, ...advancedQuestions].forEach((item) => {
+        if (item.type === "error") {
+          addError(
+            item.category,
+            item.source || "Advanced exam pattern",
+            item.parts,
+            item.correctAnswer,
+            item.explanation || item.briefExplanation || "",
+            {
+              correctedSentence: item.correctedSentence,
+              ruleInsight: item.ruleInsight
+            }
+          );
+          return;
+        }
+
         addMcq(
           item.category,
           item.source || "PDF extracted question",
