@@ -1256,15 +1256,18 @@
         }
 
         if (question.category.includes("Few, A Few, Little, A Little")) {
+          const ctx = quantifierContext(question);
+          const countableExampleNoun = ctx.nounType === "plural countable" ? escapeHtml(ctx.noun) : "candidates";
+          const uncountableExampleNoun = ctx.nounType === "uncountable" ? escapeHtml(ctx.noun) : "water";
           return explanationShell({
-            summary: `The correct answer is <strong>${question.correctAnswer}</strong> because the sentence must match both noun type and attitude.`,
+            summary: `The correct answer is <strong>${question.correctAnswer}</strong>. In this sentence the blank is followed by <strong>${escapeHtml(ctx.phrase)}</strong>; the key word is <strong>${escapeHtml(ctx.noun)}</strong>, which is <strong>${ctx.nounType}</strong>.`,
             rule: `<strong>Few</strong> and <strong>a few</strong> are used with plural countable nouns. <strong>Little</strong> and <strong>a little</strong> are used with uncountable nouns. Without <strong>a</strong>, <strong>few/little</strong> usually means almost none or not enough. With <strong>a</strong>, <strong>a few/a little</strong> means a small but useful or sufficient amount.`,
-            contrast: question.briefExplanation || "The trap is that the factual amount may be small in all four options, but the grammar and tone change completely.",
+            contrast: `${question.briefExplanation || ""} The full correct sentence is: <strong>${escapeHtml(ctx.actualSentence)}</strong> The context shows <strong>${ctx.tone}</strong>, so the answer must match both <strong>${escapeHtml(ctx.noun)}</strong> and that meaning.`,
             examples: [
-              "<strong>Few students understood the rule</strong> means almost none, negative.",
-              "<strong>A few students understood the rule</strong> means some students did, positive.",
-              "<strong>Little time remains</strong> means not enough time.",
-              "<strong>A little time remains</strong> means some usable time remains."
+              `<strong>Few + plural countable:</strong> Few ${countableExampleNoun} means almost no ${countableExampleNoun}, or not enough.`,
+              `<strong>A few + plural countable:</strong> A few ${countableExampleNoun} means some ${countableExampleNoun}, enough to matter.`,
+              `<strong>Little + uncountable:</strong> Little ${uncountableExampleNoun} means not enough ${uncountableExampleNoun}.`,
+              `<strong>A little + uncountable:</strong> A little ${uncountableExampleNoun} means some usable ${uncountableExampleNoun}.`
             ],
             examTip: "First ask: countable or uncountable? Then ask: negative scarcity or positive sufficiency?"
           });
@@ -1435,6 +1438,134 @@
           return "Examples: answered quickly, looked sad, better than, the best of all, analyse, propose, and recommend.";
         }
         return "Example method: remove extra words, identify the core grammar relationship, and test each option against that relationship.";
+      }
+
+      function quantifierContext(question) {
+        const stem = String(question.stem || "");
+        const afterBlank = stem.includes("___") ? stem.split("___")[1] : stem;
+        const cleaned = afterBlank
+          .replace(/[.,;:!?]/g, " ")
+          .replace(/\s+/g, " ")
+          .trim();
+        const tokens = cleaned.split(" ").filter(Boolean);
+        const uncountable = new Set([
+          "time", "money", "water", "information", "evidence", "advice", "support", "progress",
+          "knowledge", "traffic", "work", "patience", "confidence", "hope", "energy", "experience",
+          "medicine", "feedback", "difficulty", "interest", "equipment", "improvement", "authority",
+          "room", "cash", "awareness", "value", "confusion", "understanding", "electricity"
+        ]);
+        const countable = new Set([
+          "students", "candidates", "questions", "errors", "documents", "branches", "people",
+          "workers", "books", "cases", "opportunities", "minutes", "reasons", "villages",
+          "applications", "complaints", "medicines", "pieces", "answers", "contacts", "houses",
+          "families", "participants", "signs", "mistakes", "measures", "examples", "suggestions",
+          "problems", "coins"
+        ]);
+        const stopWords = new Set([
+          "left", "after", "before", "because", "so", "and", "but", "or", "with", "without",
+          "from", "for", "to", "in", "on", "at", "by", "of", "that", "which", "who", "when",
+          "where", "while", "although", "though", "enough"
+        ]);
+        const adjectives = new Set([
+          "useful", "positive", "clear", "practical", "safety", "rural", "old", "new",
+          "more", "nearly", "basic", "emergency"
+        ]);
+
+        const specialModifier = tokens[0] && (tokens[0].toLowerCase() === "more" || /ed$|ive$|ful$|less$|ous$|ant$|ent$/i.test(tokens[0]));
+        if (specialModifier && question.correctAnswer === "a little") {
+          return {
+            noun: tokens[0] || "adjective",
+            phrase: tokens.slice(0, 3).join(" "),
+            nounType: "modifier",
+            tone: "slight degree",
+            actualSentence: stem.replace("___", question.correctAnswer),
+            afterBlank
+          };
+        }
+
+        let noun = "";
+        let phraseTokens = [];
+        if (tokens[0] && tokens[0].toLowerCase() === "of") {
+          const plural = tokens.find((token) => countable.has(token.toLowerCase()));
+          noun = plural || tokens[tokens.length - 1] || "noun";
+          phraseTokens = tokens.slice(0, Math.min(tokens.length, 5));
+        } else {
+          for (const token of tokens) {
+            const lower = token.toLowerCase();
+            if (stopWords.has(lower) && phraseTokens.length) break;
+            phraseTokens.push(token);
+            if (uncountable.has(lower) || countable.has(lower)) {
+              noun = token;
+              break;
+            }
+            if (phraseTokens.length >= 3) break;
+          }
+          if (!noun) {
+            const meaningful = phraseTokens.filter((token) => !adjectives.has(token.toLowerCase()));
+            noun = meaningful[meaningful.length - 1] || phraseTokens[phraseTokens.length - 1] || "noun";
+          }
+        }
+
+        const lowerNoun = noun.toLowerCase();
+        const nounType = uncountable.has(lowerNoun)
+          ? "uncountable"
+          : countable.has(lowerNoun) || /s$/.test(lowerNoun)
+            ? "plural countable"
+            : "unknown";
+        const correct = String(question.correctAnswer || "").toLowerCase();
+        const tone = correct === "few" || correct === "little"
+          ? "negative scarcity"
+          : "positive sufficiency";
+        const phrase = phraseTokens.join(" ") || noun;
+
+        return {
+          noun,
+          phrase,
+          nounType,
+          tone,
+          actualSentence: stem.replace("___", question.correctAnswer),
+          afterBlank
+        };
+      }
+
+      function quantifierOptionExplanation(question, option, isCorrect) {
+        const ctx = quantifierContext(question);
+        const value = String(option).toLowerCase();
+        const optionHtml = escapeHtml(option);
+        const nounHtml = escapeHtml(ctx.noun);
+        const phraseHtml = escapeHtml(ctx.phrase);
+        const sentenceHtml = escapeHtml(ctx.actualSentence);
+
+        if (ctx.nounType === "modifier") {
+          if (value === "a little") {
+            return isCorrect
+              ? `<strong>${optionHtml}</strong> is correct because the blank modifies <strong>${phraseHtml}</strong>, not a noun. <strong>A little</strong> can mean slightly before adjectives or comparatives. Correct sentence: <strong>${sentenceHtml}</strong>. Example: <strong>The second passage is a little more difficult</strong>.`
+              : `<strong>${optionHtml}</strong> is wrong here because the blank is modifying <strong>${phraseHtml}</strong>. For degree before an adjective/comparative, English uses <strong>a little</strong>, not <strong>${optionHtml}</strong>.`;
+          }
+          return `<strong>${optionHtml}</strong> is wrong here because it is a noun-quantity word in this option set, but the sentence needs a degree modifier before <strong>${phraseHtml}</strong>. Correct sentence: <strong>${sentenceHtml}</strong>.`;
+        }
+
+        const needsCountable = value.includes("few");
+        const needsUncountable = value.includes("little");
+        const positive = value.startsWith("a ");
+        const optionType = needsCountable ? "plural countable noun" : "uncountable noun";
+        const optionTone = positive ? "a small but useful/sufficient amount" : "almost none or not enough";
+        const nounFits = (needsCountable && ctx.nounType === "plural countable") || (needsUncountable && ctx.nounType === "uncountable");
+        const toneFits = (positive && ctx.tone === "positive sufficiency") || (!positive && ctx.tone === "negative scarcity");
+
+        if (isCorrect) {
+          return `<strong>${optionHtml}</strong> is correct because the word after the blank is <strong>${phraseHtml}</strong>; the key noun is <strong>${nounHtml}</strong>, which is <strong>${ctx.nounType}</strong>. The sentence context shows <strong>${ctx.tone}</strong>. Therefore the answer must be the quantifier for a ${ctx.nounType} noun with ${ctx.tone}: <strong>${optionHtml}</strong>. Correct sentence: <strong>${sentenceHtml}</strong>.`;
+        }
+
+        if (!nounFits && !toneFits) {
+          return `<strong>${optionHtml}</strong> is wrong for two reasons. First, it is used with a <strong>${optionType}</strong>, but this sentence uses <strong>${nounHtml}</strong>, which is <strong>${ctx.nounType}</strong>. Second, it means <strong>${optionTone}</strong>, but this sentence needs <strong>${ctx.tone}</strong>. Correct sentence: <strong>${sentenceHtml}</strong>.`;
+        }
+
+        if (!nounFits) {
+          return `<strong>${optionHtml}</strong> is wrong because of noun type. It is used with a <strong>${optionType}</strong>, but the blank is followed by <strong>${phraseHtml}</strong>; the key noun <strong>${nounHtml}</strong> is <strong>${ctx.nounType}</strong>. Correct sentence: <strong>${sentenceHtml}</strong>.`;
+        }
+
+        return `<strong>${optionHtml}</strong> is wrong because of tone. It can fit the noun type, but it means <strong>${optionTone}</strong>. This sentence needs <strong>${ctx.tone}</strong>, so the correct sentence is: <strong>${sentenceHtml}</strong>.`;
       }
 
       function correctUseExample(question, option) {
@@ -1773,6 +1904,10 @@
         const examples = topicExamples(question);
         const useExample = correctUseExample(question, option);
 
+        if (categoryHas(question, "Few, A Few, Little, A Little")) {
+          return quantifierOptionExplanation(question, option, isCorrect);
+        }
+
         if (isCorrect) {
           if (categoryHas(question, "article")) {
             return `<strong>${escapeHtml(value)}</strong> is the correct option. ${rule} Here this option fits the noun's exact status in the sentence: non-specific, specific, unique, sound-based, or zero-article use. ${useExample}`;
@@ -1876,7 +2011,12 @@
         if (!question.options || !question.options.length) return "";
 
         const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        const ruleIntro = `<p><strong>Rule used for this question:</strong> ${topicRuleSummary(question)} ${topicExamples(question)}</p>`;
+        const ruleIntro = categoryHas(question, "Few, A Few, Little, A Little")
+          ? (() => {
+              const ctx = quantifierContext(question);
+              return `<p><strong>Rule used for this question:</strong> The blank controls <strong>${escapeHtml(ctx.phrase)}</strong>; the key word is <strong>${escapeHtml(ctx.noun)}</strong>, which is <strong>${ctx.nounType}</strong>. The sentence meaning is <strong>${ctx.tone}</strong>. Therefore the answer must match both the noun type and the intended attitude.</p>`;
+            })()
+          : `<p><strong>Rule used for this question:</strong> ${topicRuleSummary(question)} ${topicExamples(question)}</p>`;
 
         if (question.type === "error") {
           const corrected = escapeHtml(correctedErrorSentence(question));
