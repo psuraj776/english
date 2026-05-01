@@ -557,6 +557,7 @@
   <script src="pdf-question-data.js"></script>
   <script src="advanced-question-data.js"></script>
   <script src="quantifier-question-data.js"></script>
+  <script src="each-every-all-question-data.js"></script>
   <script>
     function shuffle(list) {
       const copy = list.slice();
@@ -1159,6 +1160,10 @@
       }
 
       function buildDetailedExplanation(question) {
+        if (question.customExplanation) {
+          return question.customExplanation;
+        }
+
         if (question.detailMode && question.detailMode.startsWith("article")) {
           return explainArticle(question.detailMode, question.detailMeta || {}, question);
         }
@@ -2009,6 +2014,16 @@
 
       function buildOptionReview(question) {
         if (!question.options || !question.options.length) return "";
+        if (question.optionExplanations) {
+          const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+          const items = question.options.map((option, index) => {
+            const isCorrect = option === question.correctAnswer;
+            const supplied = question.optionExplanations[option] || question.optionExplanations[letters[index]] || "";
+            const status = isCorrect ? "<strong>Correct option.</strong>" : "<strong>Wrong option.</strong>";
+            return `<li><strong>Option ${letters[index] || index + 1}</strong>: ${status} ${supplied}</li>`;
+          }).join("");
+          return `<p><strong>Option-by-option review</strong></p><ul>${items}</ul>`;
+        }
 
         const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         const ruleIntro = categoryHas(question, "Few, A Few, Little, A Little")
@@ -3243,8 +3258,11 @@
       const quantifierQuestions = Array.isArray(globalThis.QUANTIFIER_QUESTION_DATA)
         ? globalThis.QUANTIFIER_QUESTION_DATA
         : [];
+      const eachEveryAllQuestions = Array.isArray(globalThis.EACH_EVERY_ALL_QUESTION_DATA)
+        ? globalThis.EACH_EVERY_ALL_QUESTION_DATA
+        : [];
 
-      [...extractedPdfQuestions, ...advancedQuestions, ...quantifierQuestions].forEach((item) => {
+      [...extractedPdfQuestions, ...advancedQuestions, ...quantifierQuestions, ...eachEveryAllQuestions].forEach((item) => {
         if (item.type === "error") {
           addError(
             item.category,
@@ -3269,8 +3287,16 @@
           item.explanation || "",
           item.prompt || "Choose the best answer.",
           item.detailMode
-            ? { detailMode: item.detailMode, detailMeta: item.detailMeta || { answer: item.correctAnswer } }
-            : {}
+            ? {
+                detailMode: item.detailMode,
+                detailMeta: item.detailMeta || { answer: item.correctAnswer },
+                customExplanation: item.customExplanation,
+                optionExplanations: item.optionExplanations
+              }
+            : {
+                customExplanation: item.customExplanation,
+                optionExplanations: item.optionExplanations
+              }
         );
       });
 
