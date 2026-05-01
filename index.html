@@ -555,6 +555,7 @@
     </section>
   </main>
 
+  <script src="pdf-question-data.js"></script>
   <script>
     function shuffle(list) {
       const copy = list.slice();
@@ -1205,11 +1206,11 @@
           return explainPronoun("pronounObjectivePrep", { answer: question.correctAnswer }, question);
         }
 
-        if (question.category === "Prepositions") {
+        if (question.category === "Prepositions" || question.category.includes("Prepositions")) {
           return explainPreposition("prepCollocation", { answer: question.correctAnswer }, question);
         }
 
-        if (question.category === "Tenses and Conditionals") {
+        if (question.category === "Tenses and Conditionals" || question.category.includes("Tenses and Conditionals")) {
           return explanationShell({
             summary: `The correct answer is <strong>${question.correctAnswer}</strong> because tense selection depends on time relationship, not on mechanical verb matching.`,
             rule: `Tense questions usually test sequence: earlier past versus later past, habitual action versus current continuation, real condition versus unreal condition, or present schedule versus future result.`,
@@ -1221,6 +1222,66 @@
               "would have applied for an unreal past result"
             ],
             examTip: "Draw a tiny mental timeline. Once the order of actions is clear, the tense usually becomes obvious."
+          });
+        }
+
+        if (question.category.includes("Conjunctions and Clauses")) {
+          return explanationShell({
+            summary: `The correct connector is <strong>${question.correctAnswer}</strong> because it gives the clause the exact logical relationship required by the sentence.`,
+            rule: `<strong>If</strong> introduces condition or uncertainty, <strong>whether</strong> is strong when alternatives are implied, <strong>in case</strong> expresses precaution, and <strong>that</strong> introduces a reported fact, statement, or clarification.`,
+            transcript: `${transcriptNotes.logicFirst} Connector questions should be solved by naming the relationship between the two clauses before looking at the options.`,
+            contrast: question.briefExplanation || "A connector may be grammatically possible in isolation but wrong if it changes condition into precaution, uncertainty into statement, or statement into doubt.",
+            examples: [
+              "Take an umbrella in case it rains.",
+              "I do not know whether he will attend.",
+              "The report clarified that the delay was technical."
+            ],
+            examTip: "Read both sides of the blank. The clause before and after the blank together decide the connector."
+          });
+        }
+
+        if (question.category.includes("Determiners and Negation")) {
+          return explanationShell({
+            summary: `The correct answer is <strong>${question.correctAnswer}</strong> because the sentence needs the determiner or negative structure that matches the exact quantity meant.`,
+            rule: `Determiners such as <strong>all</strong>, <strong>both</strong>, <strong>either</strong>, <strong>neither</strong>, <strong>some</strong>, and <strong>none</strong> change meaning sharply. <strong>All...not</strong> often means partial negation, while <strong>none</strong> gives complete negation and <strong>neither</strong> is used for two negative choices.`,
+            transcript: `${transcriptNotes.logicFirst} These questions are not solved by translating word for word. First decide whether the sentence means all, some, none, one of two, or not one of two.`,
+            contrast: question.briefExplanation || "A grammatically familiar phrase can still be wrong if it changes complete negation into partial negation or treats two items as many.",
+            examples: [
+              "Not all candidates were informed means some were not informed.",
+              "None of the keys worked means zero keys worked.",
+              "Neither of the two routes was accessible means both routes failed."
+            ],
+            examTip: "Always count the set first: two items, many items, partial failure, or complete failure."
+          });
+        }
+
+        if (question.category.includes("Reading Comprehension")) {
+          return explanationShell({
+            summary: `The correct answer is <strong>${question.correctAnswer}</strong> because it captures the whole passage rather than only one attractive detail.`,
+            rule: `For main-theme questions, the answer must cover the central argument, contrast, and conclusion. A partial option can be true and still be wrong if it describes only one sentence or example.`,
+            transcript: `${transcriptNotes.logicFirst} Reading questions use the same exam logic: identify the function of each detail and then choose the option that represents the passage as a whole.`,
+            contrast: question.briefExplanation || "Reject options that are too narrow, too extreme, opposite to the passage, or merely a supporting example.",
+            examples: [
+              "A detail from the first line is not automatically the theme.",
+              "The best theme option usually explains why the passage was written.",
+              "Extreme words such as always, completely, and abolish often signal a trap unless the passage is equally extreme."
+            ],
+            examTip: "After reading, ask: what is the author mainly trying to prove or warn about?"
+          });
+        }
+
+        if (question.category.includes("Spelling and Word Choice")) {
+          return explanationShell({
+            summary: `The correct option is <strong>${question.correctAnswer}</strong> because it is the standard spelling or the word that best fits the sentence context.`,
+            rule: `Spelling questions test the accepted written form; word-choice questions test meaning, usage, and context. Do not choose by appearance alone. Compare the exact letters, prefixes, suffixes, and the sense required by the sentence.`,
+            transcript: `${transcriptNotes.examLogic} In PDF-style spelling and vocabulary questions, the same logic-first method applies: inspect the word carefully, then confirm that the meaning fits the sentence.`,
+            contrast: question.briefExplanation || "The wrong options are usually close enough to look familiar, but one letter, syllable, or contextual meaning makes them unacceptable.",
+            examples: [
+              "Accommodation, not accomodation.",
+              "Maintenance, not maintainance.",
+              "Choose a word that fits the context, not merely a word that sounds formal."
+            ],
+            examTip: "Slow down on familiar-looking words. Most spelling traps depend on a word looking almost right."
           });
         }
 
@@ -1239,7 +1300,7 @@
           });
         }
 
-        if (question.category === "Vocabulary and Cloze") {
+        if (question.category === "Vocabulary and Cloze" || question.category.includes("Vocabulary and Cloze")) {
           return explanationShell({
             summary: `The correct word is <strong>${question.correctAnswer}</strong> because it fits both the literal meaning and the tone of the sentence.`,
             rule: `Good cloze solving works in two stages: first predict the required meaning from the context, then compare each option against that predicted meaning.`,
@@ -2445,6 +2506,25 @@
           "",
           pronounPrompt,
           { detailMode: "pronounDistributive", detailMeta: { answer } }
+        );
+      });
+
+      const extractedPdfQuestions = Array.isArray(globalThis.PDF_QUESTION_DATA)
+        ? globalThis.PDF_QUESTION_DATA
+        : [];
+
+      extractedPdfQuestions.forEach((item) => {
+        addMcq(
+          item.category,
+          item.source || "PDF extracted question",
+          item.stem,
+          item.options,
+          item.correctAnswer,
+          item.explanation || "",
+          item.prompt || "Choose the best answer.",
+          item.detailMode
+            ? { detailMode: item.detailMode, detailMeta: item.detailMeta || { answer: item.correctAnswer } }
+            : {}
         );
       });
 
