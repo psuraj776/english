@@ -556,6 +556,7 @@
 
   <script src="pdf-question-data.js"></script>
   <script src="advanced-question-data.js"></script>
+  <script src="quantifier-question-data.js"></script>
   <script>
     function shuffle(list) {
       const copy = list.slice();
@@ -1254,6 +1255,21 @@
           });
         }
 
+        if (question.category.includes("Few, A Few, Little, A Little")) {
+          return explanationShell({
+            summary: `The correct answer is <strong>${question.correctAnswer}</strong> because the sentence must match both noun type and attitude.`,
+            rule: `<strong>Few</strong> and <strong>a few</strong> are used with plural countable nouns. <strong>Little</strong> and <strong>a little</strong> are used with uncountable nouns. Without <strong>a</strong>, <strong>few/little</strong> usually means almost none or not enough. With <strong>a</strong>, <strong>a few/a little</strong> means a small but useful or sufficient amount.`,
+            contrast: question.briefExplanation || "The trap is that the factual amount may be small in all four options, but the grammar and tone change completely.",
+            examples: [
+              "<strong>Few students understood the rule</strong> means almost none, negative.",
+              "<strong>A few students understood the rule</strong> means some students did, positive.",
+              "<strong>Little time remains</strong> means not enough time.",
+              "<strong>A little time remains</strong> means some usable time remains."
+            ],
+            examTip: "First ask: countable or uncountable? Then ask: negative scarcity or positive sufficiency?"
+          });
+        }
+
         if (question.category.includes("Reading Comprehension")) {
           return explanationShell({
             summary: `The correct answer is <strong>${question.correctAnswer}</strong> because it captures the whole passage rather than only one attractive detail.`,
@@ -1360,6 +1376,9 @@
         if (categoryHas(question, "determiner") || categoryHas(question, "negation")) {
           return "Determiner rule: match the exact quantity and negative meaning. All, not all, some, none, either, neither, every, another, and the other are not interchangeable.";
         }
+        if (categoryHas(question, "Few, A Few, Little, A Little")) {
+          return "Quantifier rule: few/a few go with plural countable nouns; little/a little go with uncountable nouns. Few/little are negative or insufficient, while a few/a little are positive or sufficient.";
+        }
         if (categoryHas(question, "conjunction") || categoryHas(question, "clause")) {
           return "Connector rule: choose the connector that gives the correct clause relationship: condition, alternative, precaution, reported fact, reason, contrast, or result.";
         }
@@ -1396,6 +1415,9 @@
         }
         if (categoryHas(question, "determiner") || categoryHas(question, "negation")) {
           return "Examples: Not all students came means some did not; none means zero; neither is used for two negative choices.";
+        }
+        if (categoryHas(question, "Few, A Few, Little, A Little")) {
+          return "Examples: few errors = almost no errors and not enough; a few errors = some errors; little water = not enough water; a little water = some usable water.";
         }
         if (categoryHas(question, "conjunction") || categoryHas(question, "clause")) {
           return "Examples: Carry an umbrella in case it rains; I do not know whether he will come; The report says that costs increased.";
@@ -1503,6 +1525,16 @@
 
         if (categoryHas(question, "determiner") || categoryHas(question, "negation")) {
           return `Correct use example: <strong>${value}</strong> is correct only when it matches the exact quantity. Examples: <strong>not all students came</strong> means some did not; <strong>none came</strong> means zero came; <strong>neither answer is correct</strong> refers to two answers.`;
+        }
+
+        if (categoryHas(question, "Few, A Few, Little, A Little")) {
+          const examples = {
+            few: "Correct use: <strong>Few candidates answered the final question</strong>. Use <strong>few</strong> with plural countable nouns when the meaning is negative: almost none or not enough.",
+            "a few": "Correct use: <strong>A few candidates answered the final question</strong>. Use <strong>a few</strong> with plural countable nouns when the meaning is positive: some, enough to matter.",
+            little: "Correct use: <strong>Little time remains before the exam</strong>. Use <strong>little</strong> with uncountable nouns when the meaning is negative: almost none or not enough.",
+            "a little": "Correct use: <strong>A little time remains before the exam</strong>. Use <strong>a little</strong> with uncountable nouns when the meaning is positive: some, enough to use."
+          };
+          return examples[lower] || `Correct use example: <strong>${value}</strong> must match noun type and the intended positive or negative tone.`;
         }
 
         if (categoryHas(question, "reading")) {
@@ -1757,8 +1789,11 @@
           if (categoryHas(question, "tense") || categoryHas(question, "conditional")) {
             return `<strong>${escapeHtml(value)}</strong> is the correct option. ${rule} It places the action at the right time and keeps the clause pattern grammatically consistent. ${useExample}`;
           }
-          if (categoryHas(question, "determiner") || categoryHas(question, "negation")) {
-            return `<strong>${escapeHtml(value)}</strong> is the correct option. ${rule} It preserves the exact quantity or negative meaning intended by the sentence. ${useExample}`;
+        if (categoryHas(question, "determiner") || categoryHas(question, "negation")) {
+          return `<strong>${escapeHtml(value)}</strong> is the correct option. ${rule} It preserves the exact quantity or negative meaning intended by the sentence. ${useExample}`;
+        }
+          if (categoryHas(question, "Few, A Few, Little, A Little")) {
+            return `<strong>${escapeHtml(value)}</strong> is the correct option. ${rule} In this sentence it matches the noun type and the intended tone. ${useExample}`;
           }
           if (categoryHas(question, "conjunction") || categoryHas(question, "clause")) {
             return `<strong>${escapeHtml(value)}</strong> is the correct option. ${rule} It connects the two clauses with the correct logical relationship. ${useExample}`;
@@ -1804,6 +1839,18 @@
 
         if (categoryHas(question, "determiner") || categoryHas(question, "negation")) {
           return `<strong>${escapeHtml(value)}</strong> is a wrong option. ${rule} It changes the quantity or negative force in this sentence. ${useExample}`;
+        }
+
+        if (categoryHas(question, "Few, A Few, Little, A Little")) {
+          const nounTypeProblem = (lower.includes("few") && question.stem && /\b(time|money|water|information|evidence|advice|support|progress|knowledge|traffic|work|patience|confidence|hope|energy|experience)\b/i.test(question.stem))
+            || (lower.includes("little") && question.stem && /\b(students|candidates|questions|errors|documents|branches|people|workers|books|cases|opportunities|minutes|reasons|villages|applications|complaints)\b/i.test(question.stem));
+          const toneProblem = (lower === "few" || lower === "little")
+            ? "It would make the sentence sound negative, meaning almost none or not enough."
+            : "It would make the sentence sound positive, meaning some useful amount, which does not fit the negative context here.";
+          const grammarNote = nounTypeProblem
+            ? "It also mismatches noun type: few/a few need plural countable nouns, while little/a little need uncountable nouns."
+            : toneProblem;
+          return `<strong>${escapeHtml(value)}</strong> is a wrong option. ${rule} ${grammarNote} ${useExample}`;
         }
 
         if (categoryHas(question, "conjunction") || categoryHas(question, "clause")) {
@@ -3053,8 +3100,11 @@
       const advancedQuestions = Array.isArray(globalThis.ADVANCED_QUESTION_DATA)
         ? globalThis.ADVANCED_QUESTION_DATA
         : [];
+      const quantifierQuestions = Array.isArray(globalThis.QUANTIFIER_QUESTION_DATA)
+        ? globalThis.QUANTIFIER_QUESTION_DATA
+        : [];
 
-      [...extractedPdfQuestions, ...advancedQuestions].forEach((item) => {
+      [...extractedPdfQuestions, ...advancedQuestions, ...quantifierQuestions].forEach((item) => {
         if (item.type === "error") {
           addError(
             item.category,
