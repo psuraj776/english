@@ -11,7 +11,7 @@ globalThis.ADVANCED_QUESTION_DATA = [
       "where poor digital access and shortage of trained staff",
       "continue to delay the delivery of benefits"
     ],
-    options: ["A", "B", "C", "D", "E"],
+    options: ["A", "B", "C", "D", "E", "F"],
     correctAnswer: "B",
     explanation: "The subject is implementation, which is singular, so the verb must be remains.",
     correctedSentence: "Although the state government has announced several welfare schemes for small farmers, the implementation of these policies remains slow in districts where poor digital access and shortage of trained staff continue to delay the delivery of benefits.",
@@ -32,7 +32,7 @@ globalThis.ADVANCED_QUESTION_DATA = [
       "and explain why several candidates were not allowed",
       "to appear in the examination despite having valid admit cards"
     ],
-    options: ["A", "B", "C", "D", "E"],
+    options: ["A", "B", "C", "D", "E", "F"],
     correctAnswer: "E",
     explanation: "The sentence is grammatically correct.",
     correctedSentence: "The committee, which was formed to review irregularities in online recruitment, has asked the agency to submit a detailed report and explain why several candidates were not allowed to appear in the examination despite having valid admit cards.",
@@ -53,7 +53,7 @@ globalThis.ADVANCED_QUESTION_DATA = [
       "because the temporary pumps installed last year",
       "cannot handle continuous rainfall for more than a few hours"
     ],
-    options: ["A", "B", "C", "D", "E"],
+    options: ["A", "B", "C", "D", "E", "F"],
     correctAnswer: "A",
     explanation: "Use present simple in the if-clause for a real future condition.",
     correctedSentence: "If the municipal corporation fails to repair the drainage system before monsoon, several low-lying areas may again face flooding because the temporary pumps installed last year cannot handle continuous rainfall for more than a few hours.",
@@ -74,7 +74,7 @@ globalThis.ADVANCED_QUESTION_DATA = [
       "which could have helped the auditors understand",
       "why the accounts had been altered repeatedly"
     ],
-    options: ["A", "B", "C", "D", "E"],
+    options: ["A", "B", "C", "D", "E", "F"],
     correctAnswer: "E",
     explanation: "The sentence is correct.",
     correctedSentence: "The officer who prepared the inspection note was accused of hiding important documents which could have helped the auditors understand why the accounts had been altered repeatedly.",
@@ -714,5 +714,270 @@ globalThis.ADVANCED_QUESTION_DATA = [
       correctPart: "was not credible enough to influence the judgment",
       example: "Example: The hall is large enough. But: We have enough chairs."
     }
+  }
+];
+
+// Targeted from the SBI PO PYQ pattern in pyq/pre and pyq/mains.
+// These are not broad grammar drills; they mirror the recurring question shapes:
+// correct/incorrect sentence, two-word fillers, word interchange, word usage,
+// para-jumble position, and replacement/no-replacement.
+globalThis.PYQ_TARGETED_QUESTION_DATA = [
+  {
+    category: "PYQ Target: Correct Sentence",
+    source: "SBI PO Pre 2025 correct/incorrect sentence pattern",
+    stem: "Identify the correct sentence from the options given below.",
+    options: [
+      "The manager, along with his assistants, were reviewing the complaint files late into the evening.",
+      "Neither of the candidates have submitted the undertaking required for final verification.",
+      "Had the agency disclosed the figures earlier, the investors would have reconsidered their decision.",
+      "Rarely the committee accepts a proposal without asking for supporting documents.",
+      "None is correct"
+    ],
+    correctAnswer: "Had the agency disclosed the figures earlier, the investors would have reconsidered their decision.",
+    explanation: "This follows the third conditional/inversion pattern: Had + subject + past participle, subject + would have + past participle. Option A is wrong because the subject manager is singular; the along with phrase does not make it plural. Option B is wrong because neither of takes a singular verb in formal exam usage: has submitted. Option D is wrong because rarely at the beginning needs inversion: Rarely does the committee accept. Therefore option C is the only fully correct sentence.",
+    prompt: "Choose the error-free sentence."
+  },
+  {
+    category: "PYQ Target: Correct Sentence",
+    source: "SBI PO Pre 2025 correct/incorrect sentence pattern",
+    stem: "Identify the incorrect sentence from the options given below.",
+    options: [
+      "The scientist, who has been researching renewable energy for years, finally published her findings.",
+      "Each of the players was asked to carry his or her admit card to the centre.",
+      "No sooner had the meeting begun than the protesters gathered outside the hall.",
+      "The number of complaints have increased sharply in smaller towns.",
+      "None is incorrect"
+    ],
+    correctAnswer: "The number of complaints have increased sharply in smaller towns.",
+    explanation: "The incorrect sentence is option D. The expression the number of means one total count, so it takes a singular verb: has increased. Option A is correct because who refers to scientist and has been researching agrees with the singular subject. Option B is correct in formal exam grammar because each is singular. Option C is correct because No sooner is followed by inversion and than.",
+    prompt: "Choose the sentence that contains an error."
+  },
+  {
+    category: "PYQ Target: Correct Sentence",
+    source: "SBI PO Pre 2025 correct/incorrect sentence pattern",
+    stem: "Find the error-free sentence. If all contain errors, choose None is correct.",
+    options: [
+      "If the company would have invested in better training, it could attract more clients last year.",
+      "Between you and I, the proposal lacks clarity in its current form.",
+      "Despite repeated warnings, the officer refrained from disclosing confidential information.",
+      "The committee members, many of whom has served for a decade, opposed the proposal.",
+      "None is correct"
+    ],
+    correctAnswer: "Despite repeated warnings, the officer refrained from disclosing confidential information.",
+    explanation: "Option C is correct because refrain takes from + gerund: refrained from disclosing. Option A mixes conditional forms; it should be If the company had invested, it could have attracted. Option B is wrong because after between we need object case: between you and me. Option D is wrong because whom refers to committee members, so the verb should be have served.",
+    prompt: "Choose the error-free sentence."
+  },
+  {
+    category: "PYQ Target: Double Fillers",
+    source: "SBI PO Pre 2024-25 two-word filler pattern",
+    stem: "The government response was widely criticised as ______ and only served to ______ public frustration.",
+    options: [
+      "prudent, alleviate",
+      "swift, suppress",
+      "ineffectual, exacerbate",
+      "measured, pacify",
+      "transparent, conceal"
+    ],
+    correctAnswer: "ineffectual, exacerbate",
+    explanation: "The clue is widely criticised and only served to. The first blank needs a negative adjective meaning ineffective; ineffectual fits. The second blank needs a verb meaning make worse; exacerbate fits public frustration. Prudent/alleviate and measured/pacify are positive combinations, opposite to the criticism. Swift/suppress does not explain why the response was criticised. Transparent/conceal is logically contradictory.",
+    prompt: "Choose the pair that fits both grammar and context."
+  },
+  {
+    category: "PYQ Target: Double Fillers",
+    source: "SBI PO Pre 2024-25 two-word filler pattern",
+    stem: "The ambassador attempted to ______ diplomatic ties after the conflict and urged both nations to ______ their strategic objectives.",
+    options: [
+      "dismantle, confuse",
+      "revive, align",
+      "obscure, isolate",
+      "dismiss, exaggerate",
+      "withhold, collide"
+    ],
+    correctAnswer: "revive, align",
+    explanation: "After a conflict, diplomatic ties are normally revived or restored. Strategic objectives can be aligned, meaning brought into agreement. The other pairs either carry the wrong tone or do not collocate naturally: dismantle ties would worsen relations, confuse objectives is not the intended diplomatic sense, and collide cannot take objectives as a direct object here.",
+    prompt: "Choose the pair that fits both grammar and context."
+  },
+  {
+    category: "PYQ Target: Double Fillers",
+    source: "SBI PO Pre 2024-25 two-word filler pattern",
+    stem: "He approached the ancient manuscript with great ______, afraid that even a careless breath might ______ its fragile pages.",
+    options: [
+      "recklessness, preserve",
+      "caution, damage",
+      "indifference, protect",
+      "hostility, strengthen",
+      "certainty, decorate"
+    ],
+    correctAnswer: "caution, damage",
+    explanation: "The phrase afraid that even a careless breath gives the clue. A person handling a fragile manuscript would approach it with caution. A careless breath might damage its pages. The other options break the logic: recklessness contradicts afraid, preserve/protect/strengthen are opposite to the danger being described.",
+    prompt: "Choose the pair that fits both grammar and context."
+  },
+  {
+    category: "PYQ Target: Word Usage",
+    source: "SBI PO Pre 2025 word-in-three-sentences pattern",
+    stem: "COUNSEL\n(A) The psychiatrist offered counsel to help the patient cope with anxiety.\n(B) The municipal counsel session lasted four hours as members debated zoning rules.\n(C) She sought legal counsel before signing the contract.",
+    options: [
+      "Only (A)",
+      "Only (B)",
+      "Both (A) and (B)",
+      "All of these",
+      "Both (A) and (C)"
+    ],
+    correctAnswer: "Both (A) and (C)",
+    explanation: "Counsel means advice or a legal adviser. In (A), offered counsel means offered guidance, so it is correct. In (C), legal counsel means legal advice or lawyer, so it is correct. In (B), the intended word is council, meaning a governing body or meeting, not counsel. Therefore only A and C are correct.",
+    prompt: "Identify where the word is used correctly."
+  },
+  {
+    category: "PYQ Target: Word Usage",
+    source: "SBI PO Pre 2025 word-in-three-sentences pattern",
+    stem: "GAIT\n(A) The security guard stood at the school gait to check identity cards.\n(B) The doctor assessed the patient's gait for signs of mobility issues.\n(C) The entrance gait to the park was decorated with lights.",
+    options: [
+      "Only (A)",
+      "Only (B)",
+      "Both (A) and (B)",
+      "All of these",
+      "Both (B) and (C)"
+    ],
+    correctAnswer: "Only (B)",
+    explanation: "Gait means a manner of walking. Sentence B correctly uses gait because a doctor can assess how a patient walks. Sentences A and C need gate, meaning entrance. This is a recurring PYQ trap: the wrong option often sounds the same but belongs to a different meaning family.",
+    prompt: "Identify where the word is used correctly."
+  },
+  {
+    category: "PYQ Target: Word Usage",
+    source: "SBI PO Pre 2022 word-in-three-sentences pattern",
+    stem: "PURSUE\n(A) New rules allow students to pursue two degrees simultaneously.\n(B) National awards are usually pursued out of private endowments.\n(C) Scientists should pursue research in renewable energy.",
+    options: [
+      "None of these",
+      "Both (A) and (C)",
+      "Only (B)",
+      "All of these",
+      "Both (A) and (B)"
+    ],
+    correctAnswer: "Both (A) and (C)",
+    explanation: "Pursue means follow, undertake, or continue an aim/activity. Pursue two degrees and pursue research are natural. Sentence B is wrong because awards are endowed or funded by private endowments; pursued out of private endowments is not standard usage.",
+    prompt: "Identify where the word is used correctly."
+  },
+  {
+    category: "PYQ Target: Word Interchange",
+    source: "SBI PO Pre 2025 interchange pattern",
+    stem: "Choose the correct interchange needed to make the sentence meaningful:\nDeveloping emotional intelligence helps in (A) building stronger conflicts (B) and managing relationships (C) effectively in professional (D) and personal life.",
+    options: [
+      "A-B",
+      "B-C",
+      "C-D",
+      "A-D",
+      "No interchange required"
+    ],
+    correctAnswer: "B-C",
+    explanation: "The natural ideas are building stronger relationships and managing conflicts effectively. So conflicts at B and relationships at C must be interchanged. The corrected sentence becomes: Developing emotional intelligence helps in building stronger relationships and managing conflicts effectively in professional and personal life.",
+    prompt: "Choose the word interchange that corrects the sentence."
+  },
+  {
+    category: "PYQ Target: Word Interchange",
+    source: "SBI PO Pre 2025 interchange pattern",
+    stem: "Choose the correct interchange needed to make the sentence meaningful:\nEffective communication (A) and a clear achieving (B) promote teamwork toward understanding (C) shared goals and ensure progress (D).",
+    options: [
+      "A-B",
+      "B-C",
+      "C-D",
+      "A-D",
+      "No interchange required"
+    ],
+    correctAnswer: "B-C",
+    explanation: "The meaningful phrases are clear understanding and achieving shared goals. So achieving at B and understanding at C must be interchanged. After correction: Effective communication and a clear understanding promote teamwork toward achieving shared goals and ensure progress.",
+    prompt: "Choose the word interchange that corrects the sentence."
+  },
+  {
+    category: "PYQ Target: Word Interchange",
+    source: "SBI PO Pre 2025 interchange pattern",
+    stem: "Choose the correct interchange needed to make the sentence meaningful:\nConsistent effort (A) and disciplined practice are vital (B) for mastering complex skills (C) and achieving long-term professional success (D).",
+    options: [
+      "A-B",
+      "B-C",
+      "C-D",
+      "A-D",
+      "No interchange required"
+    ],
+    correctAnswer: "No interchange required",
+    explanation: "The sentence is already meaningful and grammatical. Consistent effort and disciplined practice are the compound subject; are vital agrees with the plural subject; mastering complex skills and achieving success are parallel gerund phrases. This option type appears often in PYQs, so do not force an interchange when the sentence already works.",
+    prompt: "Choose the word interchange that corrects the sentence."
+  },
+  {
+    category: "PYQ Target: Para Jumble",
+    source: "SBI PO Pre 2025 para-jumble position pattern",
+    stem: "Rearrange the sentences to form a coherent paragraph.\n(A) Over time, consistent overconsumption of sugar has been linked to chronic conditions like obesity and diabetes.\n(B) Despite its widespread use, sugar provides no essential nutrients and contributes only empty calories.\n(C) One major concern is how excessive sugar intake affects metabolic health.\n(D) Reducing sugar consumption can improve health outcomes.\n(E) Sugar is often added to processed foods, making it easy to consume large amounts unknowingly.\n(F) The modern diet has seen a dramatic increase in added sugar.\n\nWhich sentence should be FIRST?",
+    options: ["A", "B", "C", "D", "E", "F"],
+    correctAnswer: "F",
+    explanation: "Sentence F introduces the broad topic: the modern diet has seen an increase in added sugar. E then explains how people consume it unknowingly, B gives its empty-calorie nature, C and A discuss health effects, and D concludes with the solution. A cannot start because it says over time and assumes the topic is already introduced. D is a conclusion, not an opening.",
+    prompt: "Choose the sentence position answer."
+  },
+  {
+    category: "PYQ Target: Para Jumble",
+    source: "SBI PO Mains 2023 para-jumble position pattern",
+    stem: "Rearrange the sentences to form a coherent paragraph.\n(A) However, its popularity comes at a cost to health.\n(B) Fast food has become a convenient option for people with busy schedules.\n(C) Loaded with fats, sugars, and sodium, these meals contribute to lifestyle diseases.\n(D) Striking a balance between convenience and nutrition remains a challenge.\n(E) Additionally, the environmental impact adds to broader concerns.\n(F) Thus, the convenience of fast food may save time but harms long-term health.\n\nWhich sentence should be FIRST?",
+    options: ["A", "B", "C", "D", "E", "F"],
+    correctAnswer: "B",
+    explanation: "Sentence B introduces the subject, fast food, and its convenience. A begins with However, so it must contrast with something already stated. C explains the health cost, E adds another concern, F gives a concluding result, and D is the final broader conclusion. Therefore B is the first sentence.",
+    prompt: "Choose the sentence position answer."
+  },
+  {
+    category: "PYQ Target: Replacement",
+    source: "SBI PO Pre replacement/no-replacement pattern",
+    stem: "Researchers have proved that long hours of ______ sitting can lead to several health complications.",
+    options: [
+      "repulsive",
+      "uninterrupted",
+      "impeded",
+      "facilely",
+      "No replacement required"
+    ],
+    correctAnswer: "uninterrupted",
+    explanation: "The context talks about sitting for long hours without a break. Uninterrupted means continuous, so it fits naturally. Repulsive means disgusting, impeded means obstructed, and facilely is an adverb meaning too easily; none of these describe the health risk of continuous sitting.",
+    prompt: "Choose the suitable replacement."
+  },
+  {
+    category: "PYQ Target: Replacement",
+    source: "SBI PO Pre replacement/no-replacement pattern",
+    stem: "The policy was criticised because its wording created unnecessary ______ among applicants.",
+    options: [
+      "ambiguity",
+      "lucidity",
+      "certainty",
+      "clarification",
+      "No replacement required"
+    ],
+    correctAnswer: "ambiguity",
+    explanation: "Criticised and unnecessary show that the blank needs a negative noun. Ambiguity means lack of clarity or possibility of more than one meaning. Lucidity, certainty, and clarification are positive clarity words, so they contradict the complaint.",
+    prompt: "Choose the suitable replacement."
+  },
+  {
+    category: "PYQ Target: Misspelt/Wrongly Used",
+    source: "SBI PO Pre 2022 misspelt word pattern",
+    stem: "Choose the misspelt or wrongly used word: One would think that the repeated ocurrence of tornadoes in an area would prompt an exodus of residents.",
+    options: [
+      "ocurrence",
+      "tornadoes",
+      "exodus",
+      "residents",
+      "All are correct"
+    ],
+    correctAnswer: "ocurrence",
+    explanation: "The correct spelling is occurrence, with double c and double r. Tornadoes, exodus, and residents are acceptable in this sentence. SBI spelling questions often use a familiar word with one missing repeated consonant.",
+    prompt: "Choose the incorrect word."
+  },
+  {
+    category: "PYQ Target: Misspelt/Wrongly Used",
+    source: "SBI PO Pre 2022 misspelt word pattern",
+    stem: "Choose the misspelt or wrongly used word: Since I cannot deal with the imtolerable agony of this toothache, I have no choice but to seek urgent care.",
+    options: [
+      "imtolerable",
+      "agony",
+      "toothache",
+      "urgent",
+      "All are correct"
+    ],
+    correctAnswer: "imtolerable",
+    explanation: "The correct spelling is intolerable, not imtolerable. The prefix is in- before tolerable. Agony, toothache, and urgent are correctly spelt and contextually suitable.",
+    prompt: "Choose the incorrect word."
   }
 ];
