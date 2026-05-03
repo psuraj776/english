@@ -4262,3 +4262,24 @@ globalThis.PDF_QUESTION_DATA = [
     }
   }
 ];
+
+globalThis.PDF_QUESTION_DATA.push(
+  {
+    "category": "PYQ Target: Misspelt/Wrongly Used",
+    "source": "SBI PO PYQ spelling pattern",
+    "stem": "Choose the misspelt or wrongly used word: The reserch paper's deadline was extended after several students requested more time.",
+    "options": ["reserch", "deadline", "extended", "requested", "All are correct"],
+    "correctAnswer": "reserch",
+    "explanation": "The incorrect word is reserch. The correct spelling is research. Deadline, extended, and requested are correctly spelt and fit the context. SBI spelling questions often keep the sentence simple and hide one common spelling error inside a familiar academic or work-related sentence.",
+    "prompt": "Choose the incorrect word."
+  },
+  {
+    "category": "PYQ Target: Misspelt/Wrongly Used",
+    "source": "SBI PO PYQ spelling pattern",
+    "stem": "Choose the misspelt or wrongly used word: The committee appreciated her perseverance during the long verification process.",
+    "options": ["committee", "appreciated", "perseverance", "verification", "All are correct"],
+    "correctAnswer": "All are correct",
+    "explanation": "All four words are correctly spelt and contextually suitable. Committee has double m and double t, perseverance is spelt with -ance, and verification is the correct noun form. PYQs include All are correct/No replacement required traps, so do not force an error when the sentence is already clean.",
+    "prompt": "Choose the incorrect word."
+  }
+);
