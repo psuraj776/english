@@ -89,3 +89,33 @@ globalThis.QUANTIFIER_QUESTION_DATA = (() => {
     prompt
   }));
 })();
+
+globalThis.QUANTIFIER_QUESTION_DATA.push(
+  {
+    category: "PYQ Target: Quantifiers",
+    source: "SBI PO determiner scarcity/sufficiency pattern",
+    stem: "The revised notice left ___ room for confusion because every eligibility condition was explained with examples.",
+    options: ["few", "a few", "little", "a little"],
+    correctAnswer: "little",
+    explanation: "Room is uncountable when it means scope or possibility. The sentence is positive in result because there is almost no confusion, but the quantifier itself is little: little room for confusion means almost no possibility of confusion. Few/a few are wrong because they need plural countable nouns.",
+    prompt: "Choose the quantifier that best completes the sentence."
+  },
+  {
+    category: "PYQ Target: Quantifiers",
+    source: "SBI PO determiner scarcity/sufficiency pattern",
+    stem: "Only ___ candidates raised objections after the revised scorecard was published, which showed that most candidates accepted the calculation.",
+    options: ["few", "a few", "little", "a little"],
+    correctAnswer: "a few",
+    explanation: "Candidates is a plural countable noun, so the choice must be few or a few. The word Only commonly takes a few when the meaning is a small number, not zero. Little/a little are wrong because they are used with uncountable nouns such as time, evidence, or confidence.",
+    prompt: "Choose the quantifier that best completes the sentence."
+  },
+  {
+    category: "PYQ Target: Quantifiers",
+    source: "SBI PO determiner scarcity/sufficiency pattern",
+    stem: "The fraud complaint had ___ evidence, so the officer could not recommend immediate legal action.",
+    options: ["few", "a few", "little", "a little"],
+    correctAnswer: "little",
+    explanation: "Evidence is uncountable, so use little/a little. The result is negative: the officer could not recommend action because the evidence was insufficient. Therefore little is correct. A little would mean some useful evidence, which would weaken the logic of could not recommend.",
+    prompt: "Choose the quantifier that best completes the sentence."
+  }
+);
