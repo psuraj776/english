@@ -3243,8 +3243,11 @@
       const quantifierQuestions = Array.isArray(globalThis.QUANTIFIER_QUESTION_DATA)
         ? globalThis.QUANTIFIER_QUESTION_DATA
         : [];
+      const pyqTargetedQuestions = Array.isArray(globalThis.PYQ_TARGETED_QUESTION_DATA)
+        ? globalThis.PYQ_TARGETED_QUESTION_DATA
+        : [];
 
-      [...extractedPdfQuestions, ...advancedQuestions, ...quantifierQuestions].forEach((item) => {
+      [...extractedPdfQuestions, ...advancedQuestions, ...quantifierQuestions, ...pyqTargetedQuestions].forEach((item) => {
         if (item.type === "error") {
           addError(
             item.category,
