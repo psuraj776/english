@@ -314,6 +314,21 @@
       color: var(--accent);
     }
 
+    .option .option-meaning {
+      display: block;
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1.45;
+    }
+
+    .option.correct .option-meaning,
+    .option.wrong .option-meaning {
+      color: inherit;
+      opacity: 0.9;
+    }
+
     .option.selected {
       border-color: var(--accent);
       background: #fff1e8;
@@ -1160,6 +1175,10 @@
       }
 
       function buildDetailedExplanation(question) {
+        if (question.category === "Vocabulary: SBI/IBPS PO + Hindu Editorial") {
+          return question.briefExplanation || question.explanation || "";
+        }
+
         if (question.detailMode && question.detailMode.startsWith("article")) {
           return explainArticle(question.detailMode, question.detailMeta || {}, question);
         }
@@ -2010,6 +2029,7 @@
 
       function buildOptionReview(question) {
         if (!question.options || !question.options.length) return "";
+        if (question.category === "Vocabulary: SBI/IBPS PO + Hindu Editorial") return "";
 
         const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         const ruleIntro = categoryHas(question, "Few, A Few, Little, A Little")
@@ -3275,9 +3295,10 @@
           item.correctAnswer,
           item.explanation || "",
           item.prompt || "Choose the best answer.",
-          item.detailMode
-            ? { detailMode: item.detailMode, detailMeta: item.detailMeta || { answer: item.correctAnswer } }
-            : {}
+          {
+            ...(item.detailMode ? { detailMode: item.detailMode, detailMeta: item.detailMeta || { answer: item.correctAnswer } } : {}),
+            ...(item.optionDetails ? { optionDetails: item.optionDetails } : {})
+          }
         );
       });
 
@@ -3598,6 +3619,15 @@
             button.classList.add("correct");
           } else if (state.selected && value === state.selected) {
             button.classList.add("wrong");
+          }
+          if (state.current.optionDetails && state.current.optionDetails[value]) {
+            const label = button.querySelector("span");
+            if (label && !label.querySelector(".option-meaning")) {
+              label.insertAdjacentHTML(
+                "beforeend",
+                `<span class="option-meaning">${escapeHtml(state.current.optionDetails[value])}</span>`
+              );
+            }
           }
         });
 
