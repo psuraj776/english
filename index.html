@@ -557,6 +557,7 @@
   <script src="pdf-question-data.js"></script>
   <script src="advanced-question-data.js"></script>
   <script src="quantifier-question-data.js"></script>
+  <script src="vocab-question-data.js"></script>
   <script>
     function shuffle(list) {
       const copy = list.slice();
@@ -3246,8 +3247,11 @@
       const pyqTargetedQuestions = Array.isArray(globalThis.PYQ_TARGETED_QUESTION_DATA)
         ? globalThis.PYQ_TARGETED_QUESTION_DATA
         : [];
+      const vocabQuestions = Array.isArray(globalThis.VOCAB_QUESTION_DATA)
+        ? globalThis.VOCAB_QUESTION_DATA
+        : [];
 
-      [...extractedPdfQuestions, ...advancedQuestions, ...quantifierQuestions, ...pyqTargetedQuestions].forEach((item) => {
+      [...extractedPdfQuestions, ...advancedQuestions, ...quantifierQuestions, ...pyqTargetedQuestions, ...vocabQuestions].forEach((item) => {
         if (item.type === "error") {
           addError(
             item.category,
