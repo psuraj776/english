@@ -3623,10 +3623,10 @@
           if (state.current.optionDetails && state.current.optionDetails[value]) {
             const label = button.querySelector("span");
             if (label && !label.querySelector(".option-meaning")) {
-              label.insertAdjacentHTML(
-                "beforeend",
-                `<span class="option-meaning">${escapeHtml(state.current.optionDetails[value])}</span>`
-              );
+              const meaning = document.createElement("span");
+              meaning.className = "option-meaning";
+              meaning.textContent = state.current.optionDetails[value];
+              label.appendChild(meaning);
             }
           }
         });
