@@ -107,32 +107,138 @@ globalThis.VOCAB_QUESTION_DATA = (() => {
     ["to spread information widely", ["disseminate", "propagate", "circulate", "transmit", "publicize"], ["withhold", "suppress", "conceal"], ["spread", "communication", "publication"]]
   ];
 
+  const sentenceTemplates = [
+    "Public anger began to ___ after the minister promised an inquiry.",
+    "Fuel prices may ___ if supply remains tight.",
+    "The judge chose to ___ the officer for ignoring the order.",
+    "The editorial tried to ___ the nurses for their courage during the crisis.",
+    "The agency discovered a ___ transfer of funds before the audit.",
+    "Her ___ explanation helped the committee understand the figures.",
+    "The circular was too ___ for applicants to follow without help.",
+    "A ___ review of the files revealed several small errors.",
+    "The bank was fined for a ___ approach to customer verification.",
+    "The negotiator remained ___ even after both sides offered a compromise.",
+    "The new system is ___ enough to work for both small and large branches.",
+    "The report gave a ___ summary of the committee's findings.",
+    "His ___ answer confused the panel instead of clarifying the issue.",
+    "She remained ___ while answering difficult interview questions.",
+    "The market had a ___ week after the policy announcement.",
+    "Delaying the vaccine drive would be ___ to public health.",
+    "Transparent rules are ___ to investor confidence.",
+    "The relief was ___ because prices rose again the next week.",
+    "The reform created an ___ change in the banking system.",
+    "A ___ of trained staff delayed the verification process.",
+    "The report contains a ___ of examples from rural branches.",
+    "The rescue workers showed remarkable ___ during the floods.",
+    "There was visible ___ among investors before the rate decision.",
+    "The sudden fee hike triggered public ___.",
+    "The board reached a broad ___ after two hours of discussion.",
+    "The land bill became a point of ___ between the two parties.",
+    "The investigation exposed a clever ___ used to hide the losses.",
+    "Her ___ made the inquiry more credible.",
+    "The scheme was designed to protect families from ___.",
+    "The town's ___ increased after the new port opened.",
+    "The department slipped into ___ after the initial enthusiasm faded.",
+    "The new manager brought fresh ___ to the project.",
+    "The regulator wants banks to remain ___ in their lending decisions.",
+    "The local unit became ___ to the central office.",
+    "The court asked the agency to explain the ___ for the delay.",
+    "A fall in exports was the direct ___ of weaker demand.",
+    "The proposal came under close ___ after the audit report.",
+    "Officials cannot ___ safety warnings during monsoon.",
+    "The data helped ___ the committee's argument.",
+    "Several members chose to ___ the decision in court.",
+    "The bank will ___ the new savings scheme next month.",
+    "The hearing will ___ after the final witness is examined.",
+    "The new guidelines impose ___ checks on loan approvals.",
+    "The examiner was unusually ___ toward minor spelling mistakes.",
+    "The officer rejected the ___ certificate during verification.",
+    "Only ___ documents will be accepted at the centre.",
+    "Timely credit is ___ for small businesses during a slowdown.",
+    "The difference was ___ and did not affect the result.",
+    "The company's ___ decision surprised its employees.",
+    "The reform will be implemented in a ___ manner.",
+    "The spokesperson adopted a ___ tone during the debate.",
+    "Both sides issued a ___ statement after the talks.",
+    "The village economy remained ___ after repeated crop failures.",
+    "The bank needs a ___ system to detect fraud early.",
+    "The workers faced a ___ journey through the flooded road.",
+    "The documents were kept in a ___ digital vault.",
+    "The essay described a ___ landscape of fields and ponds.",
+    "The ___ authorities introduced a new waste policy.",
+    "The article connects the issue with ___ economic debates.",
+    "The office still follows an ___ filing system.",
+    "She is ___ at explaining complex rules in simple language.",
+    "The inquiry exposed an ___ handling of the complaint.",
+    "The novel portrays an ___ landlord who exploits tenants.",
+    "The trust made a ___ donation to the hospital.",
+    "The viral claim turned out to be a ___.",
+    "The booklet provides a useful ___ of the new rules.",
+    "Preparing the village records was an ___ task.",
+    "The online form became ___ after the redesign.",
+    "The budget presented an ___ picture of public finances.",
+    "The palace had an ___ hall decorated with mirrors.",
+    "The currency remained ___ throughout the week.",
+    "A ___ supply of power helped factories recover.",
+    "The report did not ___ the officials of responsibility.",
+    "The inquiry may ___ several contractors in the scam.",
+    "The company tried to ___ the scale of the loss.",
+    "The audit will ___ how the funds were used.",
+    "The researcher had to ___ data from every district.",
+    "Police asked the crowd to ___ after the rally ended.",
+    "Repeated droughts can ___ the village's water reserves.",
+    "The grant will ___ the hospital's emergency supplies.",
+    "The payment was ___ under the revised rules.",
+    "The agency detected an ___ transfer of funds.",
+    "The survivor's account was deeply ___.",
+    "The clerk spent the day on ___ paperwork.",
+    "The festival created a ___ atmosphere in the city.",
+    "A ___ investor studies risk before buying.",
+    "It would be ___ to ignore repeated warnings.",
+    "The officer remained ___ even with angry applicants.",
+    "His ___ reply annoyed the customers.",
+    "The minister tried to ___ protesters with a written assurance.",
+    "The speech could ___ tension in the region.",
+    "The panel was ___ about the gap in his resume.",
+    "Many voters seemed ___ before the campaign began.",
+    "The contractor quoted an ___ price for the repair.",
+    "The editorial called for a ___ response to the crisis.",
+    "The case involved an ___ network of shell companies.",
+    "The teacher began with a ___ explanation of the rule.",
+    "The witness helped ___ the victim's statement.",
+    "The data may ___ the minister's claim.",
+    "The health department will ___ the advisory through local radio."
+  ];
+
   const entries = clusters.flatMap((cluster, clusterIndex) => {
     const [meaning, words, antonyms, related] = cluster;
     return words.map((word, wordIndex) => {
       const synonyms = words.filter((item) => item !== word);
-      const sentence = `The editorial used "${word}" to describe a situation that was ${meaning}.`;
+      const sentence = sentenceTemplates[clusterIndex].replace("___", word);
       return { word, meaning, synonyms, antonyms, related, sentence, clusterIndex, wordIndex };
     });
   });
 
+  const meaningByWord = Object.fromEntries(entries.map((entry) => [entry.word, entry.meaning]));
+
   return entries.map((entry, index) => {
     const distractors = [1, 2, 3, 4].map((offset) => entries[(index + offset * 37) % entries.length].word);
     const options = [entry.word, ...distractors].sort(() => Math.random() - 0.5);
+    const optionDetails = Object.fromEntries(options.map((word) => [word, meaningByWord[word]]));
     return {
       category,
       source,
       stem: `Meaning: ${entry.meaning}`,
       options,
       correctAnswer: entry.word,
+      optionDetails,
       prompt: "Choose the word that best matches the meaning.",
       explanation: [
         `<strong>${entry.word}</strong> means ${entry.meaning}.`,
         `<strong>Synonyms:</strong> ${entry.synonyms.join(", ")}.`,
         `<strong>Antonyms:</strong> ${entry.antonyms.join(", ")}.`,
         `<strong>Related words:</strong> ${entry.related.join(", ")}.`,
-        `<strong>Sentence:</strong> ${entry.sentence}`,
-        "Exam use: In SBI/IBPS PO and editorial vocabulary questions, first read the tone, then compare the exact meaning with nearby synonyms and antonyms."
+        `<strong>Sentence:</strong> ${entry.sentence}`
       ].join("<br><br>")
     };
   });
