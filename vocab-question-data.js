@@ -232,6 +232,14 @@ globalThis.VOCAB_QUESTION_DATA = (() => {
       options,
       correctAnswer: entry.word,
       optionDetails,
+      vocabMeta: {
+        word: entry.word,
+        meaning: entry.meaning,
+        synonyms: entry.synonyms,
+        antonyms: entry.antonyms,
+        related: entry.related,
+        sentence: entry.sentence
+      },
       prompt: "Choose the word that best matches the meaning.",
       explanation: [
         `<strong>${entry.word}</strong> means ${entry.meaning}.`,
