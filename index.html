@@ -346,6 +346,132 @@
       color: #752424;
     }
 
+    .mode-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 14px;
+      margin-top: 0;
+    }
+
+    .mode-card {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      width: 100%;
+      padding: 18px;
+      border: 1px solid #d7c3b2;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.72);
+      text-align: left;
+    }
+
+    .mode-card input {
+      width: 20px;
+      height: 20px;
+      accent-color: var(--accent);
+      flex: 0 0 auto;
+    }
+
+    .mode-card strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 16px;
+    }
+
+    .mode-card span {
+      color: #52677a;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .mode-card.active {
+      border-color: var(--accent);
+      background: #fff4ec;
+    }
+
+    .control-card.hidden {
+      display: none;
+    }
+
+    .game-board {
+      display: grid;
+      gap: 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .game-word {
+      margin: 8px 0 4px;
+      text-align: center;
+      font-size: clamp(34px, 6vw, 56px);
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: 0;
+    }
+
+    .game-instruction {
+      padding: 14px 16px;
+      border-radius: 14px;
+      border: 1px solid #efd28e;
+      background: #fff1bf;
+      color: #835300;
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .game-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 12px;
+    }
+
+    .game-box {
+      min-height: 82px;
+      padding: 14px 12px;
+      border: 2px solid #d8d7d3;
+      border-radius: 14px;
+      background: #fffefb;
+      color: var(--ink);
+      display: grid;
+      place-items: center;
+      text-align: center;
+      font-size: 20px;
+      font-weight: 900;
+      line-height: 1.25;
+    }
+
+    .game-box.selected {
+      border-color: var(--accent);
+      background: #fff1e8;
+    }
+
+    .game-box.correct {
+      border-color: var(--good);
+      background: #4caf50;
+      color: #ffffff;
+    }
+
+    .game-box.wrong {
+      border-color: var(--bad);
+      background: #f44336;
+      color: #ffffff;
+    }
+
+    .game-box.missed {
+      border-color: #d8a300;
+      background: #ffc107;
+      color: #3b2b00;
+    }
+
+    .game-meaning {
+      display: block;
+      margin-top: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1.35;
+      opacity: 0.95;
+    }
+
     .action-row {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -478,31 +604,62 @@
     </section>
 
     <section class="panel">
+      <div class="mode-grid">
+        <label class="mode-card active" id="patternModeCard">
+          <input type="checkbox" id="patternModeToggle" checked>
+          <span>
+            <strong>Pattern Mode</strong>
+            Single-answer English practice with full explanations.
+          </span>
+        </label>
+        <label class="mode-card" id="gameModeCard">
+          <input type="checkbox" id="gameModeToggle">
+          <span>
+            <strong>Game Mode</strong>
+            Tap all correct synonyms or antonyms before checking.
+          </span>
+        </label>
+      </div>
+    </section>
+
+    <section class="panel">
       <div class="control-grid">
-        <div class="control-card">
-          <label for="categorySelect">Category</label>
+        <div class="control-card" id="categoryCard">
+          <label for="categorySelect" id="categoryLabel">Category</label>
           <select id="categorySelect"></select>
         </div>
-        <div class="control-card">
+        <div class="control-card" id="styleCard">
           <label for="styleSelect">Question Style</label>
           <select id="styleSelect">
             <option value="all">All Styles</option>
             <option value="mcq">Grammar / MCQ</option>
             <option value="error">Error Spotting</option>
-            <option value="vocab_synonym_game">Vocab Game: Synonym</option>
-            <option value="vocab_antonym_game">Vocab Game: Antonym</option>
+          </select>
+        </div>
+        <div class="control-card hidden" id="gameTopicCard">
+          <label for="gameTopicSelect">Topic</label>
+          <select id="gameTopicSelect">
+            <option value="vocab">Vocabulary Game</option>
+          </select>
+        </div>
+        <div class="control-card hidden" id="gameDirectionCard">
+          <label for="gameDirectionSelect">Direction</label>
+          <select id="gameDirectionSelect">
+            <option value="synonym">Synonym</option>
+            <option value="antonym">Antonym</option>
           </select>
         </div>
         <div class="control-card">
           <label for="timerSelect">Timer</label>
           <select id="timerSelect">
             <option value="0">No Timer</option>
+            <option value="7">7 Seconds</option>
             <option value="15">15 Seconds</option>
             <option value="25">25 Seconds</option>
             <option value="40">40 Seconds</option>
           </select>
         </div>
-        <div class="control-card">
+        <div class="control-card" id="actionsCard">
           <label>Actions</label>
           <div class="button-row">
             <button class="secondary" id="reviewWrongBtn" type="button">Review Wrong</button>
@@ -3310,78 +3467,6 @@
         );
       });
 
-      const vocabGameItems = vocabQuestions.filter((item) => item.vocabMeta);
-      const vocabMeaningLookup = new Map();
-      vocabGameItems.forEach((item) => {
-        const meta = item.vocabMeta;
-        vocabMeaningLookup.set(meta.word, meta.meaning);
-        meta.synonyms.forEach((word) => {
-          if (!vocabMeaningLookup.has(word)) vocabMeaningLookup.set(word, `a close synonym of ${meta.word}: ${meta.meaning}`);
-        });
-        meta.antonyms.forEach((word) => {
-          if (!vocabMeaningLookup.has(word)) vocabMeaningLookup.set(word, `an opposite idea to ${meta.word}: not ${meta.meaning}`);
-        });
-      });
-
-      function addVocabGameQuestion(item, index, relation) {
-        const meta = item.vocabMeta;
-        const answerPool = relation === "synonym" ? meta.synonyms : meta.antonyms;
-        if (!answerPool || !answerPool.length) return;
-
-        const correctAnswer = answerPool[index % answerPool.length];
-        const blocked = new Set([meta.word, correctAnswer, ...meta.synonyms, ...meta.antonyms]);
-        const distractorPool = vocabGameItems
-          .map((candidate) => candidate.vocabMeta.word)
-          .filter((word) => !blocked.has(word));
-        const distractors = [];
-        let cursor = (index * 19 + (relation === "synonym" ? 7 : 31)) % Math.max(distractorPool.length, 1);
-        while (distractors.length < 3 && distractorPool.length) {
-          const word = distractorPool[cursor % distractorPool.length];
-          if (!distractors.includes(word)) distractors.push(word);
-          cursor += 17;
-        }
-
-        const options = shuffle([correctAnswer, ...distractors]);
-        const optionDetails = Object.fromEntries(options.map((word) => [
-          word,
-          vocabMeaningLookup.get(word) || `${word} is used here as a ${relation} option for ${meta.word}.`
-        ]));
-        const relationLabel = relation === "synonym" ? "synonym" : "antonym";
-        const explanation = [
-          `<strong>${meta.word}</strong> means ${meta.meaning}.`,
-          `<strong>Correct ${relationLabel}:</strong> ${correctAnswer}.`,
-          relation === "synonym"
-            ? `<strong>Why:</strong> ${correctAnswer} matches the same meaning family as ${meta.word}.`
-            : `<strong>Why:</strong> ${correctAnswer} moves in the opposite meaning direction from ${meta.word}.`,
-          `<strong>Synonyms of ${meta.word}:</strong> ${meta.synonyms.join(", ")}.`,
-          `<strong>Antonyms of ${meta.word}:</strong> ${meta.antonyms.join(", ")}.`,
-          `<strong>Related words:</strong> ${meta.related.join(", ")}.`,
-          `<strong>Sentence:</strong> ${meta.sentence}`
-        ].join("<br><br>");
-
-        bank.push({
-          id: nextId("VGM"),
-          type: "mcq",
-          practiceMode: relation === "synonym" ? "vocab_synonym_game" : "vocab_antonym_game",
-          isVocabGame: true,
-          gameRelation: relationLabel,
-          category: relation === "synonym" ? "Vocabulary Game: Synonym" : "Vocabulary Game: Antonym",
-          source: "SBI/IBPS PO + Hindu editorial vocab game",
-          prompt: `Choose the correct ${relationLabel} of the given word.`,
-          stem: meta.word,
-          options,
-          correctAnswer,
-          optionDetails,
-          briefExplanation: explanation,
-          explanation
-        });
-      }
-
-      vocabGameItems.forEach((item, index) => {
-        addVocabGameQuestion(item, index, "synonym");
-        addVocabGameQuestion(item, index, "antonym");
-      });
-
       bank.forEach((question) => {
         question.explanation = buildDetailedExplanation(question) + buildOptionReview(question);
       });
@@ -3399,6 +3484,22 @@
 
     function initApp() {
       const questionBank = buildQuestionBank();
+      const vocabGameSource = questionBank.filter((item) => item.vocabMeta && !item.isVocabGame);
+      const vocabMeaningLookup = buildVocabMeaningLookup(vocabGameSource);
+      const vocabGameQueue = {
+        items: [],
+        index: 0
+      };
+      const patternModeToggle = document.getElementById("patternModeToggle");
+      const gameModeToggle = document.getElementById("gameModeToggle");
+      const patternModeCard = document.getElementById("patternModeCard");
+      const gameModeCard = document.getElementById("gameModeCard");
+      const categoryCard = document.getElementById("categoryCard");
+      const styleCard = document.getElementById("styleCard");
+      const gameTopicCard = document.getElementById("gameTopicCard");
+      const gameDirectionCard = document.getElementById("gameDirectionCard");
+      const gameDirectionSelect = document.getElementById("gameDirectionSelect");
+      const actionsCard = document.getElementById("actionsCard");
       const categorySelect = document.getElementById("categorySelect");
       const styleSelect = document.getElementById("styleSelect");
       const timerSelect = document.getElementById("timerSelect");
@@ -3433,7 +3534,9 @@
         current: null,
         currentIndex: 0,
         selected: null,
+        selectedValues: [],
         answered: false,
+        gameMode: false,
         reviewWrongOnly: false,
         timerHandle: null,
         timeLeft: 0,
@@ -3454,6 +3557,12 @@
 
       categorySelect.addEventListener("change", rebuildAndServe);
       styleSelect.addEventListener("change", rebuildAndServe);
+      patternModeToggle.addEventListener("change", () => setPracticeMode(!patternModeToggle.checked));
+      gameModeToggle.addEventListener("change", () => setPracticeMode(gameModeToggle.checked));
+      gameDirectionSelect.addEventListener("change", () => {
+        resetVocabGameQueue();
+        serveNextQuestion();
+      });
       timerSelect.addEventListener("change", () => {
         saveProgress();
         restartTimer();
@@ -3507,8 +3616,58 @@
         window.localStorage.setItem(storageKey, JSON.stringify(state.progress));
       }
 
+      function buildVocabMeaningLookup(items) {
+        const lookup = new Map();
+        items.forEach((item) => {
+          const meta = item.vocabMeta;
+          lookup.set(meta.word, meta.meaning);
+          meta.synonyms.forEach((word) => lookup.set(word, meta.meaning));
+          meta.antonyms.forEach((word) => {
+            if (!lookup.has(word)) lookup.set(word, `opposite of ${meta.word}: not ${meta.meaning}`);
+          });
+        });
+        return lookup;
+      }
+
+      function setPracticeMode(gameMode) {
+        state.gameMode = Boolean(gameMode);
+        patternModeToggle.checked = !state.gameMode;
+        gameModeToggle.checked = state.gameMode;
+        patternModeCard.classList.toggle("active", !state.gameMode);
+        gameModeCard.classList.toggle("active", state.gameMode);
+        categoryCard.classList.toggle("hidden", state.gameMode);
+        styleCard.classList.toggle("hidden", state.gameMode);
+        gameTopicCard.classList.toggle("hidden", !state.gameMode);
+        gameDirectionCard.classList.toggle("hidden", !state.gameMode);
+        actionsCard.classList.toggle("hidden", state.gameMode);
+        reviewWrongBtn.disabled = state.gameMode;
+        if (state.gameMode && timerSelect.value === "0") {
+          timerSelect.value = "7";
+        }
+        state.reviewWrongOnly = state.gameMode ? false : state.reviewWrongOnly;
+        resetVocabGameQueue();
+        rebuildAndServe();
+      }
+
+      function resetVocabGameQueue() {
+        vocabGameQueue.items = shuffle(vocabGameSource);
+        vocabGameQueue.index = 0;
+      }
+
       function rebuildAndServe() {
         clearTimer();
+        if (state.gameMode) {
+          state.filtered = vocabGameSource;
+          state.queue = [];
+          state.currentIndex = 0;
+          state.selected = null;
+          state.selectedValues = [];
+          state.answered = false;
+          refreshStats();
+          serveNextQuestion();
+          return;
+        }
+
         const category = categorySelect.value || "All Categories";
         const style = styleSelect.value || "all";
         const wrongSet = new Set(state.progress.wrongIds);
@@ -3529,6 +3688,7 @@
         state.queue = shuffle(state.filtered);
         state.currentIndex = 0;
         state.selected = null;
+        state.selectedValues = [];
         state.answered = false;
         refreshStats();
 
@@ -3542,6 +3702,11 @@
       }
 
       function serveNextQuestion() {
+        if (state.gameMode) {
+          serveNextVocabGameRound();
+          return;
+        }
+
         if (state.filtered.length === 0) {
           renderEmptyState();
           return;
@@ -3555,17 +3720,81 @@
         state.current = state.queue.shift();
         state.currentIndex += 1;
         state.selected = null;
+        state.selectedValues = [];
         state.answered = false;
         renderQuestion();
         restartTimer();
       }
 
       function handleNext() {
-        if (state.current && state.current.isVocabGame && !state.answered) {
+        if (state.current && (state.current.gameRound || state.current.isVocabGame) && !state.answered) {
           revealAnswer(false);
           return;
         }
         serveNextQuestion();
+      }
+
+      function serveNextVocabGameRound() {
+        if (!vocabGameQueue.items.length || vocabGameQueue.index >= vocabGameQueue.items.length) {
+          resetVocabGameQueue();
+        }
+
+        const item = vocabGameQueue.items[vocabGameQueue.index];
+        vocabGameQueue.index += 1;
+        state.currentIndex = vocabGameQueue.index;
+        state.current = buildVocabGameRound(item);
+        state.selected = null;
+        state.selectedValues = [];
+        state.answered = false;
+        renderQuestion();
+        restartTimer();
+      }
+
+      function buildVocabGameRound(item) {
+        const meta = item.vocabMeta;
+        const relation = gameDirectionSelect.value === "antonym" ? "antonym" : "synonym";
+        const correctAnswers = relation === "synonym" ? meta.synonyms.slice() : meta.antonyms.slice();
+        const blocked = new Set([meta.word, ...meta.synonyms, ...meta.antonyms]);
+        const distractors = [];
+        const pool = shuffle(vocabGameSource.map((candidate) => candidate.vocabMeta.word).filter((word) => !blocked.has(word)));
+
+        for (const word of pool) {
+          if (distractors.length >= Math.max(16, 20 - correctAnswers.length)) break;
+          if (!distractors.includes(word)) distractors.push(word);
+        }
+
+        const options = shuffle([...correctAnswers, ...distractors]).slice(0, 20);
+        const optionDetails = Object.fromEntries(options.map((word) => [
+          word,
+          vocabMeaningLookup.get(word) || `${word} is connected to editorial vocabulary practice.`
+        ]));
+        const relationLabel = relation === "synonym" ? "synonyms" : "antonyms";
+        const explanation = [
+          `<strong>${meta.word}</strong> means ${meta.meaning}.`,
+          `<strong>Correct ${relationLabel}:</strong> ${correctAnswers.join(", ")}.`,
+          relation === "synonym"
+            ? `<strong>Why:</strong> These words stay in the same meaning family as ${meta.word}; they all point toward ${meta.meaning}.`
+            : `<strong>Why:</strong> These words move in the opposite direction from ${meta.word}; they reject or reverse the idea of ${meta.meaning}.`,
+          `<strong>Synonyms of ${meta.word}:</strong> ${meta.synonyms.join(", ")}.`,
+          `<strong>Antonyms of ${meta.word}:</strong> ${meta.antonyms.join(", ")}.`,
+          `<strong>Sentence:</strong> ${meta.sentence}`
+        ].join("<br><br>");
+
+        return {
+          id: `VGAME-${meta.word}-${relation}`,
+          type: "game",
+          gameRound: true,
+          gameRelation: relation,
+          category: "Vocabulary Game",
+          source: "SBI/IBPS PO + Hindu editorial vocab game",
+          prompt: `Tap all correct ${relationLabel} of the given word.`,
+          stem: meta.word,
+          options,
+          correctAnswers,
+          correctAnswer: correctAnswers.join(", "),
+          optionDetails,
+          explanation
+        };
       }
 
       function restartTimer() {
@@ -3605,6 +3834,13 @@
         feedbackBox.className = "feedback";
         feedbackBox.innerHTML = "<div class=\"feedback-title\">Ready</div><div>Select an option and press <strong>Check Answer</strong> to unlock the full explanation.</div>";
 
+        if (question.gameRound) {
+          renderVocabGameRound(question);
+          refreshStats();
+          return;
+        }
+
+        optionsArea.classList.remove("game-grid");
         segmentArea.innerHTML = "";
         segmentArea.hidden = question.type !== "error";
         if (question.type === "error") {
@@ -3637,6 +3873,30 @@
         refreshStats();
       }
 
+      function renderVocabGameRound(question) {
+        segmentArea.hidden = true;
+        segmentArea.innerHTML = "";
+        questionPrompt.textContent = "";
+        questionStem.innerHTML =
+          `<div class="game-word">${question.stem}</div>` +
+          `<div class="game-instruction">Tap all correct ${question.gameRelation === "synonym" ? "synonyms" : "antonyms"}.</div>`;
+        categoryBadge.textContent = question.gameRelation === "synonym" ? "Synonym Game" : "Antonym Game";
+        sourceBadge.textContent = question.source;
+        feedbackBox.innerHTML = "<div class=\"feedback-title\">Ready</div><div>Select every matching word, then check. Next will reveal first if you have not checked.</div>";
+
+        optionsArea.innerHTML = "";
+        optionsArea.classList.add("game-grid");
+        question.options.forEach((word) => {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = "game-box";
+          button.dataset.value = word;
+          button.textContent = word;
+          button.addEventListener("click", () => selectOption(word));
+          optionsArea.appendChild(button);
+        });
+      }
+
       function renderEmptyState() {
         questionNumber.textContent = "Question 0 / 0";
         questionPrompt.textContent = "No questions match the current filter.";
@@ -3645,6 +3905,7 @@
         sourceBadge.textContent = "Try another category";
         segmentArea.hidden = true;
         segmentArea.innerHTML = "";
+        optionsArea.classList.remove("game-grid");
         optionsArea.innerHTML = "<div class=\"empty\">No items are available here yet. Change the filter or answer some fresh questions before using wrong-only review.</div>";
         feedbackBox.className = "feedback";
         feedbackBox.innerHTML = "<div class=\"feedback-title\">Queue Empty</div><div>Switch category, style, or review mode to keep practicing.</div>";
@@ -3655,6 +3916,18 @@
         if (!state.current || state.answered) {
           return;
         }
+        if (state.current.gameRound) {
+          if (state.selectedValues.includes(value)) {
+            state.selectedValues = state.selectedValues.filter((item) => item !== value);
+          } else {
+            state.selectedValues.push(value);
+          }
+          [...optionsArea.querySelectorAll(".game-box")].forEach((button) => {
+            button.classList.toggle("selected", state.selectedValues.includes(button.dataset.value));
+          });
+          return;
+        }
+
         state.selected = value;
         [...optionsArea.querySelectorAll(".option")].forEach((button) => {
           button.classList.toggle("selected", button.dataset.value === value);
@@ -3682,6 +3955,14 @@
         if (!state.current || state.answered) {
           return;
         }
+        if (state.current.gameRound) {
+          clearTimer();
+          state.answered = true;
+          const correct = isVocabGameSelectionCorrect();
+          markProgress(correct);
+          paintAnswer(correct, false);
+          return;
+        }
         if (!state.selected) {
           feedbackBox.className = "feedback";
           feedbackBox.innerHTML = "<div class=\"feedback-title\">Pick One</div><div>Select an option before checking the answer.</div>";
@@ -3704,7 +3985,18 @@
         paintAnswer(false, Boolean(timedOut));
       }
 
+      function isVocabGameSelectionCorrect() {
+        const correctSet = new Set(state.current.correctAnswers);
+        return state.selectedValues.length === correctSet.size
+          && state.selectedValues.every((value) => correctSet.has(value));
+      }
+
       function paintAnswer(correct, timedOut) {
+        if (state.current.gameRound) {
+          paintVocabGameAnswer(correct, timedOut);
+          return;
+        }
+
         const correctAnswer = state.current.correctAnswer;
         [...optionsArea.querySelectorAll(".option")].forEach((button) => {
           const value = button.dataset.value;
@@ -3746,6 +4038,40 @@
         feedbackBox.innerHTML =
           "<div class=\"feedback-title\">" + title + "</div>" +
           "<div class=\"feedback-answer\">" + answerText + "</div>" +
+          "<div class=\"feedback-copy\">" + state.current.explanation + "</div>";
+      }
+
+      function paintVocabGameAnswer(correct, timedOut) {
+        const correctSet = new Set(state.current.correctAnswers);
+        const selectedSet = new Set(state.selectedValues);
+
+        [...optionsArea.querySelectorAll(".game-box")].forEach((button) => {
+          const value = button.dataset.value;
+          const isCorrect = correctSet.has(value);
+          const isSelected = selectedSet.has(value);
+
+          button.classList.remove("selected");
+          if (isCorrect && isSelected) {
+            button.classList.add("correct");
+          } else if (!isCorrect && isSelected) {
+            button.classList.add("wrong");
+          } else if (isCorrect && !isSelected) {
+            button.classList.add("missed");
+          }
+
+          if (!button.querySelector(".game-meaning")) {
+            const meaning = document.createElement("span");
+            meaning.className = "game-meaning";
+            meaning.textContent = state.current.optionDetails[value] || "";
+            button.appendChild(meaning);
+          }
+        });
+
+        const title = timedOut ? "Time Up" : correct ? "Correct" : "Review These Words";
+        feedbackBox.className = "feedback " + (correct ? "good" : "bad");
+        feedbackBox.innerHTML =
+          "<div class=\"feedback-title\">" + title + "</div>" +
+          "<div class=\"feedback-answer\">Correct " + (state.current.gameRelation === "synonym" ? "synonyms" : "antonyms") + ": " + state.current.correctAnswers.join(", ") + "</div>" +
           "<div class=\"feedback-copy\">" + state.current.explanation + "</div>";
       }
 
