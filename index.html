@@ -489,6 +489,8 @@
             <option value="all">All Styles</option>
             <option value="mcq">Grammar / MCQ</option>
             <option value="error">Error Spotting</option>
+            <option value="vocab_synonym_game">Vocab Game: Synonym</option>
+            <option value="vocab_antonym_game">Vocab Game: Antonym</option>
           </select>
         </div>
         <div class="control-card">
@@ -1175,6 +1177,10 @@
       }
 
       function buildDetailedExplanation(question) {
+        if (question.isVocabGame) {
+          return question.briefExplanation || question.explanation || "";
+        }
+
         if (question.category === "Vocabulary: SBI/IBPS PO + Hindu Editorial") {
           return question.briefExplanation || question.explanation || "";
         }
@@ -2029,6 +2035,7 @@
 
       function buildOptionReview(question) {
         if (!question.options || !question.options.length) return "";
+        if (question.isVocabGame) return "";
         if (question.category === "Vocabulary: SBI/IBPS PO + Hindu Editorial") return "";
 
         const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -3297,9 +3304,82 @@
           item.prompt || "Choose the best answer.",
           {
             ...(item.detailMode ? { detailMode: item.detailMode, detailMeta: item.detailMeta || { answer: item.correctAnswer } } : {}),
-            ...(item.optionDetails ? { optionDetails: item.optionDetails } : {})
+            ...(item.optionDetails ? { optionDetails: item.optionDetails } : {}),
+            ...(item.vocabMeta ? { vocabMeta: item.vocabMeta } : {})
           }
         );
+      });
+
+      const vocabGameItems = vocabQuestions.filter((item) => item.vocabMeta);
+      const vocabMeaningLookup = new Map();
+      vocabGameItems.forEach((item) => {
+        const meta = item.vocabMeta;
+        vocabMeaningLookup.set(meta.word, meta.meaning);
+        meta.synonyms.forEach((word) => {
+          if (!vocabMeaningLookup.has(word)) vocabMeaningLookup.set(word, `a close synonym of ${meta.word}: ${meta.meaning}`);
+        });
+        meta.antonyms.forEach((word) => {
+          if (!vocabMeaningLookup.has(word)) vocabMeaningLookup.set(word, `an opposite idea to ${meta.word}: not ${meta.meaning}`);
+        });
+      });
+
+      function addVocabGameQuestion(item, index, relation) {
+        const meta = item.vocabMeta;
+        const answerPool = relation === "synonym" ? meta.synonyms : meta.antonyms;
+        if (!answerPool || !answerPool.length) return;
+
+        const correctAnswer = answerPool[index % answerPool.length];
+        const blocked = new Set([meta.word, correctAnswer, ...meta.synonyms, ...meta.antonyms]);
+        const distractorPool = vocabGameItems
+          .map((candidate) => candidate.vocabMeta.word)
+          .filter((word) => !blocked.has(word));
+        const distractors = [];
+        let cursor = (index * 19 + (relation === "synonym" ? 7 : 31)) % Math.max(distractorPool.length, 1);
+        while (distractors.length < 3 && distractorPool.length) {
+          const word = distractorPool[cursor % distractorPool.length];
+          if (!distractors.includes(word)) distractors.push(word);
+          cursor += 17;
+        }
+
+        const options = shuffle([correctAnswer, ...distractors]);
+        const optionDetails = Object.fromEntries(options.map((word) => [
+          word,
+          vocabMeaningLookup.get(word) || `${word} is used here as a ${relation} option for ${meta.word}.`
+        ]));
+        const relationLabel = relation === "synonym" ? "synonym" : "antonym";
+        const explanation = [
+          `<strong>${meta.word}</strong> means ${meta.meaning}.`,
+          `<strong>Correct ${relationLabel}:</strong> ${correctAnswer}.`,
+          relation === "synonym"
+            ? `<strong>Why:</strong> ${correctAnswer} matches the same meaning family as ${meta.word}.`
+            : `<strong>Why:</strong> ${correctAnswer} moves in the opposite meaning direction from ${meta.word}.`,
+          `<strong>Synonyms of ${meta.word}:</strong> ${meta.synonyms.join(", ")}.`,
+          `<strong>Antonyms of ${meta.word}:</strong> ${meta.antonyms.join(", ")}.`,
+          `<strong>Related words:</strong> ${meta.related.join(", ")}.`,
+          `<strong>Sentence:</strong> ${meta.sentence}`
+        ].join("<br><br>");
+
+        bank.push({
+          id: nextId("VGM"),
+          type: "mcq",
+          practiceMode: relation === "synonym" ? "vocab_synonym_game" : "vocab_antonym_game",
+          isVocabGame: true,
+          gameRelation: relationLabel,
+          category: relation === "synonym" ? "Vocabulary Game: Synonym" : "Vocabulary Game: Antonym",
+          source: "SBI/IBPS PO + Hindu editorial vocab game",
+          prompt: `Choose the correct ${relationLabel} of the given word.`,
+          stem: meta.word,
+          options,
+          correctAnswer,
+          optionDetails,
+          briefExplanation: explanation,
+          explanation
+        });
+      }
+
+      vocabGameItems.forEach((item, index) => {
+        addVocabGameQuestion(item, index, "synonym");
+        addVocabGameQuestion(item, index, "antonym");
       });
 
       bank.forEach((question) => {
@@ -3398,8 +3478,8 @@
         rebuildAndServe();
       });
       checkBtn.addEventListener("click", handleCheck);
-      showBtn.addEventListener("click", revealAnswer);
-      nextBtn.addEventListener("click", serveNextQuestion);
+      showBtn.addEventListener("click", () => revealAnswer(false));
+      nextBtn.addEventListener("click", handleNext);
 
       rebuildAndServe();
       refreshStats();
@@ -3436,7 +3516,12 @@
 
         state.filtered = questionBank.filter((item) => {
           const categoryMatch = category === "All Categories" || item.category === category;
-          const styleMatch = style === "all" || item.type === style;
+          const gameCategorySelected = category.startsWith("Vocabulary Game:");
+          const styleMatch = style === "all"
+            ? (!item.isVocabGame || gameCategorySelected)
+            : (style === "mcq" && item.type === "mcq" && !item.isVocabGame)
+              || (style === "error" && item.type === "error")
+              || item.practiceMode === style;
           const wrongMatch = !state.reviewWrongOnly || wrongSet.has(item.id);
           return categoryMatch && styleMatch && wrongMatch;
         });
@@ -3473,6 +3558,14 @@
         state.answered = false;
         renderQuestion();
         restartTimer();
+      }
+
+      function handleNext() {
+        if (state.current && state.current.isVocabGame && !state.answered) {
+          revealAnswer(false);
+          return;
+        }
+        serveNextQuestion();
       }
 
       function restartTimer() {
@@ -3642,9 +3735,11 @@
           });
         }
 
-        const title = timedOut ? "Time Up" : correct ? "Correct" : "Review This Rule";
+        const title = timedOut ? "Time Up" : correct ? "Correct" : state.current.isVocabGame ? "Review This Word" : "Review This Rule";
         const answerText = state.current.type === "error"
           ? (correctAnswer === "E" ? "E. No error" : correctAnswer + " is the incorrect part.")
+          : state.current.isVocabGame
+            ? "Correct " + state.current.gameRelation + ": " + correctAnswer
           : "Correct answer: " + correctAnswer;
 
         feedbackBox.className = "feedback " + (correct ? "good" : "bad");
